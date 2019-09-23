@@ -1,0 +1,6 @@
+digraph {
+    A -> {A B C}
+    B -> {C}
+    C -> {A}
+    D -> {}
+}
