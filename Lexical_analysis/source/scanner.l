@@ -47,7 +47,11 @@ REAL     {DIGIT}*"."{DIGIT}+|{DIGIT}+"."{DIGIT}*
 
 {ID}    { handleToken("ID", i); } 
 
-"."{ID}    { handleToken("METHOD", i); } 
+"."{ID}    { handleToken("METHOD", i); }
+
+"\""[^"\""]*"\""    { handleToken("STRING", i); }
+
+"'"[^"'"]"'"    { handleToken("CHAR", i); }
  
 {INTEGER}   { handleToken("INT", i); }
 
