@@ -7,7 +7,7 @@
 %option c++
 %option yyclass="MiniJavaScanner"
 
-SPACE    [ \t\n]+
+SPACE    [ \t]+
 DIGIT    [0-9]
 LETTER   [a-z|A-Z]
 ID       ({LETTER}|_)({LETTER}|{DIGIT}|_)*
@@ -22,6 +22,8 @@ REAL     {DIGIT}*"."{DIGIT}+|{DIGIT}+"."{DIGIT}*
 
 
 {SPACE}    { i += yyleng; }
+
+\n    { i += yyleng; std::cout << std::endl; }
 
 "class"    { handleToken("CLASS", i); }
 
