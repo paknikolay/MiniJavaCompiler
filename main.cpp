@@ -1,4 +1,4 @@
-#include "MiniJavaScanner.h"
+#include "Lexical_analysis/source/MiniJavaScanner.h"
 
 int main() {
     MiniJavaScanner lexer;
