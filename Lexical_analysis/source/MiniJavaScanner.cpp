@@ -7,7 +7,7 @@ int MiniJavaScanner::handleToken(std::string token, int& i)
 {
     std::pair<int, int> token_coords;
     token_coords.first = i + 1;
-    std::cout << token << ' ';
+    out << token << ' ';
     i += yyleng;
     token_coords.second = i;
     coordinates.push_back(token_coords);
@@ -25,3 +25,8 @@ int MiniJavaScanner::tokenize()
     std::cout << std::endl;
     return 0;
 }
+
+MiniJavaScanner::MiniJavaScanner(std::istream &new_in, std::ostream &new_out) : out(new_out) {
+    yyFlexLexer::switch_streams(new_in, std::cout);
+}
+

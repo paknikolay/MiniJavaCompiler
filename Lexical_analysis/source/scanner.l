@@ -7,12 +7,19 @@
 %option c++
 %option yyclass="MiniJavaScanner"
 
-SPACE    [ \t\n]+
-DIGIT    [0-9]
-LETTER   [a-z|A-Z]
-ID       ({LETTER}|_)({LETTER}|{DIGIT}|_)*
-INTEGER  [1-9]{DIGIT}*|0
-REAL     {DIGIT}*"."{DIGIT}+|{DIGIT}+"."{DIGIT}*
+SPACE       [ \t\n]+
+DIGIT       [0-9]
+LETTER      [a-zA-Z]
+ID          ({LETTER}|_)({LETTER}|{DIGIT}|_)*
+INTEGER     [1-9]{DIGIT}*|0
+REAL        {DIGIT}*"."{DIGIT}+|{DIGIT}+"."{DIGIT}*
+BIN_OP_MULT [*/]
+BIN_OP_ADD  [+\-]
+BIN_OP_CMP  <|>|"=="|"<="|">="|"!="
+BOOL_OP_AND "&&"
+BOOL_OP_OR  "||"
+DOT         "."
+COLON       ":"
 
 %%
 
@@ -47,7 +54,7 @@ REAL     {DIGIT}*"."{DIGIT}+|{DIGIT}+"."{DIGIT}*
 
 {ID}    { handleToken("ID", i); } 
 
-"."{ID}    { handleToken("METHOD", i); } 
+{DOT}    { handleToken("DOT", i); }
  
 {INTEGER}   { handleToken("INT", i); }
 
@@ -59,13 +66,17 @@ REAL     {DIGIT}*"."{DIGIT}+|{DIGIT}+"."{DIGIT}*
 
 "="    { handleToken("ASSIGN_OP", i); }
 
-"&&"|"||"   { handleToken("BOOL_OP", i); }
+{BOOL_OP_AND}   { handleToken("BOOL_OP_AND", i); }
+{BOOL_OP_OR}   { handleToken("BOOL_OP_OR", i); }
 
 "//"[^\n]*  { handleToken("COMMENT", i); }
 
-"+"|"-"|"*"|"/"   { handleToken("OP", i); }
+{BIN_OP_MULT}    { handleToken("BIN_OP_MULT", i);  }
+{BIN_OP_ADD}    { handleToken("BIN_OP_ADD", i); }
+{BIN_OP_CMP}    { handleToken("BIN_OP_CMP", i); }
 
-"<"|">"|"=="|"<="|">="|"!="   { handleToken("COMP_OP", i); }
+
+{BIN_OP_CMP}  { handleToken("COMP_OP", i); }
 
 "!"    { handleToken("NOT", i); }
 
@@ -80,6 +91,7 @@ REAL     {DIGIT}*"."{DIGIT}+|{DIGIT}+"."{DIGIT}*
 "["    { handleToken("L_SQ_BRACKET", i); }
 
 "]"    { handleToken("R_SQ_BRACKET", i); }
+{COLON}    { handleToken("COLON", i); }
 
 .     { std::cout << std::endl << "Unrecognized character: " << yytext << std::endl; }
 

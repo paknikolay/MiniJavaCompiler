@@ -8,9 +8,13 @@
 class MiniJavaScanner : public yyFlexLexer {
 private:
     std::vector< std::pair<int, int> > coordinates; // Координаты начала и конца токена в строке.
+    std::ostream& out;
+
     virtual int yylex();
     int handleToken(std::string token, int& i); //Обработчик токена
+
 public:
+    MiniJavaScanner(std::istream &new_in = std::cin, std::ostream &new_out = std::cout);
     int tokenize();
 };
 
