@@ -11,7 +11,7 @@ int MiniJavaScanner::handleToken(std::string token, int& i)
     i += yyleng;
     token_coords.second = i;
     coordinates.push_back(token_coords);
-    return 0;
+    return Token::THIS;
 }
 
 int MiniJavaScanner::tokenize()

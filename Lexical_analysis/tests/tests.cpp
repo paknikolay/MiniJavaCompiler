@@ -23,7 +23,7 @@ std::string readFile(std::string fileName) {
 
     return file_graph;
 }
-
+/*
 TEST(work_check, test1) {
 
     ifstream in("test1.in");
@@ -44,4 +44,26 @@ TEST(work_check, test1) {
 
 
     ASSERT_EQ(rezult, test_out);
+}
+*/
+#include <iostream>
+
+#include "MiniJavaScanner.h"
+
+TEST(work_check, test2) {
+    MiniJavaScanner lexer;
+
+    void* result;
+    yy::parser parser(lexer);
+
+    try {
+        if (parser.parse()) {
+            return;
+        }
+        assert(result != nullptr);
+        //result->Print(std::cout);
+    } catch (std::exception &e) {
+        std::cerr << "\x1B[31m" << e.what() << "\x1B[0m" << std::endl;
+    }
+    return;
 }
