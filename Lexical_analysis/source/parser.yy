@@ -159,31 +159,32 @@ MethodDeclaration ::= "public" | “private” Type Identifier "(" ( Type Identi
 
 */
 
-
+/*
 expression
-    : expression BIN_OP_ADD expression {}
-    | expression BIN_OP_MULT expression {}
-    | expression BIN_OP_CMP expression {}
-    | expression BOOL_OP_AND expression {}
-    | expression BOOL_OP_OR expression {}
-    | expression L_SQ_BRACKET expression R_SQ_BRACKET expression {}
-    | expression DOT LENGTH {}
-    | expression DOT IDENTIFIER L_BRACKET R_BRACKET {}
-    | expression DOT IDENTIFIER L_BRACKET few_expressions R_BRACKET {}
-    | INT_VALUE {}
-    | THIS {std::cout<<"Uta1";}
-    | NEW STANDARD_TYPES R_SQ_BRACKET expression L_SQ_BRACKET {}
-    | NEW IDENTIFIER L_BRACKET R_BRACKET {}
-    | NEGATION expression {}
-    | NEGATION L_BRACKET expression R_BRACKET {}
+    : expression BIN_OP_ADD expression {ExpressionBinOp}
+    | expression BIN_OP_MULT expression {ExpressionBinOp}
+    | expression BIN_OP_CMP expression {ExpressionBinOp}
+    | expression BOOL_OP_AND expression {ExpressionBinOp}
+    | expression BOOL_OP_OR expression {ExpressionBinOp}
+    | expression L_SQ_BRACKET expression R_SQ_BRACKET {ExpressionIndex}
+    | expression DOT LENGTH {ExpressinGetLength}
+    | expression DOT IDENTIFIER L_BRACKET R_BRACKET {ExpressionFunctionCall}
+    | expression DOT IDENTIFIER L_BRACKET few_expressions R_BRACKET {ExpressionFunctionCall}
+    | INT_VALUE {ExpressionInt}
+    | THIS {ExpressionThis}
+    | NEW STANDARD_TYPES R_SQ_BRACKET expression L_SQ_BRACKET {ExpressionNewIntArray}
+    | NEW IDENTIFIER L_BRACKET R_BRACKET {ExpressionNewIdentifier}
+    | NEGATION expression {ExpressionNegation}
+    | NEGATION L_BRACKET expression R_BRACKET {ExpressionNegation}
 
 few_expressions
     : expression COLON few_expressions {}
     | expression {}
 
 
-
-
+*/
+integer
+    : NEGATION {}
 
 /*
 program

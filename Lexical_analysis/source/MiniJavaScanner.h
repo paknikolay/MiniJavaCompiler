@@ -6,7 +6,8 @@
 #if !defined (yyFlexLexerOnce)
 #include <FlexLexer.h>
 #endif // _!defined (yyFlexLexerOnce)
-#include "/home/nikolai/compilers/MiniJavaCompiler/cmake-build-debug/Lexical_analysis/source/parser.hh"
+
+#include "parser.hh"
 
 using Token = yy::parser::token::yytokentype;
 

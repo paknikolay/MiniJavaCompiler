@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-
 #include "MiniJavaScanner.h"
+
 
 int MiniJavaScanner::handleToken(std::string token, int& i)
 {
