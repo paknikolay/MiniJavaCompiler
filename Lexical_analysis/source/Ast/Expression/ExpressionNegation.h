@@ -6,11 +6,10 @@
 #define MINI_JAVA_COMPILER_EXPRESSIONNEGATION_H
 
 #include "ExpressionBase.h"
-#include <memory>
 
-class ExpressionNegation : ExpressionBase {
+class ExpressionNegation : public ExpressionBase {
 public:
-    explicit ExpressionNegation(std::shared_ptr<ExpressionBase> &value);
+    explicit ExpressionNegation(const std::shared_ptr<ExpressionBase> &value) : value(value) {}
 
     const std::shared_ptr<ExpressionBase>& GetValue(){ return value; };
 
@@ -18,7 +17,5 @@ public:
 private:
     std::shared_ptr<ExpressionBase> value;
 };
-
-ExpressionNegation::ExpressionNegation(std::shared_ptr<ExpressionBase> &value_) : value(value_) {}
 
 #endif //MINI_JAVA_COMPILER_EXPRESSIONNEGATION_H

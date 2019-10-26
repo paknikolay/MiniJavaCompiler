@@ -7,6 +7,7 @@
 
 #include "ExpressionBase.h"
 #include "../BaseNode.h"
+#include <memory>
 
 class ExpressionBase : BaseNode {
 public:

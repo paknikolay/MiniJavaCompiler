@@ -7,7 +7,6 @@
 
 #include "Expression/ExpressionBase.h"
 #include "../../Enums.h"
-#include <memory>
 
 
 class ExpressionBinOp : public ExpressionBase {
@@ -17,7 +16,7 @@ public:
 
     const std::shared_ptr<ExpressionBase>& GetLeft(){ return left; };
     const std::shared_ptr<ExpressionBase>& GetRight(){ return right; };
-    const EBool& GetBinOp(){ return binOp; };
+    const EBinOp& GetBinOp(){ return binOp; };
 private:
     std::shared_ptr<ExpressionBase> left, right;
     EBinOp binOp;
