@@ -11,10 +11,10 @@
 
 class ExpressionNewIdentifier : ExpressionBase {
 public:
-    ExpressionNewIdentifier(std::unique_ptr<ExpressionIdentifier> &identifier) : identifier(identifier.release()) {}
+    ExpressionNewIdentifier(std::shared_ptr<ExpressionIdentifier> &identifier) : identifier(identifier) {}
 
 private:
-    std::unique_ptr<ExpressionIdentifier> identifier;
+    std::shared_ptr<ExpressionIdentifier> identifier;
 };
 
 
