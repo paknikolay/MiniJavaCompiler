@@ -9,7 +9,7 @@
 #include "../BaseNode.h"
 #include <memory>
 
-class ExpressionBase : BaseNode {
+class ExpressionBase : public BaseNode {
 public:
     ExpressionBase();
 

@@ -3,6 +3,8 @@ add_library(Ast STATIC Expression/ExpressionBase.cpp Expression/ExpressionBinOp.
         Expression/ExpressionIndex.cpp Expression/ExpressionInt.cpp Expression/ExpressionNegation.cpp
         Expression/ExpressionNewIdentifier.cpp Expression/ExpressionThis.cpp Expression/ExpressionNewIntArray.cpp
         BaseNode.cpp Statement/Statements.cpp Type/Type.cpp Expression/Expressions.h
+        VarDeclaration/VarDeclaration.cpp MethodDeclaration/MethodDeclaration.cpp MainClass/MainClass.cpp Goal/Goal.cpp
+        ClassDeclaration/ClassDeclaration.cpp
         )
 
 
