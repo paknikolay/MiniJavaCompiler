@@ -18,9 +18,9 @@ public:
             args[i] = std::shared_ptr<ExpressionBase>(args_[i]);
         }
     }
-
-    explicit ExpressionFunctionCall(std::shared_ptr<ExpressionBase> &object) : object(object){
-    }
+    
+    const std::shared_ptr<ExpressionBase>& GetObject(){ return object; };
+    const std::vector<std::shared_ptr<ExpressionBase>>& GetArgs(){ return args; };
 
 private:
     std::shared_ptr<ExpressionBase> object;
