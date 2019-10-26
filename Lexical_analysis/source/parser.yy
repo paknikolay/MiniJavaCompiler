@@ -180,11 +180,6 @@ statement_sequence
     : statement
     | statement statement_sequence
 
-MethodDeclaration ::= "public" | “private” Type Identifier "(" ( Type Identifier ( "," Type Identifier )* )?
- ")" "{" ( VarDeclaration )*( Statement )* "return" Expression ";" "}"
-
-Осталось написать штуку "{ ... }"
-
 */
 
 /*
