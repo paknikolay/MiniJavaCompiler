@@ -7,7 +7,7 @@
 
 %code requires{
     #include "Enums.h"
-    #include "Expression/Expressions.h"
+
     class MiniJavaScanner;
 }
 
@@ -52,9 +52,9 @@ Position toPos(const yy::location& from, const yy::location& to) {
 %token L_SQ_BRACKET
 %token R_SQ_BRACKET
 %token COMMA
-%token <std::string> BIN_OP_MULT
-%token <std::string> BIN_OP_ADD
-%token <std::string> BIN_OP_CMP
+%token <EBinOp> BIN_OP_MULT
+%token <EBinOp> BIN_OP_ADD
+%token <EBinOp> BIN_OP_CMP
 %token IF
 %token ELSE
 %token WHILE
@@ -70,7 +70,7 @@ Position toPos(const yy::location& from, const yy::location& to) {
 %token R_BRACKET
 %token MAIN
 %token EXTENDS
-%token INT_VALUE
+%token <int> INT_VALUE
 %token LENGTH
 
 
@@ -176,7 +176,8 @@ statement
 
 statement_sequence
     : statement
-    | statement statement_sequence { }
+    | statement statement_sequence
+
 */
 %%
 integer

@@ -1,9 +1,14 @@
 #include <iostream>
-#include <string>
+#include <cstring>
+#include <parser.hh>
 #include "MiniJavaScanner.h"
+#include "Enums.h"
 
+bool StringsEqual(const char* first, const char* second) {
+    return strcmp(first, second) == 0;
+}
 
-int MiniJavaScanner::handleToken(std::string token, int& i)
+int MiniJavaScanner::handleToken(Token token, int& i)
 {
     std::pair<int, int> token_coords;
     token_coords.first = i + 1;
@@ -11,7 +16,71 @@ int MiniJavaScanner::handleToken(std::string token, int& i)
     i += yyleng;
     token_coords.second = i;
     coordinates.push_back(token_coords);
-    return Token::THIS;
+
+    switch (token) {
+        case Token::REAL_VALUE: {
+            Build(std::stof(YYText()));
+            break;
+        }
+        case Token::BOOL_OP_AND: {
+            Build(EBinOp::AND);
+            break;
+        }
+        case Token::BOOL_OP_OR: {
+            Build(EBinOp::OR);
+            break;
+        }
+        case Token::PRIVACY_MODIFIER: {
+            Build(StringsEqual(YYText(), "private") ? EModifier::PRIVATE : EModifier::PUBLIC);
+            break;
+        }
+        case Token::BIN_OP_MULT: {
+            if (StringsEqual(YYText(), "*")) {
+                Build(EBinOp::MUL);
+            } else if (StringsEqual(YYText(), "/")) {
+                Build(EBinOp::DIV);
+            } else {
+                Build(EBinOp::MOD);
+            }
+            break;
+        }
+        case Token::BIN_OP_ADD: {
+            Build(StringsEqual(YYText(), "+") ? EBinOp::PLUS : EBinOp::MINUS);
+            break;
+        }
+        case Token::BIN_OP_CMP: {
+            if (StringsEqual(YYText(), "!=")) {
+                Build(EBinOp::NEQ);
+            }
+            if (StringsEqual(YYText(), "==")) {
+                Build(EBinOp::EQ);
+            }
+            if (StringsEqual(YYText(), "<=")) {
+                Build(EBinOp::LE);
+            }
+            if (StringsEqual(YYText(), ">=")) {
+                Build(EBinOp::GE);
+            }
+            if (StringsEqual(YYText(), "<")) {
+                Build(EBinOp::L);
+            }
+            if (StringsEqual(YYText(), ">")) {
+                Build(EBinOp::G);
+            }
+            break;
+        }
+        case Token::BOOL_VALUE: {
+            Build(StringsEqual(YYText(), "false") ? EBool::FALSE : EBool::TRUE);
+            break;
+        }
+        case Token::INT_VALUE: {
+            Build(std::stoll(YYText()));
+        }
+
+    }
+
+
+    //return Token::THIS;
 }
 
 int MiniJavaScanner::tokenize()

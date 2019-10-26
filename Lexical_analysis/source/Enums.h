@@ -6,8 +6,8 @@ enum class EModifier {
 };
 
 enum class EBool {
-    TRUE,
-    FALSE
+    FALSE,
+    TRUE
 };
 
 enum class EBinOp {
