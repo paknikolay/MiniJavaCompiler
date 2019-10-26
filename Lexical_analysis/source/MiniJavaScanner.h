@@ -8,6 +8,7 @@
 #endif // _!defined (yyFlexLexerOnce)
 
 #include "parser.hh"
+#include "Enums.h"
 
 using Token = yy::parser::token::yytokentype;
 
@@ -17,9 +18,29 @@ private:
     std::ostream& out;
 
     //virtual int yylex();
-    int handleToken(std::string token, int& i); //Обработчик токена
+    int handleToken(Token token, int& i); //Обработчик токена
 
+    yy::parser::semantic_type* yylval = nullptr;
+    yy::parser::location_type* loc = nullptr;
 
+    template<typename T>
+    void Build(const T& value) {
+        //if (yylval == nullptr) {
+        //    return;
+        //}
+        //yylval->build<T>(value);
+        out << "\n" << value << " - value of handled token";
+    }
+
+    void Build(const EModifier& value) {
+        out << ((int) value) << " - value of handled token";
+    }
+    void Build(const EBool& value) {
+        out << ((int) value) << " - value of handled token";
+    }
+    void Build(const EBinOp& value) {
+        out << ((int) value) << " - value of handled token";
+    }
 
 public:
     MiniJavaScanner(std::istream &new_in = std::cin, std::ostream &new_out = std::cout);
