@@ -22,16 +22,30 @@ int MiniJavaScanner::handleToken(Token token, int& i)
             Build(std::stof(YYText()));
             break;
         }
+        case Token::BOOL_OP_AND: {
+            Build(EBinOp::AND);
+            break;
+        }
+        case Token::BOOL_OP_OR: {
+            Build(EBinOp::OR);
+            break;
+        }
         case Token::PRIVACY_MODIFIER: {
             Build(StringsEqual(YYText(), "private") ? EModifier::PRIVATE : EModifier::PUBLIC);
             break;
         }
         case Token::BIN_OP_MULT: {
-            Build(EBinOp::MUL);
+            if (StringsEqual(YYText(), "*")) {
+                Build(EBinOp::MUL);
+            } else if (StringsEqual(YYText(), "/")) {
+                Build(EBinOp::DIV);
+            } else {
+                Build(EBinOp::MOD);
+            }
             break;
         }
         case Token::BIN_OP_ADD: {
-            Build(EBinOp::PLUS);
+            Build(StringsEqual(YYText(), "+") ? EBinOp::PLUS : EBinOp::MINUS);
             break;
         }
         case Token::BIN_OP_CMP: {
