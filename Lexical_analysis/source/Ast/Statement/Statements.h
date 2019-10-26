@@ -100,9 +100,8 @@ private:
 
 class StatementSequence : public StatementBase {
 public:
-    StatementSequence(const std::shared_ptr<StatementBase>& statement) {array.push_back(statement);}
-    StatementSequence() {}
-
+    explicit
+    StatementSequence(const std::vector<std::shared_ptr<StatementBase>>& statementArray) {array = statementArray;}
 
 private:
     std::vector<std::shared_ptr<StatementBase>> array;
