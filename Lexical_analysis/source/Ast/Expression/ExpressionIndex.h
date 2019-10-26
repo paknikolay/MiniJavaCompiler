@@ -13,6 +13,8 @@ public:
     ExpressionIndex(std::shared_ptr<ExpressionBase> &array, std::shared_ptr<ExpressionBase> &index) : array(
             array), index(index) {}
 
+    const std::shared_ptr<ExpressionBase>& GetArray(){ return array; };
+    const std::shared_ptr<ExpressionBase>& GetIndex(){ return index; };
 private:
     std::shared_ptr<ExpressionBase> array;
     std::shared_ptr<ExpressionBase> index;

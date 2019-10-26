@@ -8,7 +8,7 @@ bool StringsEqual(const char* first, const char* second) {
     return strcmp(first, second) == 0;
 }
 
-int MiniJavaScanner::handleToken(Token token, int& i)
+Token MiniJavaScanner::handleToken(Token token, int& i)
 {
     std::pair<int, int> token_coords;
     token_coords.first = i + 1;
@@ -79,7 +79,7 @@ int MiniJavaScanner::handleToken(Token token, int& i)
 
     }
 
-
+    return token;
     //return Token::THIS;
 }
 

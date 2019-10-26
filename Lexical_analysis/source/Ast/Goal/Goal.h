@@ -9,9 +9,9 @@
 
 #include "../MainClass/MainClass.h"
 #include "../ClassDeclaration/ClassDeclaration.h"
+#include "../BaseNode.h"
 
-
-class Goal {
+class Goal: public BaseNode {
 public:
     Goal(const std::shared_ptr<MainClass>& main) : main_class(main) {}
     Goal(const std::shared_ptr<MainClass>& main, const std::vector<ClassDeclaration> classes) : main_class(main),

@@ -9,8 +9,9 @@
 #include <string>
 #include <memory>
 #include "../Type/Type.h"
+#include "../BaseNode.h"
 
-class VarDeclaration {
+class VarDeclaration : public BaseNode {
 public:
     VarDeclaration(const std::shared_ptr<Type> &type, const std::string &name) : type(type), name(name) {}
 

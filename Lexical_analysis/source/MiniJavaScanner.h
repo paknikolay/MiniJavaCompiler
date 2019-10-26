@@ -18,7 +18,7 @@ private:
     std::ostream& out;
 
     //virtual int yylex();
-    int handleToken(Token token, int& i); //Обработчик токена
+    Token handleToken(Token token, int& i); //Обработчик токена
 
     yy::parser::semantic_type* yylval = nullptr;
     yy::parser::location_type* loc = nullptr;

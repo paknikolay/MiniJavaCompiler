@@ -7,8 +7,10 @@
 
 #include <memory>
 #include <string>
+#include <Statement/Statements.h>
+#include "../BaseNode.h"
 
-class MainClass {
+class MainClass : public BaseNode {
 public:
     MainClass(const std::string& name, const std::string& a_name, const std::shared_ptr<StatementBase>& stat) :
     class_name(name), args_name(a_name), statement(stat) {}

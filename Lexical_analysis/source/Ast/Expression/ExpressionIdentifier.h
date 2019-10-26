@@ -6,14 +6,16 @@
 #define MINI_JAVA_COMPILER_EXPRESSIONIDENTIFIER_H
 
 #include "../Expression/ExpressionBase.h"
-#include <memory>
+#include <string>
 
-class ExpressionIdentifier : ExpressionBase {
+class ExpressionIdentifier : public ExpressionBase {
 public:
-    ExpressionIdentifier(std::shared_ptr<ExpressionBase> &identifier) : identifier(identifier) {}
+    ExpressionIdentifier(const std::string& identifier_): identifier(identifier) {}
+
+    const std::string& GetIdentifier(){ return identifier; };
 
 private:
-    std::shared_ptr<ExpressionBase> identifier;
+    std::string identifier;
 };
 
 

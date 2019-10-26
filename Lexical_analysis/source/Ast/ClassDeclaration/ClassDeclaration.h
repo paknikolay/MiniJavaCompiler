@@ -10,9 +10,10 @@
 #include <vector>
 #include "../VarDeclaration/VarDeclaration.h"
 #include "../MethodDeclaration/MethodDeclaration.h"
+#include "../BaseNode.h"
 
 
-class ClassDeclaration {
+class ClassDeclaration : public BaseNode {
 public:
     ClassDeclaration(const std::string& name, const std::vector<std::shared_ptr<VarDeclaration>>& varabs,
                      const std::vector<std::shared_ptr<MethodDeclaration>>& meths, const std::string extend = "none") :

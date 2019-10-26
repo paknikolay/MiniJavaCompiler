@@ -6,15 +6,13 @@
 #define MINI_JAVA_COMPILER_EXPRESSIONNEWIDENTIFIER_H
 
 #include "../Expression/ExpressionBase.h"
-#include "../Expression/ExpressionIdentifier.h"
-#include <memory>
 
-class ExpressionNewIdentifier : ExpressionBase {
+class ExpressionNewIdentifier : public ExpressionBase {
 public:
-    ExpressionNewIdentifier(std::shared_ptr<ExpressionIdentifier> &identifier) : identifier(identifier) {}
+    ExpressionNewIdentifier(const std::string& identifier) : identifier(identifier) {}
 
 private:
-    std::shared_ptr<ExpressionIdentifier> identifier;
+    std::string identifier;
 };
 
 
