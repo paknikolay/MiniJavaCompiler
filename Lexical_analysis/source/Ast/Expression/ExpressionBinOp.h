@@ -12,16 +12,15 @@
 
 class ExpressionBinOp : public ExpressionBase {
 public:
-    ExpressionBinOp(std::shared_ptr<ExpressionBase> &left, std::shared_ptr<ExpressionBase> &right) : left(
-            left), right(right) {}
+    ExpressionBinOp(std::shared_ptr<ExpressionBase> &left, std::shared_ptr<ExpressionBase> &right,
+                    EBinOp binOp1) : left(left), right(right), binOp(binOp1) {}
 
     const std::shared_ptr<ExpressionBase>& GetLeft(){ return left; };
     const std::shared_ptr<ExpressionBase>& GetRight(){ return right; };
     const EBool& GetBinOp(){ return binOp; };
-
 private:
     std::shared_ptr<ExpressionBase> left, right;
-    EBool binOp;
+    EBinOp binOp;
 
 };
 

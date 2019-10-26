@@ -18,9 +18,10 @@ public:
             args[i] = std::shared_ptr<ExpressionBase>(args_[i]);
         }
     }
-
+    
     const std::shared_ptr<ExpressionBase>& GetObject(){ return object; };
     const std::vector<std::shared_ptr<ExpressionBase>>& GetArgs(){ return args; };
+
 private:
     std::shared_ptr<ExpressionBase> object;
     std::vector<std::shared_ptr<ExpressionBase>> args;
