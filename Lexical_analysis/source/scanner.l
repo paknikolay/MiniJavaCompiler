@@ -36,70 +36,70 @@ THIS        "this"
     int i = 0;
 %}
 
-EXTENDS {return handleToken("EXTENDS", i);}
-"main" {return handleToken("main", i);}
-"class"    { return handleToken("CLASS", i); }
+EXTENDS {return handleToken(Token::EXTENDS, i);}
+"main" {return handleToken(Token::MAIN, i);}
+"class"    { return handleToken(Token::CLASS, i); }
 
-"if"    { return handleToken("IF", i); }
+"if"    { return handleToken(Token::IF, i); }
 
-"else"    { return handleToken("ELSE", i); }
+"else"    { return handleToken(Token::ELSE, i); }
 
-"while"    { return handleToken("WHILE", i); }
+"while"    { return handleToken(Token::WHILE, i); }
 
-"return"    { return handleToken("RETURN", i); }
+"return"    { return handleToken(Token::RETURN, i); }
 
-"new"    { return handleToken("NEW", i); }
+"new"    { return handleToken(Token::NEW, i); }
 
-"System.out.println"    { return handleToken("OUT", i); }
-"int"|"boolean"|"String"|"void"|"List"    { return handleToken("STANDARD_TYPES", i); }
+"System.out.println"    { return handleToken(Token::OUT, i); }
+"int"|"boolean"|"String"|"void"|"List"    { return handleToken(Token::STANDARD_TYPES, i); }
 
-"public"|"private"    { return handleToken("PRIVACY_MODIFIER", i); }
-"static"            { return handleToken("STATIC", i); }
-{LENGTH}           { return handleToken("LENGTH", i); }
-{THIS}           { return handleToken("THIS", i); }
+"public"|"private"    { return handleToken(Token::PRIVACY_MODIFIER, i); }
+"static"            { return handleToken(Token::STATIC_MODIFIER, i); }
+{LENGTH}           { return handleToken(Token::LENGTH, i); }
+{THIS}           { return handleToken(Token::THIS, i); }
 
-"true"|"false"    { return handleToken("BOOL_VALUE", i); }
+"true"|"false"    { return handleToken(Token::BOOL_VALUE, i); }
 
-{ID}    { return handleToken("INDENTIFIER", i); }
+{ID}    { return handleToken(Token::INDENTIFIER, i); }
 
-{DOT}    { return handleToken("DOT", i); }
+{DOT}    { return handleToken(Token::DOT, i); }
 
-{INTEGER_VALUE}   { return handleToken("INT_VALUE", i); }
+{INTEGER_VALUE}   { return handleToken(Token::INT_VALUE, i); }
 
-{REAL_VALUE}   { return handleToken("REAL_VALUE", i); }
+{REAL_VALUE}   { return handleToken(Token::REAL_VALUE, i); }
 
-";"    { return handleToken("SEMICOLON", i); }
+";"    { return handleToken(Token::SEMI_COLON, i); }
 
-","    { return handleToken("COMMA", i); }
+","    { return handleToken(Token::COMMA, i); }
 
-"="    { return handleToken("ASSIGN_OP", i); }
+"="    { return handleToken(Token::ASSIGN_OP, i); }
 
-{BOOL_OP_AND}   { return handleToken("BOOL_OP_AND", i); }
-{BOOL_OP_OR}   { return handleToken("BOOL_OP_OR", i); }
+{BOOL_OP_AND}   { return handleToken(Token::BOOL_OP_AND, i); }
+{BOOL_OP_OR}   { return handleToken(Token::BOOL_OP_OR, i); }
 
-"//"[^\n]*  { return handleToken("COMMENT", i); }
+"//"[^\n]*  { /*return handleToken(Token::COMMENT, i);*/ }
 
-{BIN_OP_MULT}    { return handleToken("BIN_OP_MULT", i);  }
-{BIN_OP_ADD}    { return handleToken("BIN_OP_ADD", i); }
-{BIN_OP_CMP}    { return handleToken("BIN_OP_CMP", i); }
+{BIN_OP_MULT}    { return handleToken(Token::BIN_OP_MULT, i);  }
+{BIN_OP_ADD}    { return handleToken(Token::BIN_OP_ADD, i); }
+{BIN_OP_CMP}    { return handleToken(Token::BIN_OP_CMP, i); }
 
 
-{BIN_OP_CMP}  { return handleToken("COMP_OP", i); }
+{BIN_OP_CMP}  { return handleToken(Token::BIN_OP_CMP, i); }
 
-"!"    { return handleToken("NEGATION", i); }
+"!"    { return handleToken(Token::NEGATION, i); }
 
-"{"    { return handleToken("L_BRACE", i); }
+"{"    { return handleToken(Token::L_BRACE, i); }
 
-"}"    { return handleToken("R_BRACE", i); }
+"}"    { return handleToken(Token::R_BRACE, i); }
 
-"("    { return handleToken("L_BRACKET", i); }
+"("    { return handleToken(Token::L_BRACKET, i); }
 
-")"    { return handleToken("R_BRACKET", i); }
+")"    { return handleToken(Token::R_BRACKET, i); }
 
-"["    { return handleToken("L_SQ_BRACKET", i); }
+"["    { return handleToken(Token::L_SQ_BRACKET, i); }
 
-"]"    { return handleToken("R_SQ_BRACKET", i); }
-{COLON}    { return handleToken("COLON", i); }
+"]"    { return handleToken(Token::R_SQ_BRACKET, i); }
+{COLON}    { return handleToken(Token::COLON, i); }
 
 {SPACE}    { i += yyleng; }
 .     { std::cout << std::endl << "Unrecognized character: " << yytext << std::endl; }
