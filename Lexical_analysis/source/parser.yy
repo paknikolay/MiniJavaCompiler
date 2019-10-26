@@ -166,17 +166,17 @@ type
     | IDENTIFIER
 
 statement
-    : L_BRACE statement_sequence R_BRACE
-    | L_BRACE R_BRACE
-    | IF L_BRACKET expression R_BRACKET statement ELSE statement
-    | WHILE L_BRACKET expression R_BRACKET statement
-    | OUT L_BRACKET expression R_BRACKET SEMICOLON
-    | IDENTIFIER ASSIGN_OP expression SEMICOLON
-    | IDENTIFIER L_SQ_BRACKET expression R_SQ_BRACKET ASSIGN_OP expression SEMICOLON
+    : L_BRACE statement_sequence R_BRACE {$$ = std::make_shared<StatementBase>($2);}
+    | L_BRACE R_BRACE {$$ = std::make_shared<StatementBase>();}
+    | IF L_BRACKET expression R_BRACKET statement ELSE statement {$$ = std::make_shared<StatementIf>($3, $5, $7);}
+    | WHILE L_BRACKET expression R_BRACKET statement {$$ = std::make_shared<StatementWhile>($3, $5);}
+    | OUT L_BRACKET expression R_BRACKET SEMICOLON {$$ = std::make_shared<StatementPrint>($3);}
+    | IDENTIFIER ASSIGN_OP expression SEMICOLON {$$ = std::make_shared<StatementAssign>($1, $3);}
+    | IDENTIFIER L_SQ_BRACKET expression R_SQ_BRACKET ASSIGN_OP expression SEMICOLON {$$ = std::make_shared<StatementAssignContainerElement>($1, $3, $6);}
 
 statement_sequence
-    : statement
-    | statement statement_sequence
+    : statement {std::vector<shared_ptr<StatementBase>> array; array.push_back($1); $$ = array;}
+    | statement statement_sequence {$2.push_back($1); $$ = $2;}
 
 */
 %%
@@ -201,7 +201,7 @@ expression
     | NEGATION L_BRACKET expression R_BRACKET {$$ = std::make_shared<ExpressionNegation>($3);}
 
 few_expressions
-    : expression COLON few_expressions {$2.push_back($1); $$ = $2;}
+    : expression COLON few_expressions {$3.push_back($1); $$ = $3;}
     | expression {std::vector<shared_ptr<ExpressionBase>> array; array.push_back($1); $$ = array;}
 */
 %%
