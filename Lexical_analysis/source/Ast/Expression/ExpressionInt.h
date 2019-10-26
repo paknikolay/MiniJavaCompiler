@@ -8,6 +8,8 @@
 #include "../Expression/ExpressionBase.h"
 
 class ExpressionInt : public ExpressionBase {
+public:
+    ExpressionInt(int value) : value(value) {}
 
 private:
     int value = 0;

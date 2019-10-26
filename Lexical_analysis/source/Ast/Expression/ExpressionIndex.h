@@ -9,6 +9,9 @@
 #include "ExpressionBase.h"
 
 class ExpressionIndex :public ExpressionBase {
+public:
+    ExpressionIndex(std::unique_ptr<ExpressionBase> &array, std::unique_ptr<ExpressionBase> &index) : array(
+            array.release()), index(index.release()) {}
 
 private:
     std::unique_ptr<ExpressionBase> array;

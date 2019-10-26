@@ -9,6 +9,8 @@
 #include <memory>
 
 class ExpressionIdentifier : ExpressionBase {
+public:
+    ExpressionIdentifier(std::unique_ptr<ExpressionBase> &identifier) : identifier(identifier.release()) {}
 
 private:
     std::unique_ptr<ExpressionBase> identifier;

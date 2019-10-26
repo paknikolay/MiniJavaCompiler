@@ -9,6 +9,8 @@
 #include <memory>
 
 class ExpressionNewIntArray : public ExpressionBase {
+public:
+    ExpressionNewIntArray(std::unique_ptr<ExpressionBase> &count) : count(count.release()) {}
 
 private:
     std::unique_ptr<ExpressionBase> count;

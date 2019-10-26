@@ -8,6 +8,8 @@
 #include "../Expression/ExpressionBase.h"
 
 class ExpressionThis : public ExpressionBase {
+public:
+    ExpressionThis() {}
 
 };
 
