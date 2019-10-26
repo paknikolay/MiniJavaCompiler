@@ -201,7 +201,7 @@ expression
     | NEGATION L_BRACKET expression R_BRACKET {$$ = std::make_shared<ExpressionNegation>($3);}
 
 few_expressions
-    : expression COLON few_expressions {$2.push_back($1); $$ = $2;}
+    : expression COLON few_expressions {$3.push_back($1); $$ = $3;}
     | expression {std::vector<shared_ptr<ExpressionBase>> array; array.push_back($1); $$ = array;}
 */
 %%
