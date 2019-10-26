@@ -10,10 +10,10 @@
 
 class ExpressionNewIntArray : public ExpressionBase {
 public:
-    ExpressionNewIntArray(std::unique_ptr<ExpressionBase> &count) : count(count.release()) {}
+    ExpressionNewIntArray(std::shared_ptr<ExpressionBase> &count) : count(count) {}
 
 private:
-    std::unique_ptr<ExpressionBase> count;
+    std::shared_ptr<ExpressionBase> count;
 };
 
 

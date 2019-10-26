@@ -2,7 +2,7 @@ add_library(Ast STATIC Expression/ExpressionBase.cpp Expression/ExpressionBinOp.
         Expression/ExpressionFunctionCall.cpp Expression/ExpressionGetLength.cpp Expression/ExpressionIdentifier.cpp
         Expression/ExpressionIndex.cpp Expression/ExpressionInt.cpp Expression/ExpressionNegation.cpp
         Expression/ExpressionNewIdentifier.cpp Expression/ExpressionThis.cpp Expression/ExpressionNewIntArray.cpp
-        BaseNode.cpp
+        BaseNode.cpp Statement/Statements.cpp Type/Type.cpp
         )
 
 target_include_directories(Ast PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

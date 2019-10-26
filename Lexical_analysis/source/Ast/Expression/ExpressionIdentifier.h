@@ -10,10 +10,12 @@
 
 class ExpressionIdentifier : ExpressionBase {
 public:
-    ExpressionIdentifier(std::unique_ptr<ExpressionBase> &identifier) : identifier(identifier.release()) {}
+    ExpressionIdentifier(const std::shared_ptr<ExpressionBase> &identifier) : identifier(identifier) {}
+
+    const std::shared_ptr<ExpressionBase>& GetIdentifier(){ return identifier; };
 
 private:
-    std::unique_ptr<ExpressionBase> identifier;
+    std::shared_ptr<ExpressionBase> identifier;
 };
 
 
