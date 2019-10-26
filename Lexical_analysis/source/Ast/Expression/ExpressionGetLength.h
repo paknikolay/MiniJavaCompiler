@@ -10,6 +10,8 @@
 #include <memory>
 
 class ExpressionGetLength : public ExpressionBase{
+public:
+    ExpressionGetLength(std::unique_ptr<ExpressionBase> &container) : container(container.release()) {}
 
 private:
     std::unique_ptr<ExpressionBase> container;

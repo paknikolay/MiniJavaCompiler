@@ -10,11 +10,11 @@
 
 class ExpressionNegation : ExpressionBase {
 public:
-    ExpressionNegation(std::unique_ptr<ExpressionBase> &value);
+    explicit ExpressionNegation(std::unique_ptr<ExpressionBase> &value);
 
-    const std::unique_ptr<ExpressionBase> &getValue() const;
+    ExpressionBase* getValue() const;
 
-    void setValue(std::unique_ptr<ExpressionBase> &value);
+    void setValue(std::unique_ptr<ExpressionBase> &uniquePtr);
 
 private:
     std::unique_ptr<ExpressionBase> value;
@@ -22,12 +22,12 @@ private:
 
 ExpressionNegation::ExpressionNegation(std::unique_ptr<ExpressionBase> &value_) : value(value_.release()) {}
 
-const std::unique_ptr<ExpressionBase> &ExpressionNegation::getValue() const {
-    return value;
+ExpressionBase* ExpressionNegation::getValue() const {
+    return value.get();
 }
 
-void ExpressionNegation::setValue(std::unique_ptr<ExpressionBase> &value) {
-    ExpressionNegation::value.reset(value.release());
+void ExpressionNegation::setValue(std::unique_ptr<ExpressionBase> &uniquePtr) {
+    ExpressionNegation::value = std::move(uniquePtr);
 }
 
 #endif //MINI_JAVA_COMPILER_EXPRESSIONNEGATION_H

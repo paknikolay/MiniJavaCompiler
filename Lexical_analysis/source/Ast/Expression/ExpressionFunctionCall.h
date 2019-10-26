@@ -10,6 +10,9 @@
 #include <memory>
 
 class ExpressionFunctionCall : public ExpressionBase{
+public:
+    ExpressionFunctionCall(std::unique_ptr<ExpressionBase> &object,
+                           std::vector<std::unique_ptr<ExpressionBase>> &args) : object(object.release()), args(args) {}
 
 private:
     std::unique_ptr<ExpressionBase> object;

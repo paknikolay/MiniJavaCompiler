@@ -9,6 +9,8 @@
 #include "../BaseNode.h"
 
 class ExpressionBase : BaseNode {
+public:
+    ExpressionBase();
 
 };
 

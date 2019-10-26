@@ -8,6 +8,8 @@
 #include "Expression/ExpressionBase.h"
 
 class ExpressionBool : public ExpressionBase {
+public:
+    ExpressionBool(bool value) : value(value) {}
 
 private:
     bool value;

@@ -10,6 +10,9 @@
 
 
 class ExpressionBinOp : public ExpressionBase {
+public:
+    ExpressionBinOp(std::unique_ptr<ExpressionBase> &left, std::unique_ptr<ExpressionBase> &right) : left(
+            left.release()), right(right.release()) {}
 
 private:
     std::unique_ptr<ExpressionBase> left, right;
