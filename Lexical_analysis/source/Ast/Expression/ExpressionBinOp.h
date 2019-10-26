@@ -6,17 +6,18 @@
 #define MINI_JAVA_COMPILER_EXPRESSIONBASEOP_H
 
 #include "Expression/ExpressionBase.h"
+#include "../../Enums.h"
 #include <memory>
 
 
 class ExpressionBinOp : public ExpressionBase {
 public:
-    ExpressionBinOp(std::unique_ptr<ExpressionBase> &left, std::unique_ptr<ExpressionBase> &right) : left(
-            left.release()), right(right.release()) {}
+    ExpressionBinOp(std::shared_ptr<ExpressionBase> &left, std::shared_ptr<ExpressionBase> &right,
+                    EBinOp binOp1) : left(left), right(right), binOp(binOp1) {}
 
 private:
-    std::unique_ptr<ExpressionBase> left, right;
-
+    std::shared_ptr<ExpressionBase> left, right;
+    EBinOp binOp;
 };
 
 

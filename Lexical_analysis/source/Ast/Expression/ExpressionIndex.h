@@ -10,12 +10,12 @@
 
 class ExpressionIndex :public ExpressionBase {
 public:
-    ExpressionIndex(std::unique_ptr<ExpressionBase> &array, std::unique_ptr<ExpressionBase> &index) : array(
-            array.release()), index(index.release()) {}
+    ExpressionIndex(std::shared_ptr<ExpressionBase> &array, std::shared_ptr<ExpressionBase> &index) : array(
+            array), index(index) {}
 
 private:
-    std::unique_ptr<ExpressionBase> array;
-    std::unique_ptr<ExpressionBase> index;
+    std::shared_ptr<ExpressionBase> array;
+    std::shared_ptr<ExpressionBase> index;
 };
 
 

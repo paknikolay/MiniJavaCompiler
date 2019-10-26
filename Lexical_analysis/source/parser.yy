@@ -7,7 +7,7 @@
 
 %code requires{
     #include "Enums.h"
-
+    #include "Expression/Expressions.h"
     class MiniJavaScanner;
 }
 
@@ -112,8 +112,6 @@ type GOAL
 %left L_SQ_BRACE
 ////////////////////////////////////////////////////
 */
-
-%%
 /*
 goal
     : main_class classes_declaration
@@ -178,89 +176,32 @@ statement
 
 statement_sequence
     : statement
-    | statement statement_sequence
-
-MethodDeclaration ::= "public" | “private” Type Identifier "(" ( Type Identifier ( "," Type Identifier )* )?
- ")" "{" ( VarDeclaration )*( Statement )* "return" Expression ";" "}"
-
-Осталось написать штуку "{ ... }"
-
+    | statement statement_sequence { }
 */
-
-/*
-expression
-    : expression BIN_OP_ADD expression {ExpressionBinOp}
-    | expression BIN_OP_MULT expression {ExpressionBinOp}
-    | expression BIN_OP_CMP expression {ExpressionBinOp}
-    | expression BOOL_OP_AND expression {ExpressionBinOp}
-    | expression BOOL_OP_OR expression {ExpressionBinOp}
-    | expression L_SQ_BRACKET expression R_SQ_BRACKET {ExpressionIndex}
-    | expression DOT LENGTH {ExpressinGetLength}
-    | expression DOT IDENTIFIER L_BRACKET R_BRACKET {ExpressionFunctionCall}
-    | expression DOT IDENTIFIER L_BRACKET few_expressions R_BRACKET {ExpressionFunctionCall}
-    | INT_VALUE {ExpressionInt}
-    | THIS {ExpressionThis}
-    | NEW STANDARD_TYPES R_SQ_BRACKET expression L_SQ_BRACKET {ExpressionNewIntArray}
-    | NEW IDENTIFIER L_BRACKET R_BRACKET {ExpressionNewIdentifier}
-    | NEGATION expression {ExpressionNegation}
-    | NEGATION L_BRACKET expression R_BRACKET {ExpressionNegation}
-
-few_expressions
-    : expression COLON few_expressions {}
-    | expression {}
-
-
-*/
+%%
 integer
     : NEGATION {}
-
 /*
-program
-    : method_list END       { result = $1; }
-    | method_list NL END    { result = $1; }
+expression
+    : expression BIN_OP_ADD expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
+    | expression BIN_OP_MULT expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
+    | expression BIN_OP_CMP expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
+    | expression BOOL_OP_AND expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
+    | expression BOOL_OP_OR expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
+    | expression L_SQ_BRACKET expression R_SQ_BRACKET {$$ = std::make_shared<ExpressionIndex>($1, $2);}
+    | expression DOT LENGTH {$$ = std::make_shared<ExpressionGetLength>($1);}
+    | expression DOT IDENTIFIER L_BRACKET R_BRACKET {$$ = std::make_shared<ExpressionFunctionCall>($1);}
+    | expression DOT IDENTIFIER L_BRACKET few_expressions R_BRACKET {$$ = std::make_shared<ExpressionFunctionCall>($1);}
+    | INT_VALUE {$$ = std::make_shared<ExpressionInt>($1);}
+    | THIS {$$ = std::make_shared<ExpressionThis>();}
+    | NEW STANDARD_TYPES R_SQ_BRACKET expression L_SQ_BRACKET {$$ = std::make_shared<ExpressionNewIntArray>($1);}
+    | NEW IDENTIFIER L_BRACKET R_BRACKET {$$ = std::make_shared<ExpressionNewIdentifier>();}
+    | NEGATION expression {$$ = std::make_shared<ExpressionNegation>($2);}
+    | NEGATION L_BRACKET expression R_BRACKET {$$ = std::make_shared<ExpressionNegation>($3);}
 
-arg
-    : id type_decl    {  }
-
-type_decl
-    : INT       { }
-    | LIST      { }
-
-method_signature
-    : DEF id                                 { $$ = MakeSeq({ MakeValue("def"), MakeValue($2) }); }
-    | DEF id L_BRACE arg R_BRACE             { $$ = MakeSeq({ MakeValue("def"), MakeValue($2) }); }
-
-method
-    : method_signature COLON NL exp           { $$ = MakeSeq({ $1, MakeValue(":"), $4 }); }
-    | method_signature type_decl COLON NL exp { $$ = MakeSeq({ $1, MakeValue(":"), $5 }); }
-
-method_list
-    : method                    { $$ = $1; }
-    | method_list method        { $$ = MakeSeq({ $1, $2 }); }
-
-id
-    : NAME   { $$ = $1; }
-
-exp_list
-    : exp COMMA exp         { $$ = MakeSeq({ $1, MakeValue(","), $3 }); }
-    | exp_list COMMA exp    { $$ = MakeSeq({ $1, MakeValue(","), $3 });}
-
-exp
-    : L_SQ_BRACE exp_list R_SQ_BRACE        { $$ = MakeSeq({ MakeValue("["), $2, MakeValue("]") }); }
-    | L_SQ_BRACE exp R_SQ_BRACE             { $$ = MakeSeq({ MakeValue("["), $2, MakeValue("]") }); }
-    | L_SQ_BRACE R_SQ_BRACE                 { $$ = MakeSeq({ MakeValue("["), MakeValue("]") }); }
-    | exp IF exp ELSE exp                   { $$ = MakeSeq({ $1, MakeValue("if"), $3, MakeValue("else"), $5 });  }
-    | exp BIN_OP_MULT exp                   { $$ = MakeSeq({ $1, MakeValue($2), $3 }); }
-    | exp BIN_OP_ADD exp                    { $$ = MakeSeq({ $1, MakeValue($2), $3 }); }
-    | exp BIN_OP_CMP exp                    { $$ = MakeSeq({ $1, MakeValue($2), $3 }); }
-    | exp DOT id L_BRACE exp_list R_BRACE   { $$ = MakeSeq({ $1, MakeValue("."), MakeValue($3), MakeValue("("), $5, MakeValue(")") }); }
-    | exp DOT id                            { $$ = MakeSeq({ $1, MakeValue("."), MakeValue($3)}); }
-    | exp DOT id L_BRACE exp R_BRACE        { $$ = MakeSeq({ $1, MakeValue("."), MakeValue($3), MakeValue("("), $5, MakeValue(")") }); }
-    | id                                    { $$ = MakeValue($1); }
-    | INT_CONST                             { $$ = MakeValue(std::to_string($1)); }
-    | exp L_SQ_BRACE exp R_SQ_BRACE         { $$ = MakeSeq({ $1, MakeValue("["), $3, MakeValue("]") }); }
-    | exp L_SQ_BRACE exp COLON R_SQ_BRACE   { $$ = MakeSeq({ $1, MakeValue("["), $3, MakeValue(":"), MakeValue("]") }); }
-    | L_BRACE exp R_BRACE                   { $$ = MakeSeq({ MakeValue("("), $2, MakeValue(")") }); }
+few_expressions
+    : expression COLON few_expressions {$2.push_back($1); $$ = $2;}
+    | expression {std::vector<shared_ptr<ExpressionBase>> array; array.push_back($1); $$ = array;}
 */
 %%
 

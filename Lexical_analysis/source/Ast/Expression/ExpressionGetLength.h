@@ -11,10 +11,10 @@
 
 class ExpressionGetLength : public ExpressionBase{
 public:
-    ExpressionGetLength(std::unique_ptr<ExpressionBase> &container) : container(container.release()) {}
+    ExpressionGetLength(std::shared_ptr<ExpressionBase> &container) : container(container) {}
 
 private:
-    std::unique_ptr<ExpressionBase> container;
+    std::shared_ptr<ExpressionBase> container;
 };
 
 
