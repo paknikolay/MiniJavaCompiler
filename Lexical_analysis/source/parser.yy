@@ -143,14 +143,42 @@ class_declaration_postfix
 
 var_declaration
     : STANDARD_TYPE IDENTIFIER SEMI_COLON
+
+var_declaration_sequence
+    : var_declaration
+    | var_declaration var_declaration_sequence
     
 method_declaration
-    : PRIVACY_MODIFIER STANDARD_TYPE IDENTIFIER L_BRACKET R_BRACKET
-    | PRIVACY_MODIFIER STANDARD_TYPE IDENTIFIER L_BRACKET method_args R_BRACKET
+    : PRIVACY_MODIFIER STANDARD_TYPE IDENTIFIER L_BRACKET R_BRACKET method_body
+    | PRIVACY_MODIFIER STANDARD_TYPE IDENTIFIER L_BRACKET method_args R_BRACKET method_body
+
+method_body
+    : L_BRACE var_declaration_sequence statement_sequence RETURN expression SEMICOLON R_BRACE
+    | L_BRACE statement_sequence RETURN expression SEMICOLON R_BRACE
+    | L_BRACE var_declaration_sequence RETURN expression SEMICOLON R_BRACE
+    | L_BRACE RETURN expression SEMICOLON R_BRACE
 
 method_args
     : STANDARD_TYPE IDENTIFIER COMMA method_args
     | STANDARD_TYPE IDENTIFIER
+
+type
+    : STANDARD_TYPE
+    | STANDARD_TYPE L_SQ_BRACKET R_SQ_BRACKET
+    | IDENTIFIER
+
+statement
+    : L_BRACE statement_sequence R_BRACE
+    | L_BRACE R_BRACE
+    | IF L_BRACKET expression R_BRACKET statement ELSE statement
+    | WHILE L_BRACKET expression R_BRACKET statement
+    | OUT L_BRACKET expression R_BRACKET SEMICOLON
+    | IDENTIFIER ASSIGN_OP expression SEMICOLON
+    | IDENTIFIER L_SQ_BRACKET expression R_SQ_BRACKET ASSIGN_OP expression SEMICOLON
+
+statement_sequence
+    : statement
+    | statement statement_sequence
 
 MethodDeclaration ::= "public" | “private” Type Identifier "(" ( Type Identifier ( "," Type Identifier )* )?
  ")" "{" ( VarDeclaration )*( Statement )* "return" Expression ";" "}"
