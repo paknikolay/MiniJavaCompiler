@@ -8,7 +8,7 @@ add_subdirectory(Lexical_analysis/source)
 add_executable(mini_java_compiler main.cpp)
 
 target_link_libraries (mini_java_compiler PRIVATE miniJavaScanner)
-
+configure_file(${CMAKE_SOURCE_DIR}/someTestForDebug someTestForDebug COPYONLY)
 if(BUILD_TESTS_LEXER)
     enable_testing()
         find_program(SHELL sh REQUIRED)

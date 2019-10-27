@@ -41,7 +41,6 @@ Position toPos(const yy::location& from, const yy::location& to) {
 
 %token EOF_TOKEN
 
-%token <std::string> INDENTIFIER
 
 %token SPACE
 %token DIGIT
@@ -71,7 +70,7 @@ Position toPos(const yy::location& from, const yy::location& to) {
 %token THIS
 %token OUT
 %token <std::string> STANDARD_TYPES
-%token <EBool> BOOL_VALUE
+%token <bool> BOOL_VALUE
 %token ASSIGN_OP
 %token NEGATION
 %token L_BRACKET
@@ -111,6 +110,7 @@ Position toPos(const yy::location& from, const yy::location& to) {
 
 
 %%
+/*
 program_start
     : goal { root = $1; }
 goal
@@ -177,38 +177,39 @@ type
     : STANDARD_TYPES {$$ = std::make_shared<Type>(Type::EType::STANDARD_TYPE, $1);}
     | STANDARD_TYPES L_SQ_BRACKET R_SQ_BRACKET {$$ = std::make_shared<Type>(Type::EType::STANDARD_TYPE_ARRAY, $1);}
     | IDENTIFIER {$$ = std::make_shared<Type>(Type::EType::IDENTIFIER, $1);}
-
+*/
 statement
-    : L_BRACE statement_sequence R_BRACE {$$ = std::make_shared<StatementSequence>($2);}
-    | L_BRACE R_BRACE {$$ = std::make_shared<StatementBase>();}
-    | IF L_BRACKET expression R_BRACKET statement ELSE statement {$$ = std::make_shared<StatementIf>($3, $5, $7);}
-    | WHILE L_BRACKET expression R_BRACKET statement {$$ = std::make_shared<StatementWhile>($3, $5);}
-    | OUT L_BRACKET expression R_BRACKET SEMI_COLON {$$ = std::make_shared<StatementPrint>($3);}
-    | IDENTIFIER ASSIGN_OP expression SEMI_COLON {$$ = std::make_shared<StatementAssign>($1, $3);}
-    | IDENTIFIER L_SQ_BRACKET expression R_SQ_BRACKET ASSIGN_OP expression SEMI_COLON {$$ = std::make_shared<StatementAssignContainerElement>($1, $3, $6);}
+    : L_BRACE statement_sequence R_BRACE {$$ = std::make_shared<StatementSequence>($2);root = $$;}
+    | L_BRACE R_BRACE {$$ = std::make_shared<StatementBase>();root = $$;}
+    | IF L_BRACKET expression R_BRACKET statement ELSE statement {$$ = std::make_shared<StatementIf>($3, $5, $7);root = $$;}
+    | WHILE L_BRACKET expression R_BRACKET statement {$$ = std::make_shared<StatementWhile>($3, $5);root = $$;}
+    | OUT L_BRACKET expression R_BRACKET SEMI_COLON {$$ = std::make_shared<StatementPrint>($3);root = $$;}
+    | IDENTIFIER ASSIGN_OP expression SEMI_COLON {$$ = std::make_shared<StatementAssign>($1, $3);root = $$;}
+    | IDENTIFIER L_SQ_BRACKET expression R_SQ_BRACKET ASSIGN_OP expression SEMI_COLON {$$ = std::make_shared<StatementAssignContainerElement>($1, $3, $6);root = $$;}
 
 statement_sequence
-    : statement {std::vector<std::shared_ptr<StatementBase>> array; array.push_back($1); $$ = array;}
+    : statement {std::vector<std::shared_ptr<StatementBase>> array; array.push_back($1); $$ = array; }
     | statement statement_sequence {$2.push_back($1); $$ = $2;}
 
 
 expression
-    : expression BIN_OP_ADD expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
-    | expression BIN_OP_MULT expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
-    | expression BIN_OP_CMP expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
-    | expression BOOL_OP_AND expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
-    | expression BOOL_OP_OR expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
-    | THIS {$$ = std::make_shared<ExpressionThis>();}
-    | expression L_SQ_BRACKET expression R_SQ_BRACKET {$$ = std::make_shared<ExpressionIndex>($1, $3);}
-    | expression DOT LENGTH {$$ = std::make_shared<ExpressionGetLength>($1);}
-    | expression DOT IDENTIFIER L_BRACKET R_BRACKET {$$ = std::make_shared<ExpressionFunctionCall>($1, $3);}
-    | expression DOT IDENTIFIER L_BRACKET few_expressions R_BRACKET {$$ = std::make_shared<ExpressionFunctionCall>($1, $3, $5);}
-    | INT_VALUE {$$ = std::make_shared<ExpressionInt>($1);}
-    | NEW STANDARD_TYPES R_SQ_BRACKET expression L_SQ_BRACKET {$$ = std::make_shared<ExpressionNewIntArray>($4);}
-    | NEGATION expression {$$ = std::make_shared<ExpressionNegation>($2);}
-    | IDENTIFIER {$$ = std::make_shared<ExpressionIdentifier>($1); }
-    | NEW IDENTIFIER L_BRACKET R_BRACKET {$$ = std::make_shared<ExpressionNewIdentifier>($2);}
-    | NEGATION L_BRACKET expression R_BRACKET {$$ = std::make_shared<ExpressionNegation>($3);}
+    : expression BIN_OP_ADD expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2); root = $$;}
+    | expression BIN_OP_MULT expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);root = $$;}
+    | expression BIN_OP_CMP expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);root = $$;}
+    | expression BOOL_OP_AND expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);root = $$;}
+    | expression BOOL_OP_OR expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);root = $$;}
+    | THIS {std::cout <<"this\n";$$ = std::make_shared<ExpressionThis>();root = $$;}
+    | expression L_SQ_BRACKET expression R_SQ_BRACKET {$$ = std::make_shared<ExpressionIndex>($1, $3);root = $$;}
+    | expression DOT LENGTH {$$ = std::make_shared<ExpressionGetLength>($1);root = $$;}
+    | expression DOT IDENTIFIER L_BRACKET R_BRACKET {$$ = std::make_shared<ExpressionFunctionCall>($1, $3);root = $$;}
+    | expression DOT IDENTIFIER L_BRACKET few_expressions R_BRACKET {$$ = std::make_shared<ExpressionFunctionCall>($1, $3, $5);root = $$;}
+    | INT_VALUE {$$ = std::make_shared<ExpressionInt>($1); root = $$;}
+    | BOOL_VALUE {$$ = std::make_shared<ExpressionBool>($1); root = $$;}
+    | NEW STANDARD_TYPES R_SQ_BRACKET expression L_SQ_BRACKET {$$ = std::make_shared<ExpressionNewIntArray>($4);root = $$;}
+    | NEGATION expression {$$ = std::make_shared<ExpressionNegation>($2);root = $$;}
+    | IDENTIFIER {$$ = std::make_shared<ExpressionIdentifier>($1); root = $$;}
+    | NEW IDENTIFIER L_BRACKET R_BRACKET {$$ = std::make_shared<ExpressionNewIdentifier>($2);root = $$;}
+    | NEGATION L_BRACKET expression R_BRACKET {$$ = std::make_shared<ExpressionNegation>($3);root = $$;}
 
 few_expressions
     : expression COLON few_expressions {$3.push_back($1); $$ = $3;}

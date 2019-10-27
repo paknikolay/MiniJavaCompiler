@@ -70,17 +70,20 @@ Token MiniJavaScanner::handleToken(Token token, int& i)
             break;
         }
         case Token::BOOL_VALUE: {
-            Build(StringsEqual(YYText(), "false") ? EBool::FALSE : EBool::TRUE);
+            Build(StringsEqual(YYText(), "false") ? false : true);
             break;
         }
         case Token::INT_VALUE: {
-            Build(std::stoll(YYText()));
+            Build(std::stoi(YYText()));
+            break;
         }
         case Token::STANDARD_TYPES: {
             Build(YYText());
+            break;
         }
-        case Token::INDENTIFIER: {
-            Build(YYText());
+        case Token::IDENTIFIER: {
+            Build(std::string(YYText()));
+            break;
         }
 
     }

@@ -34,6 +34,9 @@ THIS        "this"
 
 %{
     int i = 0;
+
+    yylval = value;
+    loc = location;
 %}
 
 EXTENDS {return handleToken(Token::EXTENDS, i);}
@@ -60,7 +63,7 @@ EXTENDS {return handleToken(Token::EXTENDS, i);}
 
 "true"|"false"    { return handleToken(Token::BOOL_VALUE, i); }
 
-{ID}    { return handleToken(Token::INDENTIFIER, i); }
+{ID}    { return handleToken(Token::IDENTIFIER, i); }
 
 {DOT}    { return handleToken(Token::DOT, i); }
 
