@@ -26,12 +26,12 @@ int main() {
     } catch (std::exception &e) {
         std::cerr << "\x1B[31m" << e.what() << "\x1B[0m" << std::endl;
     }
-    auto res2 = dynamic_cast<StatementWhile*>(res.get());
-    auto ggsf = typeid(res.get()).name();
+    //auto res2 = dynamic_cast<StatementWhile*>(res.get());
+    //auto ggsf = typeid(res.get()).name();
 
 
-    int a;
-    int b;
+    int a = 3;
+    int b = 7;
 }
 /*
 #include <iostream>

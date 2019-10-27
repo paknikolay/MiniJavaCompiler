@@ -86,9 +86,6 @@ EXTENDS {return handleToken(Token::EXTENDS, i);}
 {BIN_OP_ADD}    { return handleToken(Token::BIN_OP_ADD, i); }
 {BIN_OP_CMP}    { return handleToken(Token::BIN_OP_CMP, i); }
 
-
-{BIN_OP_CMP}  { return handleToken(Token::BIN_OP_CMP, i); }
-
 "!"    { return handleToken(Token::NEGATION, i); }
 
 "{"    { return handleToken(Token::L_BRACE, i); }
@@ -103,6 +100,8 @@ EXTENDS {return handleToken(Token::EXTENDS, i);}
 
 "]"    { return handleToken(Token::R_SQ_BRACKET, i); }
 {COLON}    { return handleToken(Token::COLON, i); }
+
+<<EOF>> {return 0; }
 
 {SPACE}    { i += yyleng; }
 .     { std::cout << std::endl << "Unrecognized character: " << yytext << std::endl; }

@@ -49,6 +49,10 @@ public:
         return returnExpr;
     }
 
+    ~MethodBody() {
+
+    }
+
 private:
     std::vector<std::shared_ptr<VarDeclaration>> vars;
     std::vector<std::shared_ptr<StatementBase>> statements;
@@ -90,6 +94,8 @@ public:
     const std::shared_ptr<MethodBody> &GetMethodBody() const {
         return methodBody;
     }
+
+    ~MethodDeclaration() {}
 
 private:
     EModifier privacyModifier;
