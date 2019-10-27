@@ -12,13 +12,49 @@
 #include "../MethodDeclaration/MethodDeclaration.h"
 #include "../BaseNode.h"
 
+//Вспомогательный класс
+struct ClassDeclarationPrefix{
+    ClassDeclarationPrefix(const std::string &className, const std::string &extends="none") :
+        class_name(className),
+        extends(extends)
+    {}
 
+    std::string class_name;
+    std::string extends;
+};
+
+////////////////////////////////
 class ClassDeclaration : public BaseNode {
 public:
-    ClassDeclaration(const std::string& name, const std::vector<std::shared_ptr<VarDeclaration>>& varabs,
-                     const std::vector<std::shared_ptr<MethodDeclaration>>& meths, const std::string extend = "none") :
-    class_name(name), vars(varabs), methods(meths), extends(extend) {}
+    ClassDeclaration(
+                     const std::shared_ptr<ClassDeclarationPrefix> pref,
+                     const std::vector<std::shared_ptr<VarDeclaration>>& vars,
+                     const std::vector<std::shared_ptr<MethodDeclaration>>& meths=
+                             std::vector<std::shared_ptr<MethodDeclaration>>()
+                     ):
+                        class_name(pref->class_name),
+                        vars(vars),
+                        methods(meths),
+                        extends(pref->extends)
 
+    {}
+
+    ClassDeclaration(
+            const std::shared_ptr<ClassDeclarationPrefix> pref,
+            const std::vector<std::shared_ptr<MethodDeclaration>>& meths
+    ):
+            class_name(pref->class_name),
+            methods(meths),
+            extends(pref->extends)
+
+    {}
+
+    ClassDeclaration(
+            const std::shared_ptr<ClassDeclarationPrefix> pref):
+            class_name(pref->class_name),
+            extends(pref->extends)
+
+    {}
     const std::string &GetClassName() const {
         return class_name;
     }
@@ -41,6 +77,7 @@ private:
     std::vector<std::shared_ptr<VarDeclaration>> vars;
     std::vector<std::shared_ptr<MethodDeclaration>> methods;
 };
+
 
 
 #endif //MINI_JAVA_COMPILER_CLASSDECLARATION_H

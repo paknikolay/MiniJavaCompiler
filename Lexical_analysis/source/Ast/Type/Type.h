@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "BaseNode.h"
 
 class Type : public BaseNode {
@@ -10,13 +11,18 @@ public:
         IDENTIFIER
     };
 
-    Type(EType type): type(type)
+    Type(EType type, const std::string& typeName ): type(type), typeName(typeName)
     {}
 
     EType GetType() const {
         return type;
     }
 
+    const std::string &getTypeName() const {
+        return typeName;
+    }
+
 private:
     EType type;
+    std::string typeName;
 };

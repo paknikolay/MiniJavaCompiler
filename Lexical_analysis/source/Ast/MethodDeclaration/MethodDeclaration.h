@@ -21,6 +21,22 @@ public:
                   returnExpr(returnExpr)
     {}
 
+    MethodBody(const std::vector<std::shared_ptr<StatementBase>>& statements,
+               const std::shared_ptr<ExpressionBase>& returnExpr) :
+            statements(statements),
+            returnExpr(returnExpr)
+    {}
+
+    MethodBody(const std::vector<std::shared_ptr<VarDeclaration>>& vars,
+               const std::shared_ptr<ExpressionBase>& returnExpr) :
+            vars(vars),
+            returnExpr(returnExpr)
+    {}
+    MethodBody(const std::shared_ptr<ExpressionBase>& returnExpr) :
+            returnExpr(returnExpr)
+    {}
+
+
     const std::vector<std::shared_ptr<VarDeclaration>> &GetVars() const {
         return vars;
     }
@@ -42,10 +58,12 @@ private:
 class MethodDeclaration : public BaseNode {
 public:
     MethodDeclaration(EModifier privacyModifier,
-                      const Type &returnType,
+                      const std::shared_ptr<Type> &returnType,
                       const std::string &methodName,
-                      const std::vector<std::pair<std::shared_ptr<Type>, std::string>> &args,
-                      const std::shared_ptr<MethodBody> &methodBody) :
+                      const std::shared_ptr<MethodBody> &methodBody,
+                      const std::vector<std::pair<std::shared_ptr<Type>, std::string>> &args =
+                              std::vector<std::pair<std::shared_ptr<Type>, std::string>>()
+                      ) :
                           privacyModifier(privacyModifier),
                           returnType(returnType),
                           methodName(methodName),
@@ -57,7 +75,7 @@ public:
         return privacyModifier;
     }
 
-    const Type &GetReturnType() const {
+    const std::shared_ptr<Type> &GetReturnType() const {
         return returnType;
     }
 
@@ -75,7 +93,7 @@ public:
 
 private:
     EModifier privacyModifier;
-    Type returnType;
+    std::shared_ptr<Type> returnType;
     std::string methodName;
     std::vector<std::pair<std::shared_ptr<Type>, std::string>> args;
     std::shared_ptr<MethodBody> methodBody;
