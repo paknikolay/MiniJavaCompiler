@@ -20,7 +20,7 @@
 }
 
 %parse-param { MiniJavaScanner& scanner }
-%parse-param { std::shared_ptr<BaseNode>& result }
+%parse-param { std::shared_ptr<BaseNode>& root }
 
 %code {
     #include "MiniJavaScanner.h"
@@ -40,7 +40,6 @@ Position toPos(const yy::location& from, const yy::location& to) {
 }
 
 %token EOF_TOKEN
-
 
 %token <std::string> INDENTIFIER
 
@@ -83,6 +82,8 @@ Position toPos(const yy::location& from, const yy::location& to) {
 %token LENGTH
 
 
+%type program_start
+
 %token <std::string> IDENTIFIER
 
 %type <std::shared_ptr<Goal>> goal
@@ -110,7 +111,8 @@ Position toPos(const yy::location& from, const yy::location& to) {
 
 
 %%
-
+program_start
+    : goal { root = $1; }
 goal
     : main_class class_declaration_sequence EOF_TOKEN {$$ = std::make_shared<Goal>($1, $2);}
     | main_class EOF_TOKEN  {$$ = std::make_shared<Goal>($1);}
