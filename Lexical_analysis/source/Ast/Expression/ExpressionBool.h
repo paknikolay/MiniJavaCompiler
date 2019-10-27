@@ -11,7 +11,7 @@ class ExpressionBool : public ExpressionBase {
 public:
     ExpressionBool(bool value) : value(value) {}
 
-    const bool GetValue() { return value; }
+    const bool GetValue() const { return value; }
 
 private:
     bool value;

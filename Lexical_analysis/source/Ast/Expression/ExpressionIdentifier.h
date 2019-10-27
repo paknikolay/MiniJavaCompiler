@@ -12,7 +12,7 @@ class ExpressionIdentifier : public ExpressionBase {
 public:
     ExpressionIdentifier(const std::string& identifier_): identifier(identifier) {}
 
-    const std::string& GetIdentifier(){ return identifier; };
+    const std::string& GetIdentifier() const { return identifier; };
 
 private:
     std::string identifier;

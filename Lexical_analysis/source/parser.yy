@@ -145,15 +145,15 @@ class_declaration_postfix
     | R_BRACE
 
 var_declaration
-    : STANDARD_TYPE IDENTIFIER SEMI_COLON
+    : type IDENTIFIER SEMI_COLON
 
 var_declaration_sequence
     : var_declaration
     | var_declaration var_declaration_sequence
     
 method_declaration
-    : PRIVACY_MODIFIER STANDARD_TYPE IDENTIFIER L_BRACKET R_BRACKET method_body
-    | PRIVACY_MODIFIER STANDARD_TYPE IDENTIFIER L_BRACKET method_args R_BRACKET method_body
+    : PRIVACY_MODIFIER type IDENTIFIER L_BRACKET R_BRACKET method_body
+    | PRIVACY_MODIFIER type IDENTIFIER L_BRACKET method_args R_BRACKET method_body
 
 method_body
     : L_BRACE var_declaration_sequence statement_sequence RETURN expression SEMICOLON R_BRACE
@@ -162,8 +162,8 @@ method_body
     | L_BRACE RETURN expression SEMICOLON R_BRACE
 
 method_args
-    : STANDARD_TYPE IDENTIFIER COMMA method_args
-    | STANDARD_TYPE IDENTIFIER
+    : type IDENTIFIER COMMA method_args
+    | type IDENTIFIER
 
 type
     : STANDARD_TYPE

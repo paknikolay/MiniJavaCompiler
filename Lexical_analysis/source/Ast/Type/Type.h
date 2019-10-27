@@ -13,6 +13,10 @@ public:
     Type(EType type): type(type)
     {}
 
+    EType GetType() const {
+        return type;
+    }
+
 private:
     EType type;
 };

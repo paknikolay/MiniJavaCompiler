@@ -14,9 +14,9 @@ public:
     ExpressionBinOp(std::shared_ptr<ExpressionBase> &left, std::shared_ptr<ExpressionBase> &right,
                     EBinOp binOp1) : left(left), right(right), binOp(binOp1) {}
 
-    const std::shared_ptr<ExpressionBase>& GetLeft(){ return left; };
-    const std::shared_ptr<ExpressionBase>& GetRight(){ return right; };
-    const EBinOp& GetBinOp(){ return binOp; };
+    const std::shared_ptr<ExpressionBase>& GetLeft() const { return left; };
+    const std::shared_ptr<ExpressionBase>& GetRight() const { return right; };
+    const EBinOp& GetBinOp() const { return binOp; };
 private:
     std::shared_ptr<ExpressionBase> left, right;
     EBinOp binOp;

@@ -18,6 +18,23 @@ public:
     ClassDeclaration(const std::string& name, const std::vector<std::shared_ptr<VarDeclaration>>& varabs,
                      const std::vector<std::shared_ptr<MethodDeclaration>>& meths, const std::string extend = "none") :
     class_name(name), vars(varabs), methods(meths), extends(extend) {}
+
+    const std::string &GetClassName() const {
+        return class_name;
+    }
+
+    const std::string &GetExtends() const {
+        return extends;
+    }
+
+    const std::vector<std::shared_ptr<VarDeclaration>> &GetVars() const {
+        return vars;
+    }
+
+    const std::vector<std::shared_ptr<MethodDeclaration>> &GetMethods() const {
+        return methods;
+    }
+
 private:
     std::string class_name;
     std::string extends;

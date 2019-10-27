@@ -23,6 +23,18 @@ public:
                     elseStatement(elseStatement)
     {}
 
+    const std::shared_ptr<ExpressionBase> &GetIfExpression() const {
+        return ifExpression;
+    }
+
+    const std::shared_ptr<StatementBase> &GetIfStatement() const {
+        return ifStatement;
+    }
+
+    const std::shared_ptr<StatementBase> &GetElseStatement() const {
+        return elseStatement;
+    }
+
 private:
     std::shared_ptr<ExpressionBase> ifExpression;
     std::shared_ptr<StatementBase> ifStatement;
@@ -40,6 +52,14 @@ public:
                         whileStatement(whileStatement)
     {}
 
+    const std::shared_ptr<ExpressionBase> &GetWhileExpression() const {
+        return whileExpression;
+    }
+
+    const std::shared_ptr<StatementBase> &GetWhileStatement() const {
+        return whileStatement;
+    }
+
 private:
     std::shared_ptr<ExpressionBase> whileExpression;
     std::shared_ptr<StatementBase> whileStatement;
@@ -50,15 +70,22 @@ private:
 
 class StatementAssign : public StatementBase {
 public:
-    StatementAssign(const std::shared_ptr<ExpressionIdentifier>& identifier,
+    StatementAssign(const std::string& identifier,
                     const std::shared_ptr<ExpressionBase>& expression):
                         identifier(identifier),
                         expression(expression)
     {}
 
+    const std::string &GetIdentifier() const {
+        return identifier;
+    }
+
+    const std::shared_ptr<ExpressionBase> &GetExpression() const {
+        return expression;
+    }
 
 private:
-    std::shared_ptr<ExpressionIdentifier> identifier;
+    std::string identifier;
     std::shared_ptr<ExpressionBase> expression;
 };
 
@@ -67,7 +94,7 @@ private:
 
 class StatementAssignContainerElement : public StatementBase {
 public:
-    StatementAssignContainerElement(const std::shared_ptr<ExpressionIdentifier>& identifier,
+    StatementAssignContainerElement(const std::string& identifier,
                                     const std::shared_ptr<ExpressionBase>& index,
                                     const std::shared_ptr<ExpressionBase>& expression):
                         identifier(identifier),
@@ -75,9 +102,20 @@ public:
                         expression(expression)
     {}
 
+    const std::string &GetIdentifier() const {
+        return identifier;
+    }
+
+    const std::shared_ptr<ExpressionBase> &GetIndex() const {
+        return index;
+    }
+
+    const std::shared_ptr<ExpressionBase> &GetExpression() const {
+        return expression;
+    }
 
 private:
-    std::shared_ptr<ExpressionIdentifier> identifier;
+    std::string identifier;
     std::shared_ptr<ExpressionBase> index;
     std::shared_ptr<ExpressionBase> expression;
 };
@@ -91,6 +129,9 @@ public:
             expression(expression)
     {}
 
+    const std::shared_ptr<ExpressionBase> &GetExpression() const {
+        return expression;
+    }
 
 private:
     std::shared_ptr<ExpressionBase> expression;

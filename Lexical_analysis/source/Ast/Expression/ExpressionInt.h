@@ -11,7 +11,7 @@ class ExpressionInt : public ExpressionBase {
 public:
     ExpressionInt(int value) : value(value) {}
 
-    const int GetValue(){ return value; };
+    const int GetValue() const { return value; };
 
 private:
     int value = 0;

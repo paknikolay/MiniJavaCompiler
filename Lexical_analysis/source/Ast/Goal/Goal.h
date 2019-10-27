@@ -16,6 +16,15 @@ public:
     Goal(const std::shared_ptr<MainClass>& main) : main_class(main) {}
     Goal(const std::shared_ptr<MainClass>& main, const std::vector<ClassDeclaration> classes) : main_class(main),
             class_declarations(classes) {}
+
+    const std::shared_ptr<MainClass> &GetMainClass() const {
+        return main_class;
+    }
+
+    const std::vector<ClassDeclaration> &GetClassDeclarations() const {
+        return class_declarations;
+    }
+
 private:
     std::shared_ptr<MainClass> main_class;
     std::vector<ClassDeclaration> class_declarations;
