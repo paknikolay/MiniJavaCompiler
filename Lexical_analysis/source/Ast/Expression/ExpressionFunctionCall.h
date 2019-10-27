@@ -25,8 +25,9 @@ public:
     name(name_) {
     }
     
-    const std::shared_ptr<ExpressionBase>& GetObject(){ return object; };
-    const std::vector<std::shared_ptr<ExpressionBase>>& GetArgs(){ return args; };
+    const std::shared_ptr<ExpressionBase>& GetObject() const { return object; };
+    const std::string& GetName() const { return name; }
+    const std::vector<std::shared_ptr<ExpressionBase>>& GetArgs() const { return args; };
 
 private:
     std::shared_ptr<ExpressionBase> object;

@@ -11,6 +11,10 @@ class ExpressionNewIdentifier : public ExpressionBase {
 public:
     ExpressionNewIdentifier(const std::string& identifier) : identifier(identifier) {}
 
+    const std::string &GetIdentifier() const {
+        return identifier;
+    }
+
 private:
     std::string identifier;
 };

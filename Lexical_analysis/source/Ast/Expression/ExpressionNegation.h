@@ -11,7 +11,7 @@ class ExpressionNegation : public ExpressionBase {
 public:
     explicit ExpressionNegation(const std::shared_ptr<ExpressionBase> &value) : value(value) {}
 
-    const std::shared_ptr<ExpressionBase>& GetValue(){ return value; };
+    const std::shared_ptr<ExpressionBase>& GetValue() const { return value; };
 
 
 private:

@@ -162,8 +162,8 @@ method_body
     | L_BRACE RETURN expression SEMICOLON R_BRACE
 
 method_args
-    : STANDARD_TYPE IDENTIFIER COMMA method_args
-    | STANDARD_TYPE IDENTIFIER
+    : type IDENTIFIER COMMA method_args
+    | type IDENTIFIER
 
 type
     : STANDARD_TYPE
