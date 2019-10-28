@@ -78,7 +78,7 @@ Token MiniJavaScanner::handleToken(Token token, int& i)
             break;
         }
         case Token::STANDARD_TYPES: {
-            Build(YYText());
+            Build(std::string(YYText()));
             break;
         }
         case Token::IDENTIFIER: {

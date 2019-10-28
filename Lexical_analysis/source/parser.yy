@@ -108,14 +108,21 @@ Position toPos(const yy::location& from, const yy::location& to) {
 %type <std::shared_ptr<ExpressionBase>> expression
 %type <std::vector<std::shared_ptr<ExpressionBase>>> few_expressions
 
+%left ASSIGN_OP
+
+
+%left BIN_OP_CMP
+%left BIN_OP_ADD
+%left BIN_OP_MULT
+
 
 %%
-/*
+
 program_start
     : goal { root = $1; }
 goal
-    : main_class class_declaration_sequence EOF_TOKEN {$$ = std::make_shared<Goal>($1, $2);}
-    | main_class SEMI_COLON {$$ = std::make_shared<Goal>($1);}
+    : main_class class_declaration_sequence {$$ = std::make_shared<Goal>($1, $2);}
+    | main_class  {$$ = std::make_shared<Goal>($1);}
 
 class_declaration_sequence
     : class_declaration class_declaration_sequence {$2.push_back($1); $$ = $2;}
@@ -126,14 +133,12 @@ main_class
     :  CLASS IDENTIFIER L_BRACE PRIVACY_MODIFIER STATIC_MODIFIER STANDARD_TYPES MAIN
        L_BRACKET STANDARD_TYPES L_SQ_BRACKET R_SQ_BRACKET IDENTIFIER R_BRACKET L_BRACE statement R_BRACE R_BRACE
          {$$ = std::make_shared<MainClass>($2, $12, $15); }
-*/
-main_class
-    :class_declaration {}
+
 class_declaration
     : class_declaration_prefix L_BRACE var_declaration_sequence method_declaration_sequence R_BRACE
         {$$ = std::make_shared<ClassDeclaration>($1, $3, $4);}
     | class_declaration_prefix L_BRACE method_declaration_sequence R_BRACE
-        {root = std::make_shared<ClassDeclaration>($1, $3);}
+        {$$ = std::make_shared<ClassDeclaration>($1, $3);}
     | class_declaration_prefix L_BRACE var_declaration_sequence  R_BRACE
         {$$ = std::make_shared<ClassDeclaration>($1, $3);}
     | class_declaration_prefix L_BRACE R_BRACE
@@ -172,7 +177,8 @@ method_body
 
 method_args
     : type IDENTIFIER COMMA method_args {$4.push_back(std::make_pair($1, $2)); $$ = $4;}
-    | type IDENTIFIER R_BRACKET {$$ = std::vector<std::pair<std::shared_ptr<Type>, std::string>>();}
+    | type IDENTIFIER R_BRACKET {$$ = std::vector<std::pair<std::shared_ptr<Type>, std::string>>(); $$.push_back(std::make_pair($1,$2));}
+
 
 type
     : STANDARD_TYPES {$$ = std::make_shared<Type>(Type::EType::STANDARD_TYPE, $1);}
@@ -199,11 +205,17 @@ expression
     | expression BIN_OP_CMP expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
     | expression BOOL_OP_AND expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
     | expression BOOL_OP_OR expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
+
     | THIS {std::cout <<"this\n";$$ = std::make_shared<ExpressionThis>();}
+
     | expression L_SQ_BRACKET expression R_SQ_BRACKET {$$ = std::make_shared<ExpressionIndex>($1, $3);}
+
     | expression DOT LENGTH {$$ = std::make_shared<ExpressionGetLength>($1);}
+
     | expression DOT IDENTIFIER L_BRACKET R_BRACKET {$$ = std::make_shared<ExpressionFunctionCall>($1, $3);}
+
     | expression DOT IDENTIFIER L_BRACKET few_expressions R_BRACKET {$$ = std::make_shared<ExpressionFunctionCall>($1, $3, $5);}
+
     | INT_VALUE {$$ = std::make_shared<ExpressionInt>($1); }
     | BOOL_VALUE {$$ = std::make_shared<ExpressionBool>($1); }
     | NEW STANDARD_TYPES R_SQ_BRACKET expression L_SQ_BRACKET {$$ = std::make_shared<ExpressionNewIntArray>($4);}

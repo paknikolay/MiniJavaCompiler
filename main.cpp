@@ -4,8 +4,8 @@
 using std::ifstream;
 using std::ofstream;
 int main() {
+    try {
 
-    std::shared_ptr<StatementBase> s = std::make_shared<StatementBase>();
     /*ofstream out("out");
     ifstream in("in");
     MiniJavaScanner lexer(in);
@@ -18,20 +18,20 @@ int main() {
     std::shared_ptr<BaseNode> res;
     yy::parser parser(lexer, res);
 
-    try {
+
         if (parser.parse()) {
         }
+        int a = 3;
+        int b = 7;
 //        assert(result != nullptr);
         //result->Print(std::cout);
-    } catch (std::exception &e) {
-        std::cerr << "\x1B[31m" << e.what() << "\x1B[0m" << std::endl;
+    } catch (...) {
+        //std::cerr << "\x1B[31m" << e.what() << "\x1B[0m" << std::endl;
     }
     //auto res2 = dynamic_cast<StatementWhile*>(res.get());
     //auto ggsf = typeid(res.get()).name();
 
 
-    int a = 3;
-    int b = 7;
 }
 /*
 #include <iostream>

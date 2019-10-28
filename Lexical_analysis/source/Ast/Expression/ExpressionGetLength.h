@@ -11,7 +11,7 @@
 
 class ExpressionGetLength : public ExpressionBase{
 public:
-    ExpressionGetLength(std::shared_ptr<ExpressionBase> &container) : container(container) {}
+    ExpressionGetLength(const std::shared_ptr<ExpressionBase> &container) : container(container) {}
 
     const std::shared_ptr<ExpressionBase>& GetContainer() const { return container; };
 private:
