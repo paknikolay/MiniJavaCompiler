@@ -5,7 +5,7 @@
 #ifndef MINI_JAVA_COMPILER_EXPRESSIONNEW_INT_H
 #define MINI_JAVA_COMPILER_EXPRESSIONNEW_INT_H
 
-#include "../Expression/ExpressionBase.h"
+#include "ExpressionBase.h"
 #include <memory>
 
 class ExpressionNewIntArray : public ExpressionBase {
@@ -16,6 +16,7 @@ public:
         return count;
     }
 
+    int Accept(Visitor* v);
 private:
     std::shared_ptr<ExpressionBase> count;
 };

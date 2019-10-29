@@ -5,7 +5,7 @@
 #ifndef MINI_JAVA_COMPILER_EXPRESSIONFUNCTIONCALL_H
 #define MINI_JAVA_COMPILER_EXPRESSIONFUNCTIONCALL_H
 
-#include "Expression/ExpressionBase.h"
+#include "ExpressionBase.h"
 #include <vector>
 #include <memory>
 
@@ -28,7 +28,7 @@ public:
     const std::shared_ptr<ExpressionBase>& GetObject() const { return object; };
     const std::string& GetName() const { return name; }
     const std::vector<std::shared_ptr<ExpressionBase>>& GetArgs() const { return args; };
-
+    int Accept(Visitor* v);
 private:
     std::shared_ptr<ExpressionBase> object;
     std::string name;

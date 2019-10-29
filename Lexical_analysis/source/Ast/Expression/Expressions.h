@@ -5,7 +5,7 @@
 #ifndef MINI_JAVA_COMPILER_EXPRESSIONS_H
 #define MINI_JAVA_COMPILER_EXPRESSIONS_H
 
-#include "BaseNode.h"
+#include "../BaseNode.h"
 #include "ExpressionBase.h"
 #include "ExpressionIdentifier.h"
 #include "ExpressionBinOp.h"

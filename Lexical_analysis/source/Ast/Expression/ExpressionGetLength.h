@@ -5,7 +5,7 @@
 #ifndef MINI_JAVA_COMPILER_EXPRESSIONGETLENGTH_H
 #define MINI_JAVA_COMPILER_EXPRESSIONGETLENGTH_H
 
-#include "../Expression/ExpressionBase.h"
+#include "ExpressionBase.h"
 
 #include <memory>
 
@@ -14,6 +14,7 @@ public:
     ExpressionGetLength(const std::shared_ptr<ExpressionBase> &container) : container(container) {}
 
     const std::shared_ptr<ExpressionBase>& GetContainer() const { return container; };
+    int Accept(Visitor* v);
 private:
     std::shared_ptr<ExpressionBase> container;
 };

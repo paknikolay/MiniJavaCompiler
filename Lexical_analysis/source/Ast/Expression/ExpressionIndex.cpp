@@ -3,3 +3,10 @@
 //
 
 #include "ExpressionIndex.h"
+#include "../../Visitor.h"
+
+
+int ExpressionIndex::Accept(Visitor* v)
+{
+    return v->Visit(this);
+}

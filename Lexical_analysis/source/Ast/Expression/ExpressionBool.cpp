@@ -3,3 +3,10 @@
 //
 
 #include "ExpressionBool.h"
+#include "../../Visitor.h"
+
+
+int ExpressionBool::Accept(Visitor* v)
+{
+    return v->Visit(this);
+}

@@ -27,6 +27,7 @@ public:
         return class_declarations;
     }
 
+    int Accept(Visitor* v);
 private:
     std::shared_ptr<MainClass> main_class;
     std::vector<std::shared_ptr<ClassDeclaration>> class_declarations;

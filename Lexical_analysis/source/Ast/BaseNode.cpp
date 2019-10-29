@@ -3,3 +3,10 @@
 //
 
 #include "BaseNode.h"
+#include "../Visitor.h"
+
+
+int BaseNode::Accept(Visitor* v)
+{
+    return -1;
+}

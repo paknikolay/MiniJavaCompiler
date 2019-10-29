@@ -3,3 +3,10 @@
 //
 
 #include "ExpressionInt.h"
+#include "../../Visitor.h"
+
+
+int ExpressionInt::Accept(Visitor* v)
+{
+    return v->Visit(this);
+}

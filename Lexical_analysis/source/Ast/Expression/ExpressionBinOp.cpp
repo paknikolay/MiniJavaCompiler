@@ -3,3 +3,10 @@
 //
 
 #include "ExpressionBinOp.h"
+#include "../../Visitor.h"
+
+
+int ExpressionBinOp::Accept(Visitor* v)
+{
+    return v->Visit(this);
+}

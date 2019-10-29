@@ -3,3 +3,10 @@
 //
 
 #include "Goal.h"
+#include "../../Visitor.h"
+
+
+int Goal::Accept(Visitor* v)
+{
+    return v->Visit(this);
+}

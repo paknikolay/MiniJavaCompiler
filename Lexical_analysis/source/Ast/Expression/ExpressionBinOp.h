@@ -5,7 +5,7 @@
 #ifndef MINI_JAVA_COMPILER_EXPRESSIONBASEOP_H
 #define MINI_JAVA_COMPILER_EXPRESSIONBASEOP_H
 
-#include "Expression/ExpressionBase.h"
+#include "ExpressionBase.h"
 #include "../../Enums.h"
 
 
@@ -17,6 +17,7 @@ public:
     const std::shared_ptr<ExpressionBase>& GetLeft() const { return left; };
     const std::shared_ptr<ExpressionBase>& GetRight() const { return right; };
     const EBinOp& GetBinOp() const { return binOp; };
+    int Accept(Visitor* v);
 private:
     std::shared_ptr<ExpressionBase> left, right;
     EBinOp binOp;

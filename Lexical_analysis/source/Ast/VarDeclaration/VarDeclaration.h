@@ -23,6 +23,8 @@ public:
         return name;
     }
 
+    int Accept(Visitor* v);
+
 private:
     std::shared_ptr<Type> type;
     std::string name;

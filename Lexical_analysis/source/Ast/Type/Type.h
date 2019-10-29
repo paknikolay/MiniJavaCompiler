@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "BaseNode.h"
+#include "../BaseNode.h"
 
 class Type : public BaseNode {
 public:
@@ -21,6 +21,8 @@ public:
     const std::string &getTypeName() const {
         return typeName;
     }
+
+    int Accept(Visitor* v);
 
 private:
     EType type;

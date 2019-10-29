@@ -1,8 +1,8 @@
 #pragma once
 
-#include "BaseNode.h"
-#include "Expression/ExpressionBase.h"
-#include "Expression/ExpressionIdentifier.h"
+#include "../BaseNode.h"
+#include "../Expression/ExpressionBase.h"
+#include "../Expression/ExpressionIdentifier.h"
 
 #include <memory>
 #include <vector>
@@ -35,6 +35,8 @@ public:
         return elseStatement;
     }
 
+    int Accept(Visitor* v);
+
 private:
     std::shared_ptr<ExpressionBase> ifExpression;
     std::shared_ptr<StatementBase> ifStatement;
@@ -60,6 +62,8 @@ public:
         return whileStatement;
     }
 
+    int Accept(Visitor* v);
+
 private:
     std::shared_ptr<ExpressionBase> whileExpression;
     std::shared_ptr<StatementBase> whileStatement;
@@ -83,6 +87,8 @@ public:
     const std::shared_ptr<ExpressionBase> &GetExpression() const {
         return expression;
     }
+
+    int Accept(Visitor* v);
 
 private:
     std::string identifier;
@@ -114,6 +120,8 @@ public:
         return expression;
     }
 
+    int Accept(Visitor* v);
+
 private:
     std::string identifier;
     std::shared_ptr<ExpressionBase> index;
@@ -133,6 +141,8 @@ public:
         return expression;
     }
 
+    int Accept(Visitor* v);
+
 private:
     std::shared_ptr<ExpressionBase> expression;
 };
@@ -143,6 +153,12 @@ class StatementSequence : public StatementBase {
 public:
     explicit
     StatementSequence(const std::vector<std::shared_ptr<StatementBase>>& statementArray) {array = statementArray;}
+
+    const std::vector<std::shared_ptr<StatementBase>> &GetArray() const {
+        return array;
+    }
+
+    int Accept(Visitor* v);
 
 private:
     std::vector<std::shared_ptr<StatementBase>> array;

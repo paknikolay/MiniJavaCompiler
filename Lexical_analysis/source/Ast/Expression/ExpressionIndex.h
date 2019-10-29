@@ -15,6 +15,7 @@ public:
 
     const std::shared_ptr<ExpressionBase>& GetArray() const { return array; };
     const std::shared_ptr<ExpressionBase>& GetIndex() const { return index; };
+    int Accept(Visitor* v);
 private:
     std::shared_ptr<ExpressionBase> array;
     std::shared_ptr<ExpressionBase> index;

@@ -4,12 +4,12 @@
 #include <vector>
 #include <memory>
 
-#include "BaseNode.h"
+#include "../BaseNode.h"
 #include "../../Enums.h"
-#include "Type/Type.h"
-#include "VarDeclaration/VarDeclaration.h"
-#include "Statement/Statements.h"
-#include "Expression/ExpressionBase.h"
+#include "../Type/Type.h"
+#include "../VarDeclaration/VarDeclaration.h"
+#include "../Statement/Statements.h"
+#include "../Expression/ExpressionBase.h"
 
 class MethodBody : public BaseNode {
 public:
@@ -48,16 +48,15 @@ public:
     const std::shared_ptr<ExpressionBase> &GetReturnExpr() const {
         return returnExpr;
     }
-
-    ~MethodBody() {
-
-    }
+  
+  int Accept(Visitor* v);
 
 private:
     std::vector<std::shared_ptr<VarDeclaration>> vars;
     std::vector<std::shared_ptr<StatementBase>> statements;
     std::shared_ptr<ExpressionBase> returnExpr;
 };
+
 
 class MethodDeclaration : public BaseNode {
 public:
@@ -95,8 +94,8 @@ public:
         return methodBody;
     }
 
-    ~MethodDeclaration() {}
-
+  int Accept(Visitor* v);
+  
 private:
     EModifier privacyModifier;
     std::shared_ptr<Type> returnType;

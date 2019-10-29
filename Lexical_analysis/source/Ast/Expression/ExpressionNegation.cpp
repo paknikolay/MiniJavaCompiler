@@ -3,3 +3,10 @@
 //
 
 #include "ExpressionNegation.h"
+#include "../../Visitor.h"
+
+
+int ExpressionNegation::Accept(Visitor* v)
+{
+    return v->Visit(this);
+}
