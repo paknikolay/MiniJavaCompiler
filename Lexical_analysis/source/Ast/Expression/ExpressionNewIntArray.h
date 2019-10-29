@@ -10,7 +10,7 @@
 
 class ExpressionNewIntArray : public ExpressionBase {
 public:
-    ExpressionNewIntArray(std::shared_ptr<ExpressionBase> &count) : count(count) {}
+    ExpressionNewIntArray(const std::shared_ptr<ExpressionBase> &count) : count(count) {}
 
     const std::shared_ptr<ExpressionBase> &GetCount() const {
         return count;

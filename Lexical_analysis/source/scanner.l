@@ -34,9 +34,12 @@ THIS        "this"
 
 %{
     int i = 0;
+
+    yylval = value;
+    loc = location;
 %}
 
-EXTENDS {return handleToken(Token::EXTENDS, i);}
+{EXTENDS} {return handleToken(Token::EXTENDS, i);}
 "main" {return handleToken(Token::MAIN, i);}
 "class"    { return handleToken(Token::CLASS, i); }
 
@@ -51,7 +54,7 @@ EXTENDS {return handleToken(Token::EXTENDS, i);}
 "new"    { return handleToken(Token::NEW, i); }
 
 "System.out.println"    { return handleToken(Token::OUT, i); }
-"int"|"boolean"|"String"|"void"|"List"    { return handleToken(Token::STANDARD_TYPES, i); }
+"int"|"boolean"|"String"|"void"    { return handleToken(Token::STANDARD_TYPES, i); }
 
 "public"|"private"    { return handleToken(Token::PRIVACY_MODIFIER, i); }
 "static"            { return handleToken(Token::STATIC_MODIFIER, i); }
@@ -60,7 +63,7 @@ EXTENDS {return handleToken(Token::EXTENDS, i);}
 
 "true"|"false"    { return handleToken(Token::BOOL_VALUE, i); }
 
-{ID}    { return handleToken(Token::INDENTIFIER, i); }
+{ID}    { return handleToken(Token::IDENTIFIER, i); }
 
 {DOT}    { return handleToken(Token::DOT, i); }
 
@@ -83,9 +86,6 @@ EXTENDS {return handleToken(Token::EXTENDS, i);}
 {BIN_OP_ADD}    { return handleToken(Token::BIN_OP_ADD, i); }
 {BIN_OP_CMP}    { return handleToken(Token::BIN_OP_CMP, i); }
 
-
-{BIN_OP_CMP}  { return handleToken(Token::BIN_OP_CMP, i); }
-
 "!"    { return handleToken(Token::NEGATION, i); }
 
 "{"    { return handleToken(Token::L_BRACE, i); }
@@ -100,6 +100,8 @@ EXTENDS {return handleToken(Token::EXTENDS, i);}
 
 "]"    { return handleToken(Token::R_SQ_BRACKET, i); }
 {COLON}    { return handleToken(Token::COLON, i); }
+
+<<EOF>> {return 0; }
 
 {SPACE}    { i += yyleng; }
 .     { std::cout << std::endl << "Unrecognized character: " << yytext << std::endl; }

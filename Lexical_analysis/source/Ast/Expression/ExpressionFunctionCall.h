@@ -11,9 +11,9 @@
 
 class ExpressionFunctionCall : public ExpressionBase{
 public:
-    ExpressionFunctionCall(std::shared_ptr<ExpressionBase> &object,
+    ExpressionFunctionCall(const std::shared_ptr<ExpressionBase> &object,
                            const std::string& name_,
-                           std::vector<std::shared_ptr<ExpressionBase>> &args_) : object(object),
+                           const std::vector<std::shared_ptr<ExpressionBase>> &args_) : object(object),
                            name(name_) {
         args.resize(args_.size());
         for (size_t i = 0; i < args_.size(); ++i) {
@@ -21,7 +21,7 @@ public:
         }
     }
 
-    ExpressionFunctionCall(std::shared_ptr<ExpressionBase> &object, const std::string& name_) : object(object),
+    ExpressionFunctionCall(const std::shared_ptr<ExpressionBase> &object, const std::string& name_) : object(object),
     name(name_) {
     }
     

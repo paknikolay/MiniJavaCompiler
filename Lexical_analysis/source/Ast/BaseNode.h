@@ -7,6 +7,8 @@
 
 
 class BaseNode {
+public:
+    virtual void accept(){};
 
 };
 

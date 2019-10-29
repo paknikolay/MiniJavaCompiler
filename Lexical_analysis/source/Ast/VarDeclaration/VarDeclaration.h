@@ -13,7 +13,7 @@
 
 class VarDeclaration : public BaseNode {
 public:
-    VarDeclaration(const std::shared_ptr<Type> &type, const std::string &name) : type(type), name(name) {}
+    VarDeclaration(const std::shared_ptr<Type> &type_, const std::string &name_) : type(type_), name(name_) {}
 
     const std::shared_ptr<Type> &GetType() const {
         return type;
