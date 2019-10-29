@@ -104,7 +104,7 @@ int Visitor::Visit(ExpressionNegation* node)
     f << n << " [label=\"!\"]\n";
     int number = n;
     std::stringstream s;
-    s << " -> " << DrawSubtree(node->GetValue()) << " [label=\"value\"]\n";
+    s << number << " -> " << DrawSubtree(node->GetValue()) << " [label=\"value\"]\n";
     f << s.str();
     return number;
 }
@@ -226,10 +226,10 @@ int Visitor::Visit(MethodBody* node)
     int number = n;
     std::stringstream s;
     for (auto var : node->GetVars()) {
-        s << number << " -> " << var << " [label=\"vars\"]\n";
+        s << number << " -> " << DrawSubtree(var) << " [label=\"vars\"]\n";
     }
     for (auto st : node->GetStatements()) {
-        s << number << " -> " << st << " [label=\"stat\"]\n";
+        s << number << " -> " << DrawSubtree(st) << " [label=\"stat\"]\n";
     }
     s << number << " -> " << DrawSubtree(node->GetReturnExpr()) << " [label=\"ret\"]\n";
     f << s.str();

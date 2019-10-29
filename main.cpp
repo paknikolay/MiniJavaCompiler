@@ -1,6 +1,9 @@
 #include "Lexical_analysis/source/MiniJavaScanner.h"
 #include "Statement/Statements.h"
 #include <fstream>
+
+#include "Visitor.h"
+
 using std::ifstream;
 using std::ofstream;
 int main() {
@@ -24,6 +27,8 @@ int main() {
         std::cout <<"\n(((((((((\n"<<(res.get() == nullptr )<< "\n";
         int a = 3;
         int b = 7;
+        Visitor visitor;
+        visitor.DrawTree(res, "trr.dot");
 //        assert(result != nullptr);
         //result->Print(std::cout);
     } catch (...) {
