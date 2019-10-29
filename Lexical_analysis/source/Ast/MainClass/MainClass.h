@@ -7,7 +7,7 @@
 
 #include <memory>
 #include <string>
-#include <Statement/Statements.h>
+#include "../Statement/Statements.h"
 #include "../BaseNode.h"
 
 class MainClass : public BaseNode {
@@ -26,6 +26,8 @@ public:
     const std::shared_ptr<StatementBase> &GetStatement() const {
         return statement;
     }
+
+    int Accept(Visitor* v);
 
 private:
     std::string class_name;

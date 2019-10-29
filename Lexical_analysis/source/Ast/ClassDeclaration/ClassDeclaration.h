@@ -1,4 +1,4 @@
-//
+﻿//
 // Created by malik on 26.10.2019.
 //
 
@@ -70,6 +70,8 @@ public:
     const std::vector<std::shared_ptr<MethodDeclaration>> &GetMethods() const {
         return methods;
     }
+
+    int Accept(Visitor* v);
 
 private:
     std::string class_name;

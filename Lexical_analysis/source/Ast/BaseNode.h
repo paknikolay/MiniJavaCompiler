@@ -6,8 +6,11 @@
 #define MINI_JAVA_COMPILER_BASENODE_H
 
 
-class BaseNode {
+class Visitor; // forward-declaration
 
+class BaseNode {
+public:
+    virtual int Accept(Visitor* v);
 };
 
 

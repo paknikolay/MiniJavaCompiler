@@ -3,3 +3,10 @@
 //
 
 #include "VarDeclaration.h"
+#include "../../Visitor.h"
+
+
+int VarDeclaration::Accept(Visitor* v)
+{
+    return v->Visit(this);
+}

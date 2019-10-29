@@ -5,7 +5,7 @@
 #ifndef MINI_JAVA_COMPILER_EXPRESSIONNEWIDENTIFIER_H
 #define MINI_JAVA_COMPILER_EXPRESSIONNEWIDENTIFIER_H
 
-#include "../Expression/ExpressionBase.h"
+#include "ExpressionBase.h"
 
 class ExpressionNewIdentifier : public ExpressionBase {
 public:
@@ -15,6 +15,7 @@ public:
         return identifier;
     }
 
+    int Accept(Visitor* v);
 private:
     std::string identifier;
 };

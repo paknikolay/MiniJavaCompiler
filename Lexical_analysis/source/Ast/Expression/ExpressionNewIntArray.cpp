@@ -3,3 +3,10 @@
 //
 
 #include "ExpressionNewIntArray.h"
+#include "../../Visitor.h"
+
+
+int ExpressionNewIntArray::Accept(Visitor* v)
+{
+    return v->Visit(this);
+}

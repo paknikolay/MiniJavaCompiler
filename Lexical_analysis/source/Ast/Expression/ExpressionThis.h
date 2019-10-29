@@ -5,12 +5,12 @@
 #ifndef MINI_JAVA_COMPILER_EXPRESSIONTHIS_H
 #define MINI_JAVA_COMPILER_EXPRESSIONTHIS_H
 
-#include "../Expression/ExpressionBase.h"
+#include "ExpressionBase.h"
 
 class ExpressionThis : public ExpressionBase {
 public:
     ExpressionThis() {}
-
+    int Accept(Visitor* v);
 };
 
 

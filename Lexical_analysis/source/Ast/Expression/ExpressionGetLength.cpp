@@ -3,3 +3,10 @@
 //
 
 #include "ExpressionGetLength.h"
+#include "../../Visitor.h"
+
+
+int ExpressionGetLength::Accept(Visitor* v)
+{
+    return v->Visit(this);
+}

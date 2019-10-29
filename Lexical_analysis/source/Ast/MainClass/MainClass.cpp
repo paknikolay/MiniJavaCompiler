@@ -3,3 +3,10 @@
 //
 
 #include "MainClass.h"
+#include "../../Visitor.h"
+
+
+int MainClass::Accept(Visitor* v)
+{
+    return v->Visit(this);
+}
