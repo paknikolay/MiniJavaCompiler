@@ -3,7 +3,7 @@
 //
 
 #include "ExpressionNegation.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int ExpressionNegation::Accept(Visitor* v)

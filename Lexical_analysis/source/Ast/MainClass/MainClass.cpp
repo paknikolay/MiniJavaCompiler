@@ -3,7 +3,7 @@
 //
 
 #include "MainClass.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int MainClass::Accept(Visitor* v)

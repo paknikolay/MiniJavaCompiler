@@ -3,7 +3,7 @@
 //
 
 #include "ExpressionThis.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int ExpressionThis::Accept(Visitor* v)

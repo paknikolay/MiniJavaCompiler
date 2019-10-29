@@ -3,7 +3,7 @@
 //
 
 #include "BaseNode.h"
-#include "../Visitor.h"
+#include "../DotVisitor.h"
 
 
 int BaseNode::Accept(Visitor* v)

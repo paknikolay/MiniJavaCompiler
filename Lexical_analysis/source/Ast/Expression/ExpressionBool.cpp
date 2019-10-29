@@ -3,7 +3,7 @@
 //
 
 #include "ExpressionBool.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int ExpressionBool::Accept(Visitor* v)

@@ -3,7 +3,7 @@
 //
 
 #include "Goal.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int Goal::Accept(Visitor* v)

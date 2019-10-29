@@ -3,7 +3,7 @@
 //
 
 #include "ExpressionGetLength.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int ExpressionGetLength::Accept(Visitor* v)

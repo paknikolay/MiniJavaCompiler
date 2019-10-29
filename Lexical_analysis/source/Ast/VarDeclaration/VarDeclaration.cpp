@@ -3,7 +3,7 @@
 //
 
 #include "VarDeclaration.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int VarDeclaration::Accept(Visitor* v)

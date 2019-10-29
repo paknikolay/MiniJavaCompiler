@@ -3,7 +3,7 @@
 //
 
 #include "ClassDeclaration.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int ClassDeclaration::Accept(Visitor* v)

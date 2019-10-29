@@ -3,7 +3,7 @@
 //
 
 #include "ExpressionNewIntArray.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int ExpressionNewIntArray::Accept(Visitor* v)

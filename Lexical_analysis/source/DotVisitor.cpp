@@ -2,12 +2,12 @@
 // Created by Илья on 27.10.2019.
 //
 
-#include "Visitor.h"
+#include "DotVisitor.h"
 #include <vector>
 #include <sstream>
 
 
-void Visitor::DrawTree(const std::shared_ptr<BaseNode>& node, const std::string& filename)
+void DotVisitor::DrawTree(const std::shared_ptr<BaseNode>& node, const std::string& filename)
 {
     n = 0;
     f.open(filename);
@@ -17,7 +17,7 @@ void Visitor::DrawTree(const std::shared_ptr<BaseNode>& node, const std::string&
     f.close();
 }
 
-int Visitor::DrawSubtree(const std::shared_ptr<BaseNode>& node)
+int DotVisitor::DrawSubtree(const std::shared_ptr<BaseNode>& node)
 {
     ++n;
     if (node) {
@@ -27,7 +27,7 @@ int Visitor::DrawSubtree(const std::shared_ptr<BaseNode>& node)
     }
 }
 
-int Visitor::VisitEmpty()
+int DotVisitor::VisitEmpty()
 {
     f << n << " [label=\"NULL\"]\n";
     return n;
@@ -36,7 +36,7 @@ int Visitor::VisitEmpty()
 //////////////////////////////////////////////////////
 //Обрабатываем Expressions
 
-int Visitor::Visit(ExpressionBinOp* node)
+int DotVisitor::Visit(ExpressionBinOp* node)
 {
     std::vector<std::string> bin_ops = {"+", "-", "*", "/", "%", "||", "&&", "!=", "==", "<=", ">=", "<", ">"};
     f << n << " [label=\"" << bin_ops[static_cast<int>(node->GetBinOp())] << "\"]\n";
@@ -47,13 +47,13 @@ int Visitor::Visit(ExpressionBinOp* node)
     return number;
 }
 
-int Visitor::Visit(ExpressionBool* node)
+int DotVisitor::Visit(ExpressionBool* node)
 {
     f << n << " [label=\"bool " << node->GetValue() << "\"]\n";
     return n;
 }
 
-int Visitor::Visit(ExpressionFunctionCall* node)
+int DotVisitor::Visit(ExpressionFunctionCall* node)
 {
     f << n << " [label=\"call " << node->GetName() << "\"]\n";
     int number = n;
@@ -66,7 +66,7 @@ int Visitor::Visit(ExpressionFunctionCall* node)
     return number;
 }
 
-int Visitor::Visit(ExpressionGetLength* node)
+int DotVisitor::Visit(ExpressionGetLength* node)
 {
     f << n << " [label=\"length\"]\n";
     int number = n;
@@ -76,13 +76,13 @@ int Visitor::Visit(ExpressionGetLength* node)
     return number;
 }
 
-int Visitor::Visit(ExpressionIdentifier* node)
+int DotVisitor::Visit(ExpressionIdentifier* node)
 {
     f << n << " [label=\"id " << node->GetIdentifier() << "\"]\n";
     return n;
 }
 
-int Visitor::Visit(ExpressionIndex* node)
+int DotVisitor::Visit(ExpressionIndex* node)
 {
     f << n << " [label=\"index\"]\n";
     int number = n;
@@ -93,13 +93,13 @@ int Visitor::Visit(ExpressionIndex* node)
     return number;
 }
 
-int Visitor::Visit(ExpressionInt* node)
+int DotVisitor::Visit(ExpressionInt* node)
 {
     f << n << " [label=\"int " << node->GetValue() << "\"]\n";
     return n;
 }
 
-int Visitor::Visit(ExpressionNegation* node)
+int DotVisitor::Visit(ExpressionNegation* node)
 {
     f << n << " [label=\"!\"]\n";
     int number = n;
@@ -109,13 +109,13 @@ int Visitor::Visit(ExpressionNegation* node)
     return number;
 }
 
-int Visitor::Visit(ExpressionNewIdentifier* node)
+int DotVisitor::Visit(ExpressionNewIdentifier* node)
 {
     f << n << " [label=\"new " << node->GetIdentifier() << "\"]\n";
     return n;
 }
 
-int Visitor::Visit(ExpressionNewIntArray* node)
+int DotVisitor::Visit(ExpressionNewIntArray* node)
 {
     f << n << " [label=\"new int[]\"]\n";
     int number = n;
@@ -125,7 +125,7 @@ int Visitor::Visit(ExpressionNewIntArray* node)
     return number;
 }
 
-int Visitor::Visit(ExpressionThis* node)
+int DotVisitor::Visit(ExpressionThis* node)
 {
     f << n << " [label=\"this " << "\"]\n";
     return n;
@@ -134,7 +134,7 @@ int Visitor::Visit(ExpressionThis* node)
 //////////////////////////////////////////////////////
 //Обрабатываем Statements
 
-int Visitor::Visit(StatementIf* node)
+int DotVisitor::Visit(StatementIf* node)
 {
     f << n << " [label=\"if\"]\n";
     int number = n;
@@ -146,7 +146,7 @@ int Visitor::Visit(StatementIf* node)
     return number;
 }
 
-int Visitor::Visit(StatementWhile* node)
+int DotVisitor::Visit(StatementWhile* node)
 {
     f << n << " [label=\"while\"]\n";
     int number = n;
@@ -157,7 +157,7 @@ int Visitor::Visit(StatementWhile* node)
     return number;
 }
 
-int Visitor::Visit(StatementAssign* node)
+int DotVisitor::Visit(StatementAssign* node)
 {
     f << n << " [label=\"" << node->GetIdentifier() << " = \"]\n";
     int number = n;
@@ -167,7 +167,7 @@ int Visitor::Visit(StatementAssign* node)
     return number;
 }
 
-int Visitor::Visit(StatementAssignContainerElement* node)
+int DotVisitor::Visit(StatementAssignContainerElement* node)
 {
     f << n << " [label=\"" << node->GetIdentifier() << "[] = \"]\n";
     int number = n;
@@ -178,7 +178,7 @@ int Visitor::Visit(StatementAssignContainerElement* node)
     return number;
 }
 
-int Visitor::Visit(StatementPrint* node)
+int DotVisitor::Visit(StatementPrint* node)
 {
     f << n << " [label=\"print\"]\n";
     int number = n;
@@ -188,7 +188,7 @@ int Visitor::Visit(StatementPrint* node)
     return number;
 }
 
-int Visitor::Visit(StatementSequence* node)
+int DotVisitor::Visit(StatementSequence* node)
 {
     f << n << " [label=\"seq of stats\"]\n";
     int number = n;
@@ -203,14 +203,14 @@ int Visitor::Visit(StatementSequence* node)
 //////////////////////////////////////////////////////
 //Обрабатываем всё остальное
 
-int Visitor::Visit(Type* node)
+int DotVisitor::Visit(Type* node)
 {
     std::vector<std::string> type_name = {"standard type", "standard type array", "identifier"};
     f << n << " [label=\"" << type_name[static_cast<int>(node->GetType())] << " " << node->getTypeName() << "\"]\n";
     return n;
 }
 
-int Visitor::Visit(VarDeclaration* node)
+int DotVisitor::Visit(VarDeclaration* node)
 {
     f << n << " [label=\"var " << node->GetName() << "\"]\n";
     int number = n;
@@ -220,7 +220,7 @@ int Visitor::Visit(VarDeclaration* node)
     return number;
 }
 
-int Visitor::Visit(MethodBody* node)
+int DotVisitor::Visit(MethodBody* node)
 {
     f << n << " [label=\"method body\"]\n";
     int number = n;
@@ -236,7 +236,7 @@ int Visitor::Visit(MethodBody* node)
     return number;
 }
 
-int Visitor::Visit(MethodDeclaration* node)
+int DotVisitor::Visit(MethodDeclaration* node)
 {
     std::vector<std::string> modifier = {"public", "private"};
     f << n << " [label=\"" << modifier[static_cast<int>(node->GetPrivacyModifier())] << " method declaration"
@@ -254,7 +254,7 @@ int Visitor::Visit(MethodDeclaration* node)
     return number;
 }
 
-int Visitor::Visit(ClassDeclaration* node)
+int DotVisitor::Visit(ClassDeclaration* node)
 {
     f << n << " [label=\"class " << node->GetClassName() << " extends " << node->GetExtends() << "\"]\n";
     int number = n;
@@ -269,7 +269,7 @@ int Visitor::Visit(ClassDeclaration* node)
     return number;
 }
 
-int Visitor::Visit(MainClass* node)
+int DotVisitor::Visit(MainClass* node)
 {
     f << n << " [label=\"main class " << node->GetClassName() << "(" << node->GetArgsName() << ")\"]\n";
     int number = n;
@@ -279,7 +279,7 @@ int Visitor::Visit(MainClass* node)
     return number;
 }
 
-int Visitor::Visit(Goal* node)
+int DotVisitor::Visit(Goal* node)
 {
     f << n << " [label=\"goal\"]\n";
     int number = n;

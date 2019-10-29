@@ -1,67 +1,35 @@
-﻿//
-// Created by Илья on 27.10.2019.
-//
+﻿#pragma once
 
-#ifndef MINI_JAVA_COMPILER_VISITOR_H
-#define MINI_JAVA_COMPILER_VISITOR_H
+#include "BaseNode.h"
 
-#pragma once
-
-#include <fstream>
-
-#include "Ast/Expression/Expressions.h"
-#include "Ast/Statement/Statements.h"
-#include "Ast/Type/Type.h"
-#include "Ast/VarDeclaration/VarDeclaration.h"
-#include "Ast/MethodDeclaration/MethodDeclaration.h"
-#include "Ast/ClassDeclaration/ClassDeclaration.h"
-#include "Ast/MainClass/MainClass.h"
-#include "Ast/Goal/Goal.h"
-
-
-/* 
-   Вот здесь можно проверить результат:
-   https://graphs.grevian.org/graph/4950567682048000
-*/
 class Visitor {
-private:
-    int n = 0;          // Номер вершины при обходе.
-    std::ofstream f;    // Файл, в который будет печататься дерево.
-
-private:
-    int DrawSubtree(const std::shared_ptr<BaseNode>& node);
-    int VisitEmpty();
 
 public:
-    void DrawTree(const std::shared_ptr<BaseNode>& node, const std::string& filename);
 
-    int Visit(ExpressionBinOp* node);
-    int Visit(ExpressionBool* node);
-    int Visit(ExpressionFunctionCall* node);
-    int Visit(ExpressionGetLength* node);
-    int Visit(ExpressionIdentifier* node);
-    int Visit(ExpressionIndex* node);
-    int Visit(ExpressionInt* node);
-    int Visit(ExpressionNegation* node);
-    int Visit(ExpressionNewIdentifier* node);
-    int Visit(ExpressionNewIntArray* node);
-    int Visit(ExpressionThis* node);
+    int virtual Visit(ExpressionBinOp* node) = 0;
+    int virtual Visit(ExpressionBool* node) = 0;
+    int virtual Visit(ExpressionFunctionCall* node) = 0;
+    int virtual Visit(ExpressionGetLength* node) = 0;
+    int virtual Visit(ExpressionIdentifier* node) = 0;
+    int virtual Visit(ExpressionIndex* node) = 0;
+    int virtual Visit(ExpressionInt* node) = 0;
+    int virtual Visit(ExpressionNegation* node) = 0;
+    int virtual Visit(ExpressionNewIdentifier* node) = 0;
+    int virtual Visit(ExpressionNewIntArray* node) = 0;
+    int virtual Visit(ExpressionThis* node) = 0;
 
-    int Visit(StatementIf* node);
-    int Visit(StatementWhile* node);
-    int Visit(StatementAssign* node);
-    int Visit(StatementAssignContainerElement* node);
-    int Visit(StatementPrint* node);
-    int Visit(StatementSequence* node);
+    int virtual Visit(StatementIf* node) = 0;
+    int virtual Visit(StatementWhile* node) = 0;
+    int virtual Visit(StatementAssign* node) = 0;
+    int virtual Visit(StatementAssignContainerElement* node) = 0;
+    int virtual Visit(StatementPrint* node) = 0;
+    int virtual Visit(StatementSequence* node) = 0;
 
-    int Visit(Type* node);
-    int Visit(VarDeclaration* node);
-    int Visit(MethodBody* node);
-    int Visit(MethodDeclaration* node);
-    int Visit(ClassDeclaration* node);
-    int Visit(MainClass* node);
-    int Visit(Goal* node);
+    int virtual Visit(Type* node) = 0;
+    int virtual Visit(VarDeclaration* node) = 0;
+    int virtual Visit(MethodBody* node) = 0;
+    int virtual Visit(MethodDeclaration* node) = 0;
+    int virtual Visit(ClassDeclaration* node) = 0;
+    int virtual Visit(MainClass* node) = 0;
+    int virtual Visit(Goal* node) = 0;
 };
-
-
-#endif //MINI_JAVA_COMPILER_VISITOR_H

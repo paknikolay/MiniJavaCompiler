@@ -3,7 +3,7 @@
 //
 
 #include "Type.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int Type::Accept(Visitor* v)

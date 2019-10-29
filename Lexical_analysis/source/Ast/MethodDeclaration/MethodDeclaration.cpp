@@ -3,7 +3,7 @@
 //
 
 #include "MethodDeclaration.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int MethodBody::Accept(Visitor* v)

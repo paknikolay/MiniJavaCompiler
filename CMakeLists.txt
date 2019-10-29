@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(Lexical_analysis/source)
 
-add_executable(mini_java_compiler main.cpp)
+add_executable(mini_java_compiler main.cpp Lexical_analysis/source/DotVisitor.cpp)
 
 target_link_libraries (mini_java_compiler PRIVATE miniJavaScanner)
 configure_file(${CMAKE_SOURCE_DIR}/someTestForDebug someTestForDebug COPYONLY)

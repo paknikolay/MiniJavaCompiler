@@ -3,7 +3,7 @@
 //
 
 #include "Statements.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int StatementIf::Accept(Visitor* v)

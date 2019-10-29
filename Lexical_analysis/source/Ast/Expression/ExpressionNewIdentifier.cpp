@@ -3,7 +3,7 @@
 //
 
 #include "ExpressionNewIdentifier.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int ExpressionNewIdentifier::Accept(Visitor* v)

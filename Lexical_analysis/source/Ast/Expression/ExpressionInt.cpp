@@ -3,7 +3,7 @@
 //
 
 #include "ExpressionInt.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int ExpressionInt::Accept(Visitor* v)

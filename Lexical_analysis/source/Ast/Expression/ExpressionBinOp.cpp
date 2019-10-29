@@ -3,7 +3,7 @@
 //
 
 #include "ExpressionBinOp.h"
-#include "../../Visitor.h"
+#include "../../DotVisitor.h"
 
 
 int ExpressionBinOp::Accept(Visitor* v)
