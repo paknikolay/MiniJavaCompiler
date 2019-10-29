@@ -154,19 +154,19 @@ main_class
          {$$ = std::make_shared<MainClass>($2, $12, $15); }
 
 class_declaration
-    : class_declaration_prefix L_BRACE var_declaration_sequence method_declaration_sequence R_BRACE
-        {$$ = std::make_shared<ClassDeclaration>($1, $3, $4);}
-    | class_declaration_prefix L_BRACE method_declaration_sequence R_BRACE
-        {$$ = std::make_shared<ClassDeclaration>($1, $3);}
-    | class_declaration_prefix L_BRACE var_declaration_sequence  R_BRACE
-        {$$ = std::make_shared<ClassDeclaration>($1, $3);}
-    | class_declaration_prefix L_BRACE R_BRACE
+    : class_declaration_prefix var_declaration_sequence method_declaration_sequence R_BRACE
+        {$$ = std::make_shared<ClassDeclaration>($1, $2, $3);}
+    | class_declaration_prefix method_declaration_sequence R_BRACE
+        {$$ = std::make_shared<ClassDeclaration>($1, $2);}
+    | class_declaration_prefix var_declaration_sequence  R_BRACE
+        {$$ = std::make_shared<ClassDeclaration>($1, $2);}
+    | class_declaration_prefix R_BRACE
         {$$ = std::make_shared<ClassDeclaration>($1);}
 
 
 class_declaration_prefix
-    : CLASS IDENTIFIER EXTENDS IDENTIFIER {$$ = std::make_shared<ClassDeclarationPrefix>($2, $4);}
-    | CLASS IDENTIFIER {$$ = std::make_shared<ClassDeclarationPrefix>($2);}
+    : CLASS IDENTIFIER EXTENDS IDENTIFIER L_BRACE {$$ = std::make_shared<ClassDeclarationPrefix>($2, $4);}
+    | CLASS IDENTIFIER L_BRACE {$$ = std::make_shared<ClassDeclarationPrefix>($2);}
 
 var_declaration
     : type IDENTIFIER SEMI_COLON {$$ = std::make_shared<VarDeclaration>($1, $2);}

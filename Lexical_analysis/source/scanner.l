@@ -39,7 +39,7 @@ THIS        "this"
     loc = location;
 %}
 
-EXTENDS {return handleToken(Token::EXTENDS, i);}
+{EXTENDS} {return handleToken(Token::EXTENDS, i);}
 "main" {return handleToken(Token::MAIN, i);}
 "class"    { return handleToken(Token::CLASS, i); }
 
@@ -54,7 +54,7 @@ EXTENDS {return handleToken(Token::EXTENDS, i);}
 "new"    { return handleToken(Token::NEW, i); }
 
 "System.out.println"    { return handleToken(Token::OUT, i); }
-"int"|"boolean"|"String"|"void"|"List"    { return handleToken(Token::STANDARD_TYPES, i); }
+"int"|"boolean"|"String"|"void"    { return handleToken(Token::STANDARD_TYPES, i); }
 
 "public"|"private"    { return handleToken(Token::PRIVACY_MODIFIER, i); }
 "static"            { return handleToken(Token::STATIC_MODIFIER, i); }
