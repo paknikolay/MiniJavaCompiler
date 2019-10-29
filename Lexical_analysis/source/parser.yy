@@ -108,14 +108,33 @@ Position toPos(const yy::location& from, const yy::location& to) {
 %type <std::shared_ptr<ExpressionBase>> expression
 %type <std::vector<std::shared_ptr<ExpressionBase>>> few_expressions
 
+
+
+%left IF
+%left ELSE
+
+%left COMMA
+
 %left ASSIGN_OP
-
-
+%left BOOL_OP_OR
+%left BOOL_OP_AND
 %left BIN_OP_CMP
 %left BIN_OP_ADD
 %left BIN_OP_MULT
+%right NEW
+%right NEGATION
+
+%left DOT
+
+%right L_BRACKET
+%left R_BRACKET
 
 
+
+%right L_BRACE
+%left R_BRACE
+%right L_SQ_BRACKET
+%left R_SQ_BRACKET
 %%
 
 program_start
@@ -154,7 +173,7 @@ var_declaration
 
 var_declaration_sequence
     : var_declaration {std::vector<std::shared_ptr<VarDeclaration>> array; array.push_back($1); $$ = array;}
-    | var_declaration var_declaration_sequence {$2.push_back($1); $$ = $2;}
+    | var_declaration_sequence var_declaration{$1.push_back($2); $$ = $1;}
 
 
 method_declaration
@@ -165,7 +184,7 @@ method_declaration
 
 method_declaration_sequence
     : method_declaration {std::vector<std::shared_ptr<MethodDeclaration>> array; array.push_back($1); $$ = array;}
-    | method_declaration method_declaration_sequence {$2.push_back($1); $$ = $2;}
+    | method_declaration_sequence method_declaration{$1.push_back($2); $$ = $1;}
 
 
 method_body
@@ -196,7 +215,7 @@ statement
 
 statement_sequence
     : statement {std::vector<std::shared_ptr<StatementBase>> array; array.push_back($1); $$ = array; }
-    | statement statement_sequence {$2.push_back($1); $$ = $2;}
+    | statement_sequence statement{$1.push_back($2); $$ = $1;}
 
 
 expression
@@ -206,7 +225,7 @@ expression
     | expression BOOL_OP_AND expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
     | expression BOOL_OP_OR expression {$$ = std::make_shared<ExpressionBinOp>($1, $3, $2);}
 
-    | THIS {std::cout <<"this\n";$$ = std::make_shared<ExpressionThis>();}
+    | THIS {$$ = std::make_shared<ExpressionThis>();}
 
     | expression L_SQ_BRACKET expression R_SQ_BRACKET {$$ = std::make_shared<ExpressionIndex>($1, $3);}
 
@@ -218,14 +237,14 @@ expression
 
     | INT_VALUE {$$ = std::make_shared<ExpressionInt>($1); }
     | BOOL_VALUE {$$ = std::make_shared<ExpressionBool>($1); }
-    | NEW STANDARD_TYPES R_SQ_BRACKET expression L_SQ_BRACKET {$$ = std::make_shared<ExpressionNewIntArray>($4);}
+    | NEW STANDARD_TYPES L_SQ_BRACKET expression R_SQ_BRACKET {$$ = std::make_shared<ExpressionNewIntArray>($4);}
     | NEGATION expression {$$ = std::make_shared<ExpressionNegation>($2);}
     | IDENTIFIER {$$ = std::make_shared<ExpressionIdentifier>($1); }
     | NEW IDENTIFIER L_BRACKET R_BRACKET {$$ = std::make_shared<ExpressionNewIdentifier>($2);}
-    | NEGATION L_BRACKET expression R_BRACKET {$$ = std::make_shared<ExpressionNegation>($3);}
+    | L_BRACKET expression R_BRACKET {$$ = $2;}
 
 few_expressions
-    : expression COLON few_expressions {$3.push_back($1); $$ = $3;}
+    : few_expressions COMMA expression {$1.push_back($3); $$ = $1;}
     | expression {std::vector<std::shared_ptr<ExpressionBase>> array; array.push_back($1); $$ = array;}
 
 %%

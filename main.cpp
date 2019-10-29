@@ -21,6 +21,7 @@ int main() {
 
         if (parser.parse()) {
         }
+        std::cout <<"\n(((((((((\n"<<(res.get() == nullptr )<< "\n";
         int a = 3;
         int b = 7;
 //        assert(result != nullptr);
