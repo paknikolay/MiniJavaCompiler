@@ -48,8 +48,8 @@ public:
     const std::shared_ptr<ExpressionBase> &GetReturnExpr() const {
         return returnExpr;
     }
-
-    int Accept(Visitor* v);
+  
+  int Accept(Visitor* v);
 
 private:
     std::vector<std::shared_ptr<VarDeclaration>> vars;
@@ -94,8 +94,8 @@ public:
         return methodBody;
     }
 
-    int Accept(Visitor* v);
-
+  int Accept(Visitor* v);
+  
 private:
     EModifier privacyModifier;
     std::shared_ptr<Type> returnType;

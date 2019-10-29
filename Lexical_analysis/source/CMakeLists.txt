@@ -6,7 +6,7 @@ find_package(BISON REQUIRED)
 flex_target(flex_scanner scanner.l ${CMAKE_CURRENT_BINARY_DIR}/lex.yy.cc)
 # target_include_directories(flex_scanner PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Lexical_analysis/source)
 
-bison_target(bison_parser parser.yy ${CMAKE_CURRENT_BINARY_DIR}/parser.cc)
+bison_target(bison_parser parser.yy ${CMAKE_CURRENT_BINARY_DIR}/parser.cc COMPILE_FLAGS -v)
 
 # target_include_directories(bison_parser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Lexical_analysis/source)
 #configure_file(MiniJavaScanner.h  MiniJavaScanner.h  COPYONLY)

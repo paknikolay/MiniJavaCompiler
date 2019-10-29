@@ -50,8 +50,8 @@ class StatementWhile : public StatementBase {
 public:
     StatementWhile(const std::shared_ptr<ExpressionBase>& WhileExpression,
                    const std::shared_ptr<StatementBase>& WhileStatement):
-                        whileExpression(whileExpression),
-                        whileStatement(whileStatement)
+                        whileExpression(WhileExpression),
+                        whileStatement(WhileStatement)
     {}
 
     const std::shared_ptr<ExpressionBase> &GetWhileExpression() const {

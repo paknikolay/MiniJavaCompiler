@@ -21,7 +21,7 @@ public:
         }
     }
 
-    ExpressionFunctionCall(std::shared_ptr<ExpressionBase> &object, const std::string& name_) : object(object),
+    ExpressionFunctionCall(const std::shared_ptr<ExpressionBase> &object, const std::string& name_) : object(object),
     name(name_) {
     }
     

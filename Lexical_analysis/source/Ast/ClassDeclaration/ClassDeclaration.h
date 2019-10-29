@@ -18,6 +18,8 @@ struct ClassDeclarationPrefix{
         class_name(className),
         extends(extends)
     {}
+    ~ClassDeclarationPrefix()
+    {}
 
     std::string class_name;
     std::string extends;
@@ -27,7 +29,7 @@ struct ClassDeclarationPrefix{
 class ClassDeclaration : public BaseNode {
 public:
     ClassDeclaration(
-                     const std::shared_ptr<ClassDeclarationPrefix> pref,
+                     const std::shared_ptr<ClassDeclarationPrefix>& pref,
                      const std::vector<std::shared_ptr<VarDeclaration>>& vars,
                      const std::vector<std::shared_ptr<MethodDeclaration>>& meths=
                              std::vector<std::shared_ptr<MethodDeclaration>>()
@@ -40,7 +42,7 @@ public:
     {}
 
     ClassDeclaration(
-            const std::shared_ptr<ClassDeclarationPrefix> pref,
+            const std::shared_ptr<ClassDeclarationPrefix>& pref,
             const std::vector<std::shared_ptr<MethodDeclaration>>& meths
     ):
             class_name(pref->class_name),
@@ -50,11 +52,16 @@ public:
     {}
 
     ClassDeclaration(
-            const std::shared_ptr<ClassDeclarationPrefix> pref):
+            const std::shared_ptr<ClassDeclarationPrefix>& pref):
             class_name(pref->class_name),
             extends(pref->extends)
 
     {}
+
+    ~ClassDeclaration() {
+
+    }
+
     const std::string &GetClassName() const {
         return class_name;
     }

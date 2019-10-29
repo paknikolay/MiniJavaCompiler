@@ -25,15 +25,15 @@ private:
 
     template<typename T>
     void Build(const T& value) {
-        //if (yylval == nullptr) {
-        //    return;
-        //}
-        //yylval->build<T>(value);
-        out << "\n" << value << " - value of handled token";
+       /* if (yylval == nullptr) {
+            return;
+        }*/
+        yylval->build<T>(value);
+        //out << "\n" << value << " - value of handled token\n";
     }
 
-    void Build(const EModifier& value) {
-        out << ((int) value) << " - value of handled token";
+ /*   void Build(const EModifier& value) {
+        out << ((int) value) << " - value of handled token\n";
     }
     void Build(const EBool& value) {
         out << ((int) value) << " - value of handled token";
@@ -41,7 +41,7 @@ private:
     void Build(const EBinOp& value) {
         out << ((int) value) << " - value of handled token";
     }
-
+*/
 public:
     MiniJavaScanner(std::istream &new_in = std::cin, std::ostream &new_out = std::cout);
     int tokenize();
