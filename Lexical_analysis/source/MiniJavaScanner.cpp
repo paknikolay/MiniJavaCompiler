@@ -8,8 +8,23 @@ bool StringsEqual(const char* first, const char* second) {
     return strcmp(first, second) == 0;
 }
 
+void MiniJavaScanner::updateRaw() {
+    const char* currentTokenStr = YYText();
+    int len = strlen(currentTokenStr);
+    for (int i = 0; i < len; ++i) {
+        if (currentTokenStr[i] == '\n') {
+            ++currentRaw;
+        }
+    }
+}
+
 Token MiniJavaScanner::handleToken(Token token, int& i)
 {
+    if (token == Token::COMMENT) {
+        updateRaw();
+        return token;
+    }
+
     std::pair<int, int> token_coords;
     token_coords.first = i + 1;
     out << token << ' ';

@@ -17,6 +17,9 @@ private:
     std::vector< std::pair<int, int> > coordinates; // Координаты начала и конца токена в строке.
     std::ostream& out;
 
+    int currentRaw = 1;
+
+    void updateRaw();
     //virtual int yylex();
     Token handleToken(Token token, int& i); //Обработчик токена
 
@@ -48,5 +51,8 @@ public:
 
 
     int yylex(yy::parser::semantic_type* const value=nullptr, yy::parser::location_type* location=nullptr);
+    int getCurrentRaw() const {
+        return currentRaw;
+    }
 };
 

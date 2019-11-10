@@ -80,7 +80,7 @@ THIS        "this"
 {BOOL_OP_AND}   { return handleToken(Token::BOOL_OP_AND, i); }
 {BOOL_OP_OR}   { return handleToken(Token::BOOL_OP_OR, i); }
 
-"//"[^\n]*  { /*return handleToken(Token::COMMENT, i);*/ }
+"//"[^\n]*  { handleToken(Token::COMMENT, i); }
 
 {BIN_OP_MULT}    { return handleToken(Token::BIN_OP_MULT, i);  }
 {BIN_OP_ADD}    { return handleToken(Token::BIN_OP_ADD, i); }
@@ -103,8 +103,8 @@ THIS        "this"
 
 <<EOF>> {return 0; }
 
-{SPACE}    { i += yyleng; }
-.     { std::cout << std::endl << "Unrecognized character: " << yytext << std::endl; }
+{SPACE}    { updateRaw(); i += yyleng; }
+.     { std::cout << std::endl << "Unrecognized character in raw " << currentRaw << ": " << yytext << std::endl; }
 
 %%
 
