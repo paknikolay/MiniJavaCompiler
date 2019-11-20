@@ -30,6 +30,7 @@ EXTENDS     "extends"
 LENGTH      "length"
 THIS        "this"
 
+
 %%
 
 %{
@@ -68,6 +69,7 @@ THIS        "this"
 {DOT}    { return handleToken(Token::DOT, i); }
 
 {INTEGER_VALUE}   { return handleToken(Token::INT_VALUE, i); }
+
 
 {REAL_VALUE}   { return handleToken(Token::REAL_VALUE, i); }
 
