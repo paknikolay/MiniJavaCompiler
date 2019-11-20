@@ -2,8 +2,7 @@
 // Created by nikolai on 22.10.19.
 //
 
-#ifndef MINI_JAVA_COMPILER_EXPRESSIONBASEOP_H
-#define MINI_JAVA_COMPILER_EXPRESSIONBASEOP_H
+#pragma once
 
 #include "ExpressionBase.h"
 #include "../../Enums.h"
@@ -25,4 +24,3 @@ private:
 };
 
 
-#endif //MINI_JAVA_COMPILER_EXPRESSIONBASEOP_H

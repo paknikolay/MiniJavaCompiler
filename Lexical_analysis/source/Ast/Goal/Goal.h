@@ -2,8 +2,7 @@
 // Created by malik on 26.10.2019.
 //
 
-#ifndef MINI_JAVA_COMPILER_GOAL_H
-#define MINI_JAVA_COMPILER_GOAL_H
+#pragma once
 
 #include <vector>
 
@@ -32,5 +31,3 @@ private:
     std::shared_ptr<MainClass> main_class;
     std::vector<std::shared_ptr<ClassDeclaration>> class_declarations;
 };
-
-#endif //MINI_JAVA_COMPILER_GOAL_H

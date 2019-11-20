@@ -2,9 +2,7 @@
 // Created by malik on 26.10.2019.
 //
 
-#ifndef MINI_JAVA_COMPILER_VARDECLARATION_H
-#define MINI_JAVA_COMPILER_VARDECLARATION_H
-
+#pragma once
 
 #include <string>
 #include <memory>
@@ -30,5 +28,3 @@ private:
     std::string name;
 };
 
-
-#endif //MINI_JAVA_COMPILER_VARDECLARATION_H

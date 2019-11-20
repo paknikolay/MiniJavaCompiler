@@ -2,8 +2,7 @@
 // Created by nikolai on 22.10.19.
 //
 
-#ifndef MINI_JAVA_COMPILER_EXPRESSIONNEGATION_H
-#define MINI_JAVA_COMPILER_EXPRESSIONNEGATION_H
+#pragma once
 
 #include "ExpressionBase.h"
 
@@ -17,5 +16,3 @@ public:
 private:
     std::shared_ptr<ExpressionBase> value;
 };
-
-#endif //MINI_JAVA_COMPILER_EXPRESSIONNEGATION_H

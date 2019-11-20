@@ -1,9 +1,7 @@
 //
 // Created by malik on 26.10.2019.
 //
-
-#ifndef MINI_JAVA_COMPILER_MAINCLASS_H
-#define MINI_JAVA_COMPILER_MAINCLASS_H
+#pragma once
 
 #include <memory>
 #include <string>
@@ -38,5 +36,3 @@ private:
     std::shared_ptr<StatementBase> statement;
 };
 
-
-#endif //MINI_JAVA_COMPILER_MAINCLASS_H

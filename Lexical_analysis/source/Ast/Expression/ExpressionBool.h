@@ -2,9 +2,6 @@
 // Created by nikolai on 22.10.19.
 //
 
-#ifndef MINI_JAVA_COMPILER_EXPRESSIONBOOL_H
-#define MINI_JAVA_COMPILER_EXPRESSIONBOOL_H
-
 #include "ExpressionBase.h"
 
 class ExpressionBool : public ExpressionBase {
@@ -18,4 +15,4 @@ private:
 };
 
 
-#endif //MINI_JAVA_COMPILER_EXPRESSIONBOOL_H
+#pragma once

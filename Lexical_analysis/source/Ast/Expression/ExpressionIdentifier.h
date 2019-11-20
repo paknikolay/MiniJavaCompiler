@@ -1,9 +1,7 @@
 //
 // Created by nikolai on 22.10.19.
 //
-
-#ifndef MINI_JAVA_COMPILER_EXPRESSIONIDENTIFIER_H
-#define MINI_JAVA_COMPILER_EXPRESSIONIDENTIFIER_H
+#pragma once
 
 #include "ExpressionBase.h"
 #include <string>
@@ -17,6 +15,3 @@ public:
 private:
     std::string identifier;
 };
-
-
-#endif //MINI_JAVA_COMPILER_EXPRESSIONIDENTIFIER_H

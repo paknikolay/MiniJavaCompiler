@@ -1,9 +1,7 @@
 //
 // Created by nikolai on 22.10.19.
 //
-
-#ifndef MINI_JAVA_COMPILER_EXPRESSIONINDEX_H
-#define MINI_JAVA_COMPILER_EXPRESSIONINDEX_H
+#pragma once
 
 #include <memory>
 #include "ExpressionBase.h"
@@ -21,5 +19,3 @@ private:
     std::shared_ptr<ExpressionBase> index;
 };
 
-
-#endif //MINI_JAVA_COMPILER_EXPRESSIONINDEX_H

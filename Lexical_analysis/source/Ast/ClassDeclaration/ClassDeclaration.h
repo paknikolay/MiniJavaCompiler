@@ -1,9 +1,7 @@
 ﻿//
 // Created by malik on 26.10.2019.
 //
-
-#ifndef MINI_JAVA_COMPILER_CLASSDECLARATION_H
-#define MINI_JAVA_COMPILER_CLASSDECLARATION_H
+#pragma once
 
 #include <string>
 #include <memory>
@@ -87,6 +85,3 @@ private:
     std::vector<std::shared_ptr<MethodDeclaration>> methods;
 };
 
-
-
-#endif //MINI_JAVA_COMPILER_CLASSDECLARATION_H

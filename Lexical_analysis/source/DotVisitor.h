@@ -2,9 +2,6 @@
 // Created by Илья on 27.10.2019.
 //
 
-#ifndef MINI_JAVA_COMPILER_DOTVISITOR_H
-#define MINI_JAVA_COMPILER_DOTVISITOR_H
-
 #pragma once
 
 #include <fstream>
@@ -62,6 +59,3 @@ public:
     int Visit(MainClass* node);
     int Visit(Goal* node);
 };
-
-
-#endif //MINI_JAVA_COMPILER_DOTVISITOR_H
