@@ -79,6 +79,7 @@ Position toPos(const yy::location& from, const yy::location& to) {
 %token EXTENDS
 %token <int> INT_VALUE
 %token LENGTH
+%token COMMENT
 
 
 %type program_start
@@ -250,5 +251,5 @@ few_expressions
 %%
 
 void yy::parser::error (const location_type& l, const std::string& m) {
-    std::cerr << m << " at " << l << std::endl;
+    std::cerr << m << " at " << l << " (in raw " << scanner.getCurrentRaw() << ")" << std::endl;
 }
