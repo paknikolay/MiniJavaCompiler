@@ -25,4 +25,5 @@ target_link_libraries(miniJavaScanner
 target_include_directories(miniJavaScanner PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(miniJavaScanner PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(CMakeExample::miniJavaScanner ALIAS miniJavaScanner)
+set( CMAKE_CXX_FLAGS "-isystem /path/to/flex/include" )
+add_library(CMakeExample::miniJavaScanner ALIAS miniJavaScanner )
