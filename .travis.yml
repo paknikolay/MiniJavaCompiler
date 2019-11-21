@@ -12,8 +12,7 @@ addons:
 
 before_install:
   - pip install --user cpp-coveralls
-  - cd $TRAVIS_BUILD_DIR
-  - ls
+  - sudo apt-get install flex
   - sudo apt-get install cmake
   # installing gtest
   - sudo apt-get install libgtest-dev
