@@ -23,47 +23,30 @@ std::string readFile(std::string fileName) {
 
     return file_graph;
 }
-/*
-TEST(work_check, test1) {
 
-    ifstream in("test1.in");
-    ofstream rez_out("test1.rez");
-
-    rez_out << "2ewda";
-    MiniJavaScanner lexer(in);
-    lexer.switch_streams(in, rez_out);
-
-    lexer.tokenize();
-    cout<<"_________\n";
-
-    rez_out.close();
-    in.close();
-
-    string test_out = readFile("test1.out");
-    string rezult = readFile("test1.rez");
-
-
-    ASSERT_EQ(rezult, test_out);
-}
-*/
 #include <iostream>
+#include "Lexical_analysis/source/DotVisitor.h"
 
 #include "MiniJavaScanner.h"
 
 TEST(work_check, test2) {
-    MiniJavaScanner lexer;
-
-    void* result;
-    yy::parser parser(lexer);
-
     try {
+        ofstream t("outout.out");
+        t.close();
+
+        ifstream testin("test1.in");
+
+        MiniJavaScanner lexer(testin);
+
+        std::shared_ptr<BaseNode> res;
+        yy::parser parser(lexer, res);
+
+
         if (parser.parse()) {
-            return;
         }
-        assert(result != nullptr);
-        //result->Print(std::cout);
-    } catch (std::exception &e) {
-        std::cerr << "\x1B[31m" << e.what() << "\x1B[0m" << std::endl;
+        assert(res.get() != nullptr);
+
+    } catch (...) {
     }
-    return;
+
 }

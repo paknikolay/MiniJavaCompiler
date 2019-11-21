@@ -3,15 +3,33 @@ project(mini_java_compiler)
 
 set(CMAKE_CXX_STANDARD 17)
 
+include(GNUInstallDirs)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
+
+
+# we use this to get code coverage
+if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
+
+
+
 add_subdirectory(Lexical_analysis/source)
 
 add_executable(mini_java_compiler main.cpp Lexical_analysis/source/DotVisitor.cpp)
 
 target_link_libraries (mini_java_compiler PRIVATE miniJavaScanner)
 configure_file(${CMAKE_SOURCE_DIR}/someTestForDebug someTestForDebug COPYONLY)
-if(BUILD_TESTS_LEXER)
+if(AST_TESTS)
+    include(cmake/googletest.cmake)
+    fetch_googletest(
+            ${PROJECT_SOURCE_DIR}/cmake
+            ${PROJECT_BINARY_DIR}/googletest
+    )
+
     enable_testing()
-        find_program(SHELL sh REQUIRED)
-        add_test("Test1" ${SHELL} $CMAKE_CURRENT_SOURCE_DIR}/source.sh)
+
     add_subdirectory(Lexical_analysis/tests)
 endif()
