@@ -12,6 +12,13 @@ addons:
 
 before_install:
   - pip install --user cpp-coveralls
+  - wget http://ftp.gnu.org/gnu/bison/bison-3.3.2.tar.gz
+  - tar -zxvf bison-3.3.2.tar.gz
+  - cd bison-3.3.2
+  - ./configure
+  - make
+  - sudo make install
+  - cd ..
 
 script:
   - mkdir build
