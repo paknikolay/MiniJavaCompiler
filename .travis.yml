@@ -12,6 +12,7 @@ addons:
 
 before_install:
   - pip install --user cpp-coveralls
+# installing new bison version
   - wget http://ftp.gnu.org/gnu/bison/bison-3.3.2.tar.gz
   - tar -zxvf bison-3.3.2.tar.gz
   - cd bison-3.3.2
@@ -19,6 +20,19 @@ before_install:
   - make
   - sudo make install
   - cd ..
+# installing gtest
+  - sudo apt-get install libgtest-dev
+  - cd /usr/src/googletest/googletest
+  - sudo mkdir build
+  - cd build
+  - sudo cmake ..
+  - sudo make
+  - sudo cp libgtest* /usr/lib/
+  - cd ..
+  - sudo rm -rf build
+  - sudo mkdir /usr/local/lib/googletest
+  - sudo ln -s /usr/lib/libgtest.a /usr/local/lib/googletest/libgtest.a
+  - sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/googletest/libgtest_main.a
 
 script:
   - mkdir build
