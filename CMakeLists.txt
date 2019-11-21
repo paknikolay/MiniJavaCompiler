@@ -23,9 +23,9 @@ add_executable(mini_java_compiler main.cpp Lexical_analysis/source/DotVisitor.cp
 target_link_libraries (mini_java_compiler PRIVATE miniJavaScanner)
 configure_file(${CMAKE_SOURCE_DIR}/someTestForDebug someTestForDebug COPYONLY)
 if(AST_TESTS)
-    include(cmake/googletest.cmake)
+    include(for_tests_cmake/googletest.cmake)
     fetch_googletest(
-            ${PROJECT_SOURCE_DIR}/cmake
+            ${PROJECT_SOURCE_DIR}/for_tests_cmake
             ${PROJECT_BINARY_DIR}/googletest
     )
 
