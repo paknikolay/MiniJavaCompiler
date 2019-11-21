@@ -4,7 +4,7 @@
 #include <string>
 
 #if !defined (yyFlexLexerOnce)
-#include <FlexLexer.h>
+#include "FlexLexer.h"
 #endif // _!defined (yyFlexLexerOnce)
 
 #include "parser.hh"
