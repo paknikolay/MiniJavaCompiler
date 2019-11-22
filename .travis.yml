@@ -35,6 +35,7 @@ before_install:
   - make
   - sudo make install
   - cd ..
+  - sudo apt-get install fl-dev
   - sudo apt-get update
   - sudo apt-get upgrade
 
