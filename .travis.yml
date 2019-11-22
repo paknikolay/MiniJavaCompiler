@@ -35,7 +35,8 @@ before_install:
   - make
   - sudo make install
   - cd ..
-  - sudo apt update && apt upgrade
+  - sudo apt-get update
+  - sudo apt-get upgrade
 
 script:
   - mkdir build
