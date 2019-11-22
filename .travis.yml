@@ -12,6 +12,7 @@ addons:
 
 before_install:
   - pip install --user cpp-coveralls
+  #install cmake
   - sudo apt-get install cmake
   # installing gtest
   - sudo apt-get install libgtest-dev
@@ -35,10 +36,8 @@ before_install:
   - make
   - sudo make install
   - cd ..
+  #install some flex dependencies, because it doesn't find FlexLexer.h
   - sudo apt-get install libfl-dev
-  - sudo apt-get update
-  - sudo apt-get upgrade
-
 script:
   - mkdir build
   - cd build
