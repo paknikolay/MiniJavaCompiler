@@ -22,6 +22,7 @@ add_library(miniJavaScanner STATIC ${FLEX_flex_scanner_OUTPUTS}
 target_link_libraries(miniJavaScanner
         PUBLIC Ast
 )
+
 target_include_directories(miniJavaScanner PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(miniJavaScanner PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

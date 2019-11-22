@@ -1,9 +1,4 @@
-#include <gtest/gtest.h>
-#include <fstream>
-#include <string>
-#include <iostream>
-
-#include "../source/MiniJavaScanner.h"
+#pragma once
 
 using std::ifstream;
 using std::ofstream;
@@ -24,17 +19,14 @@ std::string readFile(std::string fileName) {
     return file_graph;
 }
 
-#include <iostream>
-#include "Lexical_analysis/source/DotVisitor.h"
-
 #include "MiniJavaScanner.h"
 
-TEST(work_check, test2) {
+void test(const string& filename, bool is_null=false){
     try {
-        ofstream t("outout.out");
-        t.close();
+        string path = "./positive_tests/";
+        path.append(filename);
 
-        ifstream testin("test1.in");
+        ifstream testin(path);
 
         MiniJavaScanner lexer(testin);
 
@@ -44,9 +36,8 @@ TEST(work_check, test2) {
 
         if (parser.parse()) {
         }
-        assert(res.get() != nullptr);
+        assert((res.get() == nullptr) ==  is_null);
 
     } catch (...) {
     }
-
 }

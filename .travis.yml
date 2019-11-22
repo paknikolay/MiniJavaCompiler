@@ -43,7 +43,7 @@ script:
   - cd build
   - cmake .. -DAST_TESTS=1
   - cmake --build .
-  - ctest
+  - ctest --verbose
 
 after_success:
   - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
