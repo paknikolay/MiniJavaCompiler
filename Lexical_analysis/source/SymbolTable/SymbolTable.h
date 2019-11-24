@@ -18,7 +18,7 @@ struct Method;
 // API
 
 std::string GetTypeName(const std::shared_ptr<Type>& type) {
-    return "d";
+    return type->getTypeName();
 }
 
 std::vector<std::string> GetTypeName(const  std::vector<std::pair<std::shared_ptr<Type>, std::string>>& args) {

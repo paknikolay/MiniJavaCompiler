@@ -166,5 +166,19 @@ int SymbolTableVisitor::Visit(Goal* node) {
         symbol_table->AddToVariables(last_class);
     }
 
+    // int, bool, int[], string
+
+    auto simple_types = std::make_shared<SymbolTableClasses>("int[]");
+    auto simple_method = std::make_shared<SymbolTableMethod>("GetLength", "int");
+    simple_method->AddToVariables(0, "this", "int[]");
+    simple_method->AddToScope(TypeScope::ARGUMENT, "this");
+
+    simple_types->AddToMethods(0, simple_method, {});
+
+    symbol_table->AddToVariables(simple_types);
+
+
+
+
     return 1;
 }
