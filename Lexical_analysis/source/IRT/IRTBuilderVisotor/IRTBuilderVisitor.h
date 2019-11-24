@@ -13,10 +13,28 @@
 #include "SymbolTable/SymbolTable.h"
 #include "../IRTNodeBase.h"
 
+#include "../IRTExp/IRTExpBase.h"
+
+class ExpList {
+private:
+    std::shared_ptr<IRTExpBase> head = nullptr;
+    std::shared_ptr<ExpList> tail = nullptr;
+public:
+    ExpList(std::shared_ptr<IRTExpBase> head, std::shared_ptr<ExpList> tail) : head(head), tail(tail) {}
+};
+
+class StmList {
+private:
+    std::shared_ptr<IRTStatementBase> head = nullptr;
+    std::shared_ptr<StmList> tail = nullptr;
+public:
+    ExpList(std::shared_ptr<IRTStatementBase> head, std::shared_ptr<StmList> tail) : head(head), tail(tail) {}
+};
+
 
 class IRTBuilderVisitor : Visitor {
 private:
-    IRTNodeBase* lastResult;
+    std::shared_ptr<IRTNodeBase> lastResult;
 public:
 
     int Visit(ExpressionBinOp* node);

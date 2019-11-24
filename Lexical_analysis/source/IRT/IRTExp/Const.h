@@ -7,6 +7,8 @@
 
 
 class Const : public IRTExpBase{
-
+    int value;
+public:
+    Const(int value) : value(value) {}
 };
 

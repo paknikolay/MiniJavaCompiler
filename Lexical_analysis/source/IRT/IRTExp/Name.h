@@ -7,6 +7,8 @@
 
 
 class Name : public IRTExpBase{
-
+    string value;
+public:
+    Name(string value) : value(value) {}
 };
 
