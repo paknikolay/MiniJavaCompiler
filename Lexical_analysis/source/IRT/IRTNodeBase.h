@@ -4,6 +4,7 @@
 #pragma once
 
 #include "../Ast/BaseNode.h"
+
 class IRTNodeBase : public BaseNode {
 
 };

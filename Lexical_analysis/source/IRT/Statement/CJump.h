@@ -4,8 +4,10 @@
 
 #pragma once
 
+#include <IRTExp/IRTExpBase.h>
 #include "IRTStatementBase.h"
 #include "../../Enums.h"
+
 class CJump : public IRTStatementBase {
 public:
     CJump(
