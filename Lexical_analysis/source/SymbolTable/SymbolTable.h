@@ -16,43 +16,70 @@ struct SimpleVariable;
 struct Method;
 
 // API
-class VariableBase {
-    TypeScope type;
-    SimpleVariable variable;
-    virtual std::shared_ptr<SymbolTableClasses> GetClassTable(const std::string&) = 0;
-    virtual std::shared_ptr<SimpleVariable> GetVariable(const std::string&) = 0;
-};
 
+std::string GetTypeName(const std::shared_ptr<Type>& type) {
+    return type->getTypeName();
+}
+
+std::vector<std::string> GetTypeName(const  std::vector<std::pair<std::shared_ptr<Type>, std::string>>& args) {
+    std::vector<std::string> types;
+    for (const auto& type: args) {
+        types.push_back(GetTypeName(type.first));
+    }
+    return types;
+}
 
 class SymbolTableMethod {
 public:
 
-    SymbolTableMethod(const std::string& name_) : name(name_) {
+    SymbolTableMethod(const std::string& name_, const std::shared_ptr<Type>& type) : name(name_),
+    type_name(::GetTypeName(type))
+    {
 
     }
 
-    void AddToVariables(const int position, const std::shared_ptr<VarDeclaration>& variable) {
-        table[variable->GetName()] = {position, variable->GetType()};
+    SymbolTableMethod(const std::string& name_, const std::string& type) : name(name_), type_name(type)
+    {
+
+    }
+
+    void AddToVariables(const int position, const std::shared_ptr<VarDeclaration>& var) {
+        table[var->GetName()] = std::make_shared<SimpleVariable>(position, ::GetTypeName(var->GetType()));
+    }
+
+    void AddToVariables(const int position, const std::string& name_, const std::string& var) {
+        table[name_] = std::make_shared<SimpleVariable>(position, var);
+    }
+
+    void AddToScope(const TypeScope& typeScope, const std::shared_ptr<VarDeclaration>& var) {
+        table_scope[var->GetName()] = typeScope;
+    }
+
+    void AddToScope(const TypeScope& typeScope, const std::string& var) {
+        table_scope[var] = typeScope;
     }
 
     TypeScope GetVariableScope(const std::string& name_) {
-        TypeScope typee ;
-        return typee;
+        return table_scope[name_];
     }
 
-    std::shared_ptr<SimpleVariable> GetVariable(const std::string& name) {
-        return table[name];
+    std::shared_ptr<SimpleVariable> GetVariable(const std::string& name_) {
+        return table[name_];
     }
 
     std::string GetName() {
         return name;
     }
 
+    std::string GetTypeName() {
+        return type_name;
+    }
 
 private:
     std::string name;
     std::string type_name;
     std::map<std::string, std::shared_ptr<SimpleVariable>> table;
+    std::map<std::string, TypeScope > table_scope;
 };
 
 
@@ -63,21 +90,25 @@ public:
 
     }
 
-    void AddToVariables(const int position, const std::shared_ptr<VarDeclaration>& variable) {
-        table[variable->GetName()] = {position, variable->GetType()};
+    void AddToVariables(const int position, const std::shared_ptr<VarDeclaration>& var) {
+        table[var->GetName()] = std::make_shared<SimpleVariable>(position, GetTypeName(var->GetType()));
     }
 
-    void AddToMethods(const int position, const std::shared_ptr<SymbolTableMethod>& methods) {
-        methods_table[methods->GetName()] = methods;
+    void AddToVariables(const int position, const std::string& name_, const std::string& var) {
+        table[name_] = std::make_shared<SimpleVariable>(position, var);
+    }
+
+    void AddToMethods(const int position, const std::shared_ptr<SymbolTableMethod>& methods, const std::vector<std::string>& variable_list) {
+        methods_table[std::make_pair(methods->GetName(), variable_list)] = methods;
     }
 
 
-    std::shared_ptr<SimpleVariable> GetVariable(const std::string& name) {
-        return table[name];
+    std::shared_ptr<SimpleVariable> GetVariable(const std::string& name_) {
+        return table[name_];
     }
 
-    std::shared_ptr<SymbolTableMethod> GetMethod(const std::string& name, const std::vector<std::string>& variable_list) {
-        methods_table[name];
+    std::shared_ptr<SymbolTableMethod> GetMethod(const std::string& name_, const std::vector<std::string>& variable_list) {
+        methods_table[std::make_pair(name_, variable_list)];
     }
 
     std::string GetName() {
@@ -88,7 +119,7 @@ public:
 private:
     std::string name;
     std::map<std::string, std::shared_ptr<SimpleVariable>> table;
-    std::map<std::string, std::shared_ptr<SymbolTableMethod>> methods_table;
+    std::map<std::pair<std::string, std::vector<std::string>>, std::shared_ptr<SymbolTableMethod>> methods_table;
 };
 
 class SymbolTableGlobal {
@@ -109,6 +140,10 @@ private:
 struct SimpleVariable {
     int position = -1;
     std::string type_name; // int, MyClass
+
+    SimpleVariable(int pos, const std::string& name): position(pos), type_name(name) {
+
+    }
 };
 
 

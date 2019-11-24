@@ -3,5 +3,3 @@
 //
 
 #include "SymbolTable.h"
-
-SymbolTable::SymbolTable(const std::map<std::string, Variable> &table) : table(table) {}
