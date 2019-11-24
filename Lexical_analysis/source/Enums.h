@@ -25,3 +25,8 @@ enum class EBinOp {
     L, // <
     G // >
 };
+
+enum class TypeScope {
+    ARGUMENT,
+    LOCAL_VARIABLE
+};
