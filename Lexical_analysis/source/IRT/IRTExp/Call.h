@@ -4,8 +4,12 @@
 #pragma once
 
 #include "IRTExpBase.h"
+#include <memory>
+
 
 class Call : public IRTExpBase{
-    
-
+    std::shared_ptr<IRTExpBase> func;
+    std::shared_ptr<ExpList> args;
+public:
+    Call(const std::shared_ptr<IRTExpBase>& func_, const std::shared_ptr<ExpList>& args_) : func(func_), args(args_) {}
 };

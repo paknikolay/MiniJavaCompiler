@@ -1,4 +1,5 @@
-add_library(Irt STATIC IRTNodeBase.cpp IRTExp Statement)
+add_library(Irt STATIC IRTNodeBase.cpp IRTExp/Temp.cpp IRTExp/IRTExpBase.cpp Statement/IRTStatementBase.cpp
+        IRTExp/Call.cpp IRTExp/Const.cpp IRTExp/Arg.cpp IRTExp/BinOp.cpp IRTBuilderVisotor/IRTBuilderVisitor.cpp)
 
 
 target_include_directories(Irt PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

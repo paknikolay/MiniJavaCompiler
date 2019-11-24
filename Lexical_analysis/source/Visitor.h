@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "BaseNode.h"
+#include "Ast/BaseNode.h"
 
 class Visitor {
 

@@ -3,6 +3,8 @@
 //
 #pragma once
 
-class IRTNodeBase {
+#include "../Ast/BaseNode.h"
+
+class IRTNodeBase : public BaseNode {
 
 };

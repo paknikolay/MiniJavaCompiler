@@ -4,17 +4,17 @@
 #pragma once
 
 #include "IRTExpBase.h"
-#include "Enums.h"
+#include "../../Enums.h"
 
-class BinOp : IRTExpBase {
+class BinOp : public IRTExpBase {
     EBinOp op;
-    std::shared_ptr<IRTExpBase> left;
-    std::shared_ptr<IRTExpBase> right;
+    std::shared_ptr<IRTExpBase> left = nullptr;
+    std::shared_ptr<IRTExpBase> right = nullptr;
 public:
-    BinOp(EBinOp op, const std::shared_ptr<IRTExpBase>& left, const std::shared_ptr<IRTExpBase>& right) :
-            op(op),
-            left(left),
-            right(right) {}
+    BinOp(EBinOp op_, const std::shared_ptr<IRTExpBase>& left_, const std::shared_ptr<IRTExpBase>& right_) :
+            op(op_),
+            left(left_),
+            right(right_) {}
 };
 
 

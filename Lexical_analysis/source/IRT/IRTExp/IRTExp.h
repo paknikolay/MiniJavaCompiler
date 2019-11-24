@@ -8,7 +8,7 @@
 #include "Call.h"
 #include "Const.h"
 #include "ESeq.h"
-#include "IRTExpBase.h.h"
+#include "IRTExpBase.h"
 #include "Local.h"
 #include "Mem.h"
 #include "Name.h"

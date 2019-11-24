@@ -6,6 +6,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 
 #include "../Statement/IRTStatementBase.h"
 
@@ -19,4 +20,22 @@ public:
 private:
     std::string ret_type;
 
+};
+
+class ExpList {
+private:
+    std::shared_ptr<IRTExpBase> head = nullptr;
+    std::shared_ptr<ExpList> tail = nullptr;
+public:
+    ExpList(const std::shared_ptr<IRTExpBase>& head_, const std::shared_ptr<ExpList>& tail_) : head(head_), tail(tail_) {}
+    ExpList(std::vector<std::shared_ptr<IRTExpBase>> all) {
+        if (all.size() == 0) {
+            head = nullptr;
+            tail = nullptr;
+            return;
+        }
+        head = all[0];
+        all.erase(all.begin());
+        tail = std::make_shared<ExpList>(ExpList(all));
+    }
 };

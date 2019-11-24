@@ -7,8 +7,8 @@
 
 
 class Name : public IRTExpBase{
-    string value;
+    std::string value;
 public:
-    Name(string value) : value(value) {}
+    Name(std::string value) : value(value) {}
 };
 
