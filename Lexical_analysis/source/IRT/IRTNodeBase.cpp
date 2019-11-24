@@ -3,6 +3,3 @@
 //
 #include "IRTNodeBase.h"
 
-class IRTStatementBase : IRTNodeBase{
-
-};
