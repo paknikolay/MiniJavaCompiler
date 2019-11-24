@@ -16,34 +16,34 @@
 
 class IRTBuilderVisitor : Visitor {
 private:
-
+    IRTNodeBase* lastResult;
 public:
 
-    IRTNodeBase* Visit(ExpressionBinOp* node);
-    IRTNodeBase* Visit(ExpressionBool* node);
-    IRTNodeBase* Visit(ExpressionFunctionCall* node);
-    IRTNodeBase* Visit(ExpressionGetLength* node);
-    IRTNodeBase* Visit(ExpressionIdentifier* node);
-    IRTNodeBase* Visit(ExpressionIndex* node);
-    IRTNodeBase* Visit(ExpressionInt* node);
-    IRTNodeBase* Visit(ExpressionNegation* node);
-    IRTNodeBase* Visit(ExpressionNewIdentifier* node);
-    IRTNodeBase* Visit(ExpressionNewIntArray* node);
-    IRTNodeBase* Visit(ExpressionThis* node);
+    int Visit(ExpressionBinOp* node);
+    int Visit(ExpressionBool* node);
+    int Visit(ExpressionFunctionCall* node);
+    int Visit(ExpressionGetLength* node);
+    int Visit(ExpressionIdentifier* node);
+    int Visit(ExpressionIndex* node);
+    int Visit(ExpressionInt* node);
+    int Visit(ExpressionNegation* node);
+    int Visit(ExpressionNewIdentifier* node);
+    int Visit(ExpressionNewIntArray* node);
+    int Visit(ExpressionThis* node);
 
-    IRTNodeBase* Visit(StatementIf* node);
-    IRTNodeBase* Visit(StatementWhile* node);
-    IRTNodeBase* Visit(StatementAssign* node);
-    IRTNodeBase* Visit(StatementAssignContainerElement* node);
-    IRTNodeBase* Visit(StatementPrint* node);
-    IRTNodeBase* Visit(StatementSequence* node);
+    int Visit(StatementIf* node);
+    int Visit(StatementWhile* node);
+    int Visit(StatementAssign* node);
+    int Visit(StatementAssignContainerElement* node);
+    int Visit(StatementPrint* node);
+    int Visit(StatementSequence* node);
 
-    IRTNodeBase* Visit(Type* node);
-    IRTNodeBase* Visit(VarDeclaration* node);
-    IRTNodeBase* Visit(MethodBody* node);
-    IRTNodeBase* Visit(MethodDeclaration* node);
-    IRTNodeBase* Visit(ClassDeclaration* node);
-    IRTNodeBase* Visit(MainClass* node);
-    IRTNodeBase* Visit(Goal* node);
+    int Visit(Type* node);
+    int Visit(VarDeclaration* node);
+    int Visit(MethodBody* node);
+    int Visit(MethodDeclaration* node);
+    int Visit(ClassDeclaration* node);
+    int Visit(MainClass* node);
+    int Visit(Goal* node);
 };
 
