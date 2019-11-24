@@ -7,5 +7,15 @@
 
 
 class Label : public IRTStatementBase {
+public:
+    Label(std::string label) : label(label){
+    };
+
+    const std::string& GetLabel(){
+        return label;
+    }
+
+private:
+    std::string label;
 
 };

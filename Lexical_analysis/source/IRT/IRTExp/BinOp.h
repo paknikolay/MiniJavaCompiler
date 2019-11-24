@@ -4,7 +4,7 @@
 #pragma once
 
 #include "IRTExpBase.h"
-#include "Enums.h"
+#include "../Enums.h"
 
 class BinOp : IRTExpBase {
     EBinOp op;

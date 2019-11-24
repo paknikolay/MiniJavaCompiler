@@ -1,21 +1,21 @@
 #pragma once
 
-#include "Ast/Expression/Expressions.h"
-#include "Ast/Statement/Statements.h"
-#include "Ast/Type/Type.h"
-#include "Ast/VarDeclaration/VarDeclaration.h"
-#include "Ast/MethodDeclaration/MethodDeclaration.h"
-#include "Ast/ClassDeclaration/ClassDeclaration.h"
-#include "Ast/MainClass/MainClass.h"
-#include "Ast/Goal/Goal.h"
-#include "Visitor.h"
+#include "../Ast/Expression/Expressions.h"
+#include "../Ast/Statement/Statements.h"
+#include "../Ast/Type/Type.h"
+#include "../Ast/VarDeclaration/VarDeclaration.h"
+#include "../Ast/MethodDeclaration/MethodDeclaration.h"
+#include "../Ast/ClassDeclaration/ClassDeclaration.h"
+#include "../Ast/MainClass/MainClass.h"
+#include "../Ast/Goal/Goal.h"
+#include "../Visitor.h"
 
-#include "SymbolTable/SymbolTable.h"
+#include "../SymbolTable/SymbolTable.h"
 #include "../IRTNodeBase.h"
 
 #include "../IRTExp/IRTExpBase.h"
-
-class ExpList {
+#include <memory>
+/*class ExpList {
 private:
     std::shared_ptr<IRTExpBase> head = nullptr;
     std::shared_ptr<ExpList> tail = nullptr;
@@ -29,12 +29,23 @@ private:
     std::shared_ptr<StmList> tail = nullptr;
 public:
     ExpList(std::shared_ptr<IRTStatementBase> head, std::shared_ptr<StmList> tail) : head(head), tail(tail) {}
-};
+};*/
 
 
 class IRTBuilderVisitor : Visitor {
 private:
     std::shared_ptr<IRTNodeBase> lastResult;
+    std::string curLabel = "a";
+    std::string getNextLabel(){
+        char& last_char = curLabel.back();
+        if (last_char == 'z') {
+            curLabel.push_back('a');
+        } else {
+            last_char++;
+        }
+
+        return curLabel;
+    }
 public:
 
     int Visit(ExpressionBinOp* node);
