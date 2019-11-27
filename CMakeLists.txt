@@ -15,7 +15,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
 endif()
 
 
-
 add_subdirectory(Lexical_analysis/source)
 
 add_executable(mini_java_compiler main.cpp)
@@ -23,12 +22,6 @@ add_executable(mini_java_compiler main.cpp)
 target_link_libraries (mini_java_compiler PRIVATE miniJavaScanner)
 configure_file(${CMAKE_SOURCE_DIR}/someTestForDebug someTestForDebug COPYONLY)
 if(AST_TESTS)
-    include(for_tests_cmake/googletest.cmake)
-    fetch_googletest(
-            ${PROJECT_SOURCE_DIR}/for_tests_cmake
-            ${PROJECT_BINARY_DIR}/googletest
-    )
-
     enable_testing()
 
     add_subdirectory(Lexical_analysis/tests)
