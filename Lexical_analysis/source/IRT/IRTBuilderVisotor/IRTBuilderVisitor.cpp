@@ -45,10 +45,10 @@ int IRTBuilderVisitor::Visit(ExpressionGetLength* node) {
     return 0;
 }
 
-int IRTBuilderVisitor::Visit(ExpressionIdentifier* node) {
-    lastResult = std::make_shared<Name>(Name(node->GetIdentifier()));
-    return 0;
-}
+//int IRTBuilderVisitor::Visit(ExpressionIdentifier* node) {
+//    lastResult = std::make_shared<Name>(Name(node->GetIdentifier()));
+//    return 0;
+//}
 
 int IRTBuilderVisitor::Visit(ExpressionInt* node) {
     lastResult = std::make_shared<Const>(Const(node->GetValue()));
@@ -113,7 +113,7 @@ int IRTBuilderVisitor::Visit(StatementWhile* node) {
     return 0;
 }
 
-int IRTBuilderVisitor::Visit(ExpressionNewIdentifier *node) {
+int IRTBuilderVisitor::Visit(ExpressionIdentifier *node) {
     auto element = this->methodTable->GetVariableScope(node->GetIdentifier());
     auto variable = this->methodTable->GetVariable(node->GetIdentifier());
     if (element == TypeScope::ARGUMENT) {
@@ -148,5 +148,10 @@ int IRTBuilderVisitor:: Visit(ExpressionNegation* node) {
 
     this->lastResult = std::make_shared<BinOp>(EBinOp::XOR, to_neg, false_xor);
 
+    return 0;
+}
+
+int IRTBuilderVisitor::Visit(ExpressionThis *node) {
+    this->lastResult = std::make_shared<Arg>(0);
     return 0;
 }
