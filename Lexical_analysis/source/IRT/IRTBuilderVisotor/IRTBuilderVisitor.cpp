@@ -128,3 +128,12 @@ int IRTBuilderVisitor::Visit(ExpressionNewIdentifier *node) {
 
     return 0;
 }
+
+int IRTBuilderVisitor::Visit(ExpressionIndex* node) {
+    node->GetArray()->Accept(this);
+    auto array = std::dynamic_pointer_cast<IRTExpBase>(this->lastResult);
+    node->GetIndex()->Accept(this);
+    auto index = std::dynamic_pointer_cast<IRTExpBase>(this->lastResult);
+    this->lastResult = std::make_shared<BinOp>(EBinOp::PLUS, array, index);
+    return 0;
+}
