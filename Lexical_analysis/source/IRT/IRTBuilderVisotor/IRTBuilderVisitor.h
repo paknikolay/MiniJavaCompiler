@@ -14,21 +14,38 @@
 #include "../IRTNodeBase.h"
 
 #include "../IRTExp/IRTExpBase.h"
+#include "../../SymbolTable/SymbolTable.h"
 
 class IRTBuilderVisitor : Visitor {
 private:
     std::shared_ptr<IRTNodeBase> lastResult;
+
     std::string curLabel = "a";
-    std::string getNextLabel(){
-        char& last_char = curLabel.back();
+    std::string curRegister = "a";
+
+    void updateString(std::string& str) {
+        char& last_char = str.back();
         if (last_char == 'z') {
-            curLabel.push_back('a');
+            str.push_back('a');
         } else {
             last_char++;
         }
+    }
+    std::string getNextRegister() {
+        updateString(curRegister);
+        return curRegister;
 
+    }
+    std::string getNextLabel() {
+        updateString(curLabel);
         return curLabel;
     }
+
+
+    std::shared_ptr<SymbolTableGlobal> symbolTable;
+    std::shared_ptr<SymbolTableMethod> methodTable;
+
+
 public:
 
     int Visit(ExpressionBinOp* node);

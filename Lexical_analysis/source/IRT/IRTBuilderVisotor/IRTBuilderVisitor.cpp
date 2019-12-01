@@ -112,3 +112,19 @@ int IRTBuilderVisitor::Visit(StatementWhile* node) {
 
     return 0;
 }
+
+int IRTBuilderVisitor::Visit(ExpressionNewIdentifier *node) {
+    auto element = this->methodTable->GetVariableScope(node->GetIdentifier());
+    auto variable = this->methodTable->GetVariable(node->GetIdentifier());
+    if (element == TypeScope::ARGUMENT) {
+        this->lastResult = std::make_shared<Arg>(variable->position);
+    } else {
+        this->lastResult = std::make_shared<Local>(node->GetIdentifier());
+    }
+
+    std::dynamic_pointer_cast<IRTExpBase>(this->lastResult)->SetRetType(
+            variable->type_name
+    );
+
+    return 0;
+}

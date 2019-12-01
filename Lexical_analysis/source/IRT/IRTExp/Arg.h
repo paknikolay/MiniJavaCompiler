@@ -5,8 +5,8 @@
 
 #include "IRTExpBase.h"
 
-class Arg : IRTExpBase{
-    int index;
+class Arg : public IRTExpBase{
+    int index_;
 public:
-    Arg(int index) : index(index) {}
+    Arg(int index) : index_(index) {}
 };
