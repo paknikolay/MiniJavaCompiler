@@ -17,11 +17,11 @@ struct Method;
 
 // API
 
-std::string GetTypeName(const std::shared_ptr<Type>& type) {
+inline std::string GetTypeName(const std::shared_ptr<Type>& type) {
     return type->getTypeName();
 }
 
-std::vector<std::string> GetTypeName(const  std::vector<std::pair<std::shared_ptr<Type>, std::string>>& args) {
+inline std::vector<std::string> GetTypeName(const std::vector<std::pair<std::shared_ptr<Type>, std::string>>& args) {
     std::vector<std::string> types;
     for (const auto& type: args) {
         types.push_back(GetTypeName(type.first));

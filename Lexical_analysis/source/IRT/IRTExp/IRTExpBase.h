@@ -16,10 +16,18 @@ public:
     std::string GetRetType() {
         return ret_type;
     }
+    std::string Getregister() {
+        return registerToReturn;
+    }
+    /*IRTExpBase(const std::string& ret_type,  const std::string& registerToReturn)
+        : ret_type(ret_type),
+          registerToReturn(registerToReturn)
+     {
+     }*/
 
 private:
     std::string ret_type;
-
+    std::string registerToReturn;
 };
 
 class ExpList {

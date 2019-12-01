@@ -10,7 +10,7 @@
 #include "../Ast/Goal/Goal.h"
 #include "../Visitor.h"
 
-//#include "../SymbolTable/SymbolTable.h"
+#include "../../SymbolTableVisitor.h"
 #include "../IRTNodeBase.h"
 
 #include "../IRTExp/IRTExpBase.h"
@@ -18,18 +18,40 @@
 class IRTBuilderVisitor : Visitor {
 private:
     std::shared_ptr<IRTNodeBase> lastResult;
+
     std::string curLabel = "a";
-    std::string getNextLabel(){
-        char& last_char = curLabel.back();
+    std::string curRegister = "a";
+
+    void updateString(std::string& str) {
+        char& last_char = str.back();
         if (last_char == 'z') {
-            curLabel.push_back('a');
+            str.push_back('a');
         } else {
             last_char++;
         }
+    }
+    std::string getNextRegister() {
+        updateString(curRegister);
+        return curRegister;
 
+    }
+    std::string getNextLabel() {
+        updateString(curLabel);
         return curLabel;
     }
+
+    std::shared_ptr<SymbolTableGlobal> symbolTable;
+    std::shared_ptr<SymbolTableMethod> methodTable;
+
+    std::shared_ptr<IRTExpBase> getAddressOfVariable(std::string identifier);
+
 public:
+
+    IRTBuilderVisitor(std::shared_ptr<SymbolTableGlobal> symbolTable,  std::shared_ptr<SymbolTableMethod> methodTable)
+    : symbolTable(symbolTable),
+      methodTable(methodTable)
+    {
+    }
 
     int Visit(ExpressionBinOp* node);
     int Visit(ExpressionBool* node);
