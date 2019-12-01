@@ -137,3 +137,16 @@ int IRTBuilderVisitor::Visit(ExpressionIndex* node) {
     this->lastResult = std::make_shared<BinOp>(EBinOp::PLUS, array, index);
     return 0;
 }
+
+int IRTBuilderVisitor:: Visit(ExpressionNegation* node) {
+    //xor with 1=0
+    auto false_xor = std::dynamic_pointer_cast<IRTExpBase>(std::make_shared<Const>(0));
+
+    node->GetValue()->Accept(this);
+
+    auto to_neg = std::dynamic_pointer_cast<IRTExpBase>(this->lastResult);
+
+    this->lastResult = std::make_shared<BinOp>(EBinOp::XOR, to_neg, false_xor);
+
+    return 0;
+}

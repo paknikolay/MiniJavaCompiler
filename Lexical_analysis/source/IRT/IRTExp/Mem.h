@@ -6,5 +6,10 @@
 #include "IRTExpBase.h"
 
 class Mem :IRTExpBase {
+public:
+    Mem(const std::shared_ptr<IRTExpBase>& expression) : expression_(expression) {
 
+    }
+private:
+    std::shared_ptr<IRTExpBase> expression_;
 };
