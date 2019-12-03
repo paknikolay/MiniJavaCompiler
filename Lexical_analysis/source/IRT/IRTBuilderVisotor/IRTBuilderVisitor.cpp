@@ -155,12 +155,30 @@ int IRTBuilderVisitor::Visit(ExpressionThis *node) {
     this->lastResult = std::make_shared<Arg>(0);
     return 0;
 }
-/*
+
 int IRTBuilderVisitor::Visit(ExpressionNewIdentifier* node) {
 
-    int size = symbolTable->GetClass(node->GetIdentifier()).;
-    auto size_shared = std::shared_ptr<Const>(size);
+    int size = symbolTable->GetClass(node->GetIdentifier())->GetSize();
+    auto size_shared = std::make_shared<Const>(size);
+    std::vector<std::shared_ptr<IRTExpBase>> list;
+    list.push_back(size_shared);
+    auto args = std::make_shared<ExpList>(list);
+
+
+    auto malloc = std::make_shared<Name>("call");
+
+    auto call = std::make_shared<Call>(malloc, args);
+
+
+    lastResult = call;
+    std::string registerLabel = getNextRegister();
+    auto registr = std::make_shared<Temp>(registerLabel);
+
+    auto mem = std::make_shared<Move>(registr, call);
+
+    auto registr_return = std::make_shared<Temp>(registerLabel);
+
+    lastResult = std::make_shared<ESeq>(registr_return, mem);
 
     return 0;
 }
- */

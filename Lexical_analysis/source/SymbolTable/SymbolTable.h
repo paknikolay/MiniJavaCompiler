@@ -120,7 +120,7 @@ public:
         return extends;
     }
 
-    int GiveSize() const {
+    int GetSize() const {
         return (table. size() + (extends != "none")) * 4;  // size is 4 byte
     }
 
