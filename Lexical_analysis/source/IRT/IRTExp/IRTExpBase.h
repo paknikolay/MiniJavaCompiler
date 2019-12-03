@@ -16,8 +16,12 @@ public:
     std::string GetRetType() {
         return ret_type;
     }
-    std::string Getregister() {
+    std::string GetRegister() {
         return registerToReturn;
+    }
+
+    void SetRetType(const std::string type) {
+        ret_type = type;
     }
     /*IRTExpBase(const std::string& ret_type,  const std::string& registerToReturn)
         : ret_type(ret_type),
@@ -35,6 +39,8 @@ private:
     std::shared_ptr<IRTExpBase> head = nullptr;
     std::shared_ptr<ExpList> tail = nullptr;
 public:
+    ExpList(const std::shared_ptr<IRTExpBase>& head_) : head(head_) {}
+
     ExpList(const std::shared_ptr<IRTExpBase>& head_, const std::shared_ptr<ExpList>& tail_) : head(head_), tail(tail_) {}
     ExpList(std::vector<std::shared_ptr<IRTExpBase>> all) {
         if (all.size() == 0) {

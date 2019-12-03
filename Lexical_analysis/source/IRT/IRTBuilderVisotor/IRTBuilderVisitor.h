@@ -13,11 +13,34 @@
 #include "../../SymbolTableVisitor.h"
 #include "../IRTNodeBase.h"
 
+#include "Statement/IRTStatement.h"
+#include "IRTExp/IRTExp.h"
 #include "../IRTExp/IRTExpBase.h"
 
 class IRTBuilderVisitor : Visitor {
 private:
+    struct FuncInfo{
+        std::string className;
+        std::vector<std::string> argsTypes;
+        std::string funcName;
+        std::shared_ptr<IRTNodeBase> irtTree;
+
+        FuncInfo(
+                 const std::string& className,
+                 std::vector<std::string>& argsTypes,
+                 const std::string& funcName,
+                 const std::shared_ptr<IRTNodeBase>& irtTree
+                )
+                : className(className),
+                  argsTypes(argsTypes),
+                  funcName(funcName),
+                  irtTree(irtTree)
+        {}
+    };
+
+    std::vector<FuncInfo> irtTrees;
     std::shared_ptr<IRTNodeBase> lastResult;
+    std::string curClass;
 
     std::string curLabel = "a";
     std::string curRegister = "a";
@@ -39,6 +62,8 @@ private:
         updateString(curLabel);
         return curLabel;
     }
+
+    void handleStatementArray(const std::vector<std::shared_ptr<StatementBase>> array);
 
     std::shared_ptr<SymbolTableGlobal> symbolTable;
     std::shared_ptr<SymbolTableMethod> methodTable;
