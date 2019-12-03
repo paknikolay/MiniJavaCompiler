@@ -52,10 +52,10 @@ int IRTBuilderVisitor::Visit(ExpressionGetLength* node) {
     return 0;
 }
 
-int IRTBuilderVisitor::Visit(ExpressionIdentifier* node) {
-    lastResult = std::make_shared<Name>(Name(node->GetIdentifier()));
-    return 0;
-}
+//int IRTBuilderVisitor::Visit(ExpressionIdentifier* node) {
+//    lastResult = std::make_shared<Name>(Name(node->GetIdentifier()));
+//    return 0;
+//}
 
 int IRTBuilderVisitor::Visit(ExpressionInt* node) {
     lastResult = std::make_shared<Const>(Const(node->GetValue()));
@@ -136,6 +136,102 @@ int IRTBuilderVisitor::Visit(StatementWhile* node) {
 
     return 0;
 }
+
+int IRTBuilderVisitor::Visit(ExpressionIdentifier *node) {
+    auto element = this->methodTable->GetVariableScope(node->GetIdentifier());
+    auto variable = this->methodTable->GetVariable(node->GetIdentifier());
+    if (element == TypeScope::ARGUMENT) {
+        this->lastResult = std::make_shared<Arg>(variable->position);
+    } else {
+        this->lastResult = std::make_shared<Local>(node->GetIdentifier());
+    }
+
+    std::dynamic_pointer_cast<IRTExpBase>(this->lastResult)->SetRetType(
+            variable->type_name
+    );
+
+    return 0;
+}
+
+int IRTBuilderVisitor::Visit(ExpressionIndex* node) {
+    node->GetArray()->Accept(this);
+    auto array = std::dynamic_pointer_cast<IRTExpBase>(this->lastResult);
+    node->GetIndex()->Accept(this);
+    auto index = std::dynamic_pointer_cast<IRTExpBase>(this->lastResult);
+    this->lastResult = std::make_shared<BinOp>(EBinOp::PLUS, array, index);
+    return 0;
+}
+
+int IRTBuilderVisitor:: Visit(ExpressionNegation* node) {
+    //xor with 1=0
+    auto false_xor = std::dynamic_pointer_cast<IRTExpBase>(std::make_shared<Const>(0));
+
+    node->GetValue()->Accept(this);
+
+    auto to_neg = std::dynamic_pointer_cast<IRTExpBase>(this->lastResult);
+
+    this->lastResult = std::make_shared<BinOp>(EBinOp::XOR, to_neg, false_xor);
+
+    return 0;
+}
+
+int IRTBuilderVisitor::Visit(ExpressionNewIdentifier* node) {
+
+    int size = symbolTable->GetClass(node->GetIdentifier())->GetSize();
+    auto size_shared = std::make_shared<Const>(size);
+    std::vector<std::shared_ptr<IRTExpBase>> list;
+    list.push_back(size_shared);
+    auto args = std::make_shared<ExpList>(list);
+
+
+    auto malloc = std::make_shared<Name>("call");
+
+    auto call = std::make_shared<Call>(malloc, args);
+
+
+    lastResult = call;
+    std::string registerLabel = getNextRegister();
+    auto registr = std::make_shared<Temp>(registerLabel);
+
+    auto mem = std::make_shared<Move>(registr, call);
+
+    auto registr_return = std::make_shared<Temp>(registerLabel);
+
+    lastResult = std::make_shared<ESeq>(registr_return, mem);
+
+    return 0;
+}
+
+
+int IRTBuilderVisitor::Visit(ExpressionNewIntArray* node) {
+
+    node->GetCount()->Accept(this);
+
+    auto temp_size = std::dynamic_pointer_cast<IRTExpBase>(lastResult);
+
+    std::vector<std::shared_ptr<IRTExpBase>> list;
+    list.push_back(temp_size);
+    auto args = std::make_shared<ExpList>(list);
+
+
+    auto malloc = std::make_shared<Name>("call");
+
+    auto call = std::make_shared<Call>(malloc, args);
+
+
+    lastResult = call;
+    std::string registerLabel = getNextRegister();
+    auto registr = std::make_shared<Temp>(registerLabel);
+
+    auto mem = std::make_shared<Move>(registr, call);
+
+    auto registr_return = std::make_shared<Temp>(registerLabel);
+
+    lastResult = std::make_shared<ESeq>(registr_return, mem);
+
+    return 0;
+}
+
 
 std::shared_ptr<IRTExpBase> IRTBuilderVisitor::getAddressOfVariable(std::string identifier) {
     std::shared_ptr<IRTExpBase> rez(0);

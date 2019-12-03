@@ -19,6 +19,9 @@
 
 class SymbolTableVisitor : public Visitor {
 public:
+
+    SymbolTableVisitor(Goal* node);
+
     int Visit(ExpressionBinOp* node);
     int Visit(ExpressionBool* node);
     int Visit(ExpressionFunctionCall* node);
@@ -46,11 +49,15 @@ public:
     int Visit(MainClass* node);
     int Visit(Goal* node);
 
+
     std::shared_ptr<SymbolTableGlobal> GetSymbolTable() {
         return symbol_table;
     }
 
 private:
+    void ImplementExtends();
+    void ImplementRecursively(std::shared_ptr<SymbolTableClasses> cur);
+
     std::shared_ptr<SymbolTableGlobal> symbol_table;
 
     //bool is_last_method = false;

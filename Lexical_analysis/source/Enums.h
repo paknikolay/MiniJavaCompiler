@@ -16,6 +16,7 @@ enum class EBinOp {
     MUL,
     DIV,
     MOD,
+    XOR,
     OR,
     AND,
     NEQ, // !=

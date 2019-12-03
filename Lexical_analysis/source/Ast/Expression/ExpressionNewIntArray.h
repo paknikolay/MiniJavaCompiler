@@ -12,9 +12,10 @@ class ExpressionNewIntArray : public ExpressionBase {
 public:
     ExpressionNewIntArray(const std::shared_ptr<ExpressionBase> &count) : count(count) {}
 
-    const std::shared_ptr<ExpressionBase> &GetCount() const {
+    std::shared_ptr<ExpressionBase> GetCount() {
         return count;
     }
+
 
     int Accept(Visitor* v);
 private:

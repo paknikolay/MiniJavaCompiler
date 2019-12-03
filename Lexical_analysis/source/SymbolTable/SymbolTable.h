@@ -85,8 +85,9 @@ private:
 
 class SymbolTableClasses {
 public:
-
-    SymbolTableClasses(const std::string& name_): name(name_) {
+    SymbolTableClasses(const std::string& name_, const std::string& extends_ = "none"): name(name_),
+        extends(extends_)
+    {
 
     }
 
@@ -115,8 +116,24 @@ public:
         return name;
     }
 
+    const std::string& GetExtends() const {
+        return extends;
+    }
+
+    int GetSize() const {
+        return (table. size() + (extends != "none")) * 4;  // size is 4 byte
+    }
+
+    std::map<std::string, std::shared_ptr<SimpleVariable>> GetAllVariables() {
+        return table;
+    }
+
+    std::map<std::pair<std::string, std::vector<std::string>>, std::shared_ptr<SymbolTableMethod>> GetAllMethods() {
+        return methods_table;
+    }
 
 private:
+    std::string extends = "none";
     std::string name;
     std::map<std::string, std::shared_ptr<SimpleVariable>> table;
     std::map<std::pair<std::string, std::vector<std::string>>, std::shared_ptr<SymbolTableMethod>> methods_table;
@@ -130,6 +147,14 @@ public:
 
     std::shared_ptr<SymbolTableClasses> GetClass(const std::string& name) {
         return table[name];
+    }
+
+    std::vector<std::shared_ptr<SymbolTableClasses>> GetAllClasses() {
+        std::vector<std::shared_ptr<SymbolTableClasses>> answer;
+        for (auto& clas : table) {
+            answer.push_back(clas.second);
+        }
+        return  answer;
     }
 
 private:

@@ -13,6 +13,11 @@
 class IRTExpBase : public IRTStatementBase {
 public:
 
+    IRTExpBase() {
+        ret_type = "int";
+        registerToReturn = "smth";
+    }
+
     std::string GetRetType() {
         return ret_type;
     }
@@ -28,6 +33,18 @@ public:
           registerToReturn(registerToReturn)
      {
      }*/
+    std::string GetRegister() {
+        return registerToReturn;
+    }
+    IRTExpBase(const std::string& ret_type,  const std::string& registerToReturn)
+            : ret_type(ret_type),
+              registerToReturn(registerToReturn)
+    {
+    }
+
+    void SetRetType(const std::string& ret) {
+        ret_type = ret;
+    }
 
 private:
     std::string ret_type;
