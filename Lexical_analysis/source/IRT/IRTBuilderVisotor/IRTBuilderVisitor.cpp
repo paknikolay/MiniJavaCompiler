@@ -182,3 +182,33 @@ int IRTBuilderVisitor::Visit(ExpressionNewIdentifier* node) {
 
     return 0;
 }
+
+
+int IRTBuilderVisitor::Visit(ExpressionNewIntArray* node) {
+
+    node->GetCount()->Accept(this);
+
+    auto temp_size = std::dynamic_pointer_cast<IRTExpBase>(lastResult);
+
+    std::vector<std::shared_ptr<IRTExpBase>> list;
+    list.push_back(temp_size);
+    auto args = std::make_shared<ExpList>(list);
+
+
+    auto malloc = std::make_shared<Name>("call");
+
+    auto call = std::make_shared<Call>(malloc, args);
+
+
+    lastResult = call;
+    std::string registerLabel = getNextRegister();
+    auto registr = std::make_shared<Temp>(registerLabel);
+
+    auto mem = std::make_shared<Move>(registr, call);
+
+    auto registr_return = std::make_shared<Temp>(registerLabel);
+
+    lastResult = std::make_shared<ESeq>(registr_return, mem);
+
+    return 0;
+}
