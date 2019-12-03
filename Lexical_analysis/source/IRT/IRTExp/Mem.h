@@ -5,6 +5,13 @@
 
 #include "IRTExpBase.h"
 
-class Mem :IRTExpBase {
+class Mem : public IRTExpBase {
+public:
+
+    Mem(std::shared_ptr<IRTExpBase> expr) : expr(expr) {
+    }
+
+private:
+    std::shared_ptr<IRTExpBase> expr;
 
 };

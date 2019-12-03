@@ -5,7 +5,7 @@
 
 #include "IRTExpBase.h"
 
-class Arg : IRTExpBase{
+class Arg : public IRTExpBase{
     int index;
 public:
     Arg(int index) : index(index) {}

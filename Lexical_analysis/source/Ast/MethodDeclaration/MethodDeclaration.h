@@ -90,6 +90,15 @@ public:
         return args;
     }
 
+
+    std::vector<std::string>& GetArgsTypes() const {
+        std::vector<std::string> types;
+        for (auto pair : args) {
+            types.push_back(pair.first->getTypeName());
+        }
+        return types;
+    }
+
     const std::shared_ptr<MethodBody> &GetMethodBody() const {
         return methodBody;
     }
