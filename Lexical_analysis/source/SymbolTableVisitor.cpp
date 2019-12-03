@@ -117,7 +117,7 @@ int SymbolTableVisitor::Visit(MethodDeclaration* node)
 
 int SymbolTableVisitor::Visit(ClassDeclaration* node) {
 
-    last_class = std::make_shared<SymbolTableClasses>(node->GetClassName());
+    last_class = std::make_shared<SymbolTableClasses>(node->GetClassName(), node->GetExtends());
 
     int position = 0;
     for (const auto& var : node->GetVars()) {
@@ -181,4 +181,28 @@ int SymbolTableVisitor::Visit(Goal* node) {
 
 
     return 1;
+}
+
+SymbolTableVisitor::SymbolTableVisitor(Goal* node) {
+    Visit(node);
+    ImplementExtends();
+}
+
+void SymbolTableVisitor::ImplementExtends() {
+    for (auto& table: symbol_table->GetAllClasses()) {
+        ImplementRecursively(table);
+    }
+}
+
+void SymbolTableVisitor::ImplementRecursively(std::shared_ptr<SymbolTableClasses> cur) {
+    if (cur->GetExtends() != "none") {
+        ImplementRecursively(symbol_table->GetClass(cur->GetExtends()));
+        for (const auto& variable: symbol_table->GetClass(cur->GetExtends())->GetAllVariables()) {
+            cur->AddToVariables(cur->GetAllVariables().size(), variable.first, variable.second->type_name);
+        }
+
+        for (const auto& variable: symbol_table->GetClass(cur->GetExtends())->GetAllMethods()) {
+            cur->AddToMethods(cur->GetAllMethods().size(), variable.second, variable.first.second);
+        }
+    }
 }

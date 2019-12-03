@@ -155,3 +155,12 @@ int IRTBuilderVisitor::Visit(ExpressionThis *node) {
     this->lastResult = std::make_shared<Arg>(0);
     return 0;
 }
+/*
+int IRTBuilderVisitor::Visit(ExpressionNewIdentifier* node) {
+
+    int size = symbolTable->GetClass(node->GetIdentifier()).;
+    auto size_shared = std::shared_ptr<Const>(size);
+
+    return 0;
+}
+ */
