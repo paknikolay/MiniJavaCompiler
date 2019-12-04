@@ -63,7 +63,7 @@ private:
         return curLabel;
     }
 
-    void handleStatementArray(const std::vector<std::shared_ptr<StatementBase>> array);
+    void handleStatementArray(const std::vector<std::shared_ptr<StatementBase>>& array);
 
     std::shared_ptr<SymbolTableGlobal> symbolTable;
     std::shared_ptr<SymbolTableMethod> methodTable;
@@ -72,9 +72,8 @@ private:
 
 public:
 
-    IRTBuilderVisitor(std::shared_ptr<SymbolTableGlobal> symbolTable,  std::shared_ptr<SymbolTableMethod> methodTable)
-    : symbolTable(symbolTable),
-      methodTable(methodTable)
+    IRTBuilderVisitor(std::shared_ptr<SymbolTableGlobal> symbolTable)
+    : symbolTable(symbolTable)
     {
     }
 

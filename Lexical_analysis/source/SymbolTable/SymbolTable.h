@@ -109,7 +109,7 @@ public:
     }
 
     std::shared_ptr<SymbolTableMethod> GetMethod(const std::string& name_, const std::vector<std::string>& variable_list) {
-        methods_table[std::make_pair(name_, variable_list)];
+        return methods_table[std::make_pair(name_, variable_list)];
     }
 
     std::string GetName() {

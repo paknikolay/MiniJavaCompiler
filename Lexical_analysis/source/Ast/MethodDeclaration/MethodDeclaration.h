@@ -91,10 +91,13 @@ public:
     }
 
 
-    std::vector<std::string>& GetArgsTypes() const {
+    std::vector<std::string> GetArgsTypes() const {
         std::vector<std::string> types;
         for (auto pair : args) {
             types.push_back(pair.first->getTypeName());
+            if (pair.first->GetType() == Type::EType ::STANDARD_TYPE_ARRAY) {
+                types.back().append("[]");
+            }
         }
         return types;
     }

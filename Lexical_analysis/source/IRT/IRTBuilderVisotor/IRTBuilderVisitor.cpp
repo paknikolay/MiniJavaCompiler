@@ -7,11 +7,14 @@
 
 int IRTBuilderVisitor::Visit(ExpressionBinOp* node) {
     node->GetLeft()->Accept(this);
-    std::shared_ptr<IRTNodeBase> leftChild = lastResult;
+    std::shared_ptr<IRTExpBase> leftChild = std::dynamic_pointer_cast<IRTExpBase>(lastResult);
     node->GetRight()->Accept(this);
-    std::shared_ptr<IRTNodeBase> rightChild = lastResult;
-    lastResult = std::make_shared<BinOp>(node->GetBinOp(), std::dynamic_pointer_cast<IRTExpBase>(leftChild),
-                                         std::dynamic_pointer_cast<IRTExpBase>(rightChild));
+    std::shared_ptr<IRTExpBase> rightChild = std::dynamic_pointer_cast<IRTExpBase>(lastResult);
+
+    auto rez  = std::make_shared<BinOp>(node->GetBinOp(), leftChild, rightChild);
+    //считаем, что они имеют один тип
+    rez->SetRetType(leftChild->GetRetType());
+    lastResult = rez;
     return 0;
 }
 
@@ -31,12 +34,14 @@ int IRTBuilderVisitor::Visit(ExpressionFunctionCall* node) {
     //кладем указатель на объект в начало(this для вызываемой функции)
     argsParsed.push_back(func);
     std::vector<std::string> types;
-    for (auto arg : args) {
+    for (auto& arg : args) {
         arg->Accept(this);
         auto param = std::dynamic_pointer_cast<IRTExpBase>(lastResult);
         argsParsed.push_back(param);
         types.push_back(param->GetRetType());
     }
+
+    auto b = symbolTable->GetClass(func->GetRetType());
     auto retType = symbolTable->GetClass(func->GetRetType())->GetMethod(node->GetName(), types)->GetTypeName();
     auto funcCall = std::make_shared<Call>(std::make_shared<Name>(node->GetName()), std::make_shared<ExpList>(argsParsed));
     funcCall->SetRetType(retType);
@@ -46,27 +51,28 @@ int IRTBuilderVisitor::Visit(ExpressionFunctionCall* node) {
 
 int IRTBuilderVisitor::Visit(ExpressionGetLength* node) {
     node->GetContainer()->Accept(this);
-    std::shared_ptr<IRTNodeBase> str = lastResult;
+    //добавляем this в начало
+    auto container = std::make_shared<ExpList>(std::dynamic_pointer_cast<IRTExpBase>(lastResult));
 
-    lastResult = std::make_shared<Call>(std::dynamic_pointer_cast<IRTExpBase>(str), std::dynamic_pointer_cast<ExpList>(node->GetContainer()));
+    auto rez = std::make_shared<Call>(std::make_shared<Name>("length"), container);
+    rez->SetRetType("int");
+    lastResult = rez;
     return 0;
 }
 
-//int IRTBuilderVisitor::Visit(ExpressionIdentifier* node) {
-//    lastResult = std::make_shared<Name>(Name(node->GetIdentifier()));
-//    return 0;
-//}
 
 int IRTBuilderVisitor::Visit(ExpressionInt* node) {
-    lastResult = std::make_shared<Const>(Const(node->GetValue()));
+    auto rez = std::make_shared<Const>(Const(node->GetValue()));
+    rez->SetRetType("int");
+    lastResult = rez;
     return 0;
 }
 
 
 
-int IRTBuilderVisitor::Visit(ExpressionThis* node) {
+int IRTBuilderVisitor::Visit(ExpressionThis*) {
     //так как this - 0й аргумент
-    auto exprThis = std::shared_ptr<Arg>(0);
+    auto exprThis = std::make_shared<Arg>(0);
     exprThis->SetRetType(curClass);
     lastResult =  exprThis;
 }
@@ -158,7 +164,10 @@ int IRTBuilderVisitor::Visit(ExpressionIndex* node) {
     auto array = std::dynamic_pointer_cast<IRTExpBase>(this->lastResult);
     node->GetIndex()->Accept(this);
     auto index = std::dynamic_pointer_cast<IRTExpBase>(this->lastResult);
-    this->lastResult = std::make_shared<BinOp>(EBinOp::PLUS, array, index);
+    auto rez = std::make_shared<BinOp>(EBinOp::PLUS, array, index);
+    //только массивы интов
+    rez->SetRetType("int");
+    this->lastResult = rez;
     return 0;
 }
 
@@ -170,8 +179,9 @@ int IRTBuilderVisitor:: Visit(ExpressionNegation* node) {
 
     auto to_neg = std::dynamic_pointer_cast<IRTExpBase>(this->lastResult);
 
-    this->lastResult = std::make_shared<BinOp>(EBinOp::XOR, to_neg, false_xor);
-
+    auto rez = std::make_shared<BinOp>(EBinOp::XOR, to_neg, false_xor);
+    rez->SetRetType(to_neg->GetRetType());
+    this->lastResult = rez;
     return 0;
 }
 
@@ -197,8 +207,9 @@ int IRTBuilderVisitor::Visit(ExpressionNewIdentifier* node) {
 
     auto registr_return = std::make_shared<Temp>(registerLabel);
 
-    lastResult = std::make_shared<ESeq>(registr_return, mem);
-
+    auto rez = std::make_shared<ESeq>(registr_return, mem);
+    rez->SetRetType(node->GetIdentifier());
+    lastResult = rez;
     return 0;
 }
 
@@ -227,16 +238,17 @@ int IRTBuilderVisitor::Visit(ExpressionNewIntArray* node) {
 
     auto registr_return = std::make_shared<Temp>(registerLabel);
 
-    lastResult = std::make_shared<ESeq>(registr_return, mem);
-
+    auto rez = std::make_shared<ESeq>(registr_return, mem);
+    rez->SetRetType("int[]");
+    lastResult = rez;
     return 0;
 }
 
 
 std::shared_ptr<IRTExpBase> IRTBuilderVisitor::getAddressOfVariable(std::string identifier) {
-    std::shared_ptr<IRTExpBase> rez(0);
-
+    std::shared_ptr<IRTExpBase> rez(nullptr);
     auto varInfo = methodTable->GetVariable(identifier);
+    if (varInfo == nullptr)
     if (methodTable->GetVariableScope(identifier) == TypeScope::ARGUMENT) {
         rez = std::make_shared<Arg>(varInfo->position);
     } else {
@@ -292,9 +304,9 @@ int IRTBuilderVisitor::Visit(StatementPrint* node) {
 }
 
 //if is empty lasResult contains nullptr
-void IRTBuilderVisitor::handleStatementArray(const std::vector<std::shared_ptr<StatementBase>> array){
+void IRTBuilderVisitor::handleStatementArray(const std::vector<std::shared_ptr<StatementBase>>& array){
 
-    if (array.size() == 0) {
+    if (array.empty()) {
         lastResult = std::shared_ptr<IRTNodeBase>(0);
         return;
     }
@@ -324,7 +336,7 @@ void IRTBuilderVisitor::handleStatementArray(const std::vector<std::shared_ptr<S
 //if is empty lasResult contains nullptr
 int IRTBuilderVisitor::Visit(StatementSequence* node) {
 
-    auto array = node->GetArray();
+    auto& array = node->GetArray();
 
     handleStatementArray(array);
 
@@ -333,11 +345,11 @@ int IRTBuilderVisitor::Visit(StatementSequence* node) {
 
 
 //do nothing, skip
-int IRTBuilderVisitor::Visit(Type* node){
+int IRTBuilderVisitor::Visit(Type*){
     return 0;
 }
 // skip
-int IRTBuilderVisitor::Visit(VarDeclaration* node){
+int IRTBuilderVisitor::Visit(VarDeclaration*){
     return 0;
 }
 
@@ -350,7 +362,6 @@ int IRTBuilderVisitor::Visit(MethodBody* node){
 
 int IRTBuilderVisitor::Visit(MethodDeclaration* node) {
     auto argsType = node->GetArgsTypes();
-
     methodTable = symbolTable->GetClass(curClass)->GetMethod(node->GetMethodName(), argsType);
 
     node->GetMethodBody()->Accept(this);
@@ -361,21 +372,27 @@ int IRTBuilderVisitor::Visit(MethodDeclaration* node) {
 }
 int IRTBuilderVisitor::Visit(ClassDeclaration* node) {
     curClass = node->GetClassName();
-    for (auto method : node->GetMethods()) {
+    for (auto& method : node->GetMethods()) {
         method->Accept(this);
 
     }
 }
 int IRTBuilderVisitor::Visit(MainClass* node) {
     curClass = node->GetClassName();
+    std::vector<std::string> argsType;
+    argsType.emplace_back("String[]");
+
+    methodTable = symbolTable->GetClass(curClass)->GetMethod("main", argsType);
     node->GetStatement()->Accept(this);
-    std::vector<std::string> argType;
-    argType.push_back("String");
-    irtTrees.push_back(FuncInfo(curClass, argType, "main", lastResult));
+    irtTrees.emplace_back(FuncInfo(curClass, argsType, "main", lastResult));
 }
 
 int IRTBuilderVisitor::Visit(Goal* node) {
-    for (auto class_decl : node->GetClassDeclarations()) {
+
+    node->GetMainClass()->Accept(this);
+
+    for (auto& class_decl : node->GetClassDeclarations()) {
         class_decl->Accept(this);
     }
+
 }

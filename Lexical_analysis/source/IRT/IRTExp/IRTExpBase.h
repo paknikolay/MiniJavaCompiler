@@ -25,7 +25,7 @@ public:
         return registerToReturn;
     }
 
-    void SetRetType(const std::string type) {
+    virtual void SetRetType(const std::string type) {
         ret_type = type;
     }
     /*IRTExpBase(const std::string& ret_type,  const std::string& registerToReturn)
@@ -33,18 +33,12 @@ public:
           registerToReturn(registerToReturn)
      {
      }*/
-    std::string GetRegister() {
-        return registerToReturn;
-    }
     IRTExpBase(const std::string& ret_type,  const std::string& registerToReturn)
             : ret_type(ret_type),
               registerToReturn(registerToReturn)
     {
     }
 
-    void SetRetType(const std::string& ret) {
-        ret_type = ret;
-    }
 
 private:
     std::string ret_type;
