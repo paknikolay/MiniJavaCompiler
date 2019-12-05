@@ -75,6 +75,10 @@ public:
         return type_name;
     }
 
+    int GetSize() {
+        return table.size();
+    }
+
 private:
     std::string name;
     std::string type_name;

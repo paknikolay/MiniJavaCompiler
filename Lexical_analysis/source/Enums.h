@@ -29,5 +29,6 @@ enum class EBinOp {
 
 enum class TypeScope {
     ARGUMENT,
-    LOCAL_VARIABLE
+    LOCAL_VARIABLE,
+    CLASS_VARIABLE
 };

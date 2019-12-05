@@ -201,8 +201,23 @@ void SymbolTableVisitor::ImplementRecursively(std::shared_ptr<SymbolTableClasses
             cur->AddToVariables(cur->GetAllVariables().size(), variable.first, variable.second->type_name);
         }
 
+        for (const auto& method: cur->GetAllMethods()) {
+            for (const auto& variables: cur->GetAllVariables()) {
+                method.second->AddToVariables(method.second->GetSize(), variables.first, variables.second->type_name);
+                method.second->AddToScope(TypeScope::CLASS_VARIABLE, variables.first);
+            }
+        }
+
         for (const auto& variable: symbol_table->GetClass(cur->GetExtends())->GetAllMethods()) {
             cur->AddToMethods(cur->GetAllMethods().size(), variable.second, variable.first.second);
         }
+    } else {
+        for (const auto& method: cur->GetAllMethods()) {
+            for (const auto& variables: cur->GetAllVariables()) {
+                method.second->AddToVariables(method.second->GetSize(), variables.first, variables.second->type_name);
+                method.second->AddToScope(TypeScope::CLASS_VARIABLE, variables.first);
+            }
+        }
     }
+
 }
