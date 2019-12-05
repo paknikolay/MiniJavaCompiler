@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "../BaseNode.h"
 #include "../../Enums.h"
@@ -10,6 +11,7 @@
 #include "../VarDeclaration/VarDeclaration.h"
 #include "../Statement/Statements.h"
 #include "../Expression/ExpressionBase.h"
+
 
 class MethodBody : public BaseNode {
 public:
@@ -99,6 +101,7 @@ public:
                 types.back().append("[]");
             }
         }
+
         return types;
     }
 
