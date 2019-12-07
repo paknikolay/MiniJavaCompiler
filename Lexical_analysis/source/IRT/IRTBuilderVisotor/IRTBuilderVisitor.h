@@ -79,6 +79,10 @@ public:
     {
     }
 
+    const std::vector<FuncInfo>& getIrtTrees(){
+        return irtTrees;
+    }
+
     int Visit(ExpressionBinOp* node);
     int Visit(ExpressionBool* node);
     int Visit(ExpressionFunctionCall* node);
