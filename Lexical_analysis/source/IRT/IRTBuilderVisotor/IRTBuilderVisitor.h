@@ -65,6 +65,8 @@ private:
 
     void handleStatementArray(const std::vector<std::shared_ptr<StatementBase>>& array);
 
+    bool canCast(const std::string& castingType, const std::string& typeToCast);
+
     std::shared_ptr<SymbolTableGlobal> symbolTable;
     std::shared_ptr<SymbolTableMethod> methodTable;
 

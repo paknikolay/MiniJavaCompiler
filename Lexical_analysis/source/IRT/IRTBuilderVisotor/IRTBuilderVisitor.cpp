@@ -29,6 +29,22 @@ int IRTBuilderVisitor::Visit(ExpressionBool* node) {
 }
 
 
+bool IRTBuilderVisitor::canCast(const std::string& castingType, const std::string& typeToCast){
+    if (castingType == typeToCast){
+        return true;
+    }
+    //проверяем каст к базе
+    auto classInfo = symbolTable->GetClass(castingType);
+    while (classInfo->GetExtends() != "none") {
+        if (classInfo->GetExtends() == typeToCast) {
+            return true;
+        }
+        classInfo = symbolTable->GetClass(classInfo->GetExtends());
+    }
+    return false;
+}
+
+
 int IRTBuilderVisitor::Visit(ExpressionFunctionCall* node) {
 
     node->GetObject()->Accept(this);
@@ -49,8 +65,41 @@ int IRTBuilderVisitor::Visit(ExpressionFunctionCall* node) {
     }
 
     std::reverse(types.begin(), types.end());
-    auto b = symbolTable->GetClass(func->GetRetType());
-    auto retType = symbolTable->GetClass(func->GetRetType())->GetMethod(node->GetName(), types)->GetTypeName();
+
+
+    //так как мы не уверены, что есть такая функция с такими аргументами, то перебираем все и пытаемся привести аргументы
+    //пока только приведение к базе
+    auto method = std::shared_ptr<SymbolTableMethod>(nullptr);
+
+    auto methods = symbolTable->GetClass(func->GetRetType())->GetAllMethods();
+
+
+    for (auto pair = methods.begin(); pair != methods.end(); pair++) {
+
+        if (pair->first.first != node->GetName()) {
+            continue;
+        }
+
+        if (types.size() != pair->first.second.size()) {
+            continue;
+        }
+
+        bool canCall = true;
+        for (int i = 0; i < types.size(); i++) {
+            canCall &= canCast(types[i], pair->first.second[i]);
+        }
+
+        if (canCall) {
+            //считаем, что такая функция всего лишь одна,
+            // если была бы не одна, то нужно как-то отранжировать их и выбрать наиболее подходящую
+            method = symbolTable->GetClass(func->GetRetType())->GetMethod(node->GetName(), pair->first.second);
+            break;
+        }
+
+    }
+
+    assert(method != nullptr);
+    auto retType = method->GetTypeName();
     auto funcCall = std::make_shared<Call>(std::make_shared<Name>(node->GetName()), std::make_shared<ExpList>(argsParsed));
     funcCall->SetRetType(retType);
     lastResult = funcCall;
@@ -423,7 +472,6 @@ int IRTBuilderVisitor::Visit(MainClass* node) {
 int IRTBuilderVisitor::Visit(Goal* node) {
 
     node->GetMainClass()->Accept(this);
-    assert(lastResult != nullptr);
 
     for (auto& class_decl : node->GetClassDeclarations()) {
         class_decl->Accept(this);
