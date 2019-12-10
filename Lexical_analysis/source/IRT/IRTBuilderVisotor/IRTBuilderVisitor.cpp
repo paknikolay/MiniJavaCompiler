@@ -65,6 +65,7 @@ int IRTBuilderVisitor::Visit(ExpressionFunctionCall* node) {
     }
 
     std::reverse(types.begin(), types.end());
+    std::reverse(argsParsed.begin(), argsParsed.end());
 
 
     //так как мы не уверены, что есть такая функция с такими аргументами, то перебираем все и пытаемся привести аргументы
