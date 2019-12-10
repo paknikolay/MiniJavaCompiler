@@ -39,6 +39,8 @@ public:
     {
     }
 
+    int Accept(Visitor* visit);
+
 
 private:
     std::string ret_type;

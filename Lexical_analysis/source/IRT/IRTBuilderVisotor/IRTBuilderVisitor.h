@@ -26,15 +26,15 @@ private:
         std::shared_ptr<IRTNodeBase> irtTree;
 
         FuncInfo(
-                 const std::string& className,
-                 std::vector<std::string>& argsTypes,
-                 const std::string& funcName,
-                 const std::shared_ptr<IRTNodeBase>& irtTree
+                 const std::string& className_,
+                 std::vector<std::string>& argsTypes_,
+                 const std::string& funcName_,
+                 const std::shared_ptr<IRTNodeBase>& irtTree_
                 )
-                : className(className),
-                  argsTypes(argsTypes),
-                  funcName(funcName),
-                  irtTree(irtTree)
+                : className(className_),
+                  argsTypes(argsTypes_),
+                  funcName(funcName_),
+                  irtTree(irtTree_)
         {}
     };
 
@@ -74,8 +74,8 @@ private:
 
 public:
 
-    IRTBuilderVisitor(std::shared_ptr<SymbolTableGlobal> symbolTable)
-    : symbolTable(symbolTable)
+    IRTBuilderVisitor(std::shared_ptr<SymbolTableGlobal> symbolTable_)
+    : symbolTable(symbolTable_)
     {
     }
 

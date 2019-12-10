@@ -6,7 +6,7 @@
 #include <sstream>
 
 int Visit(CJump* node) {
-
+    return 0;
 }
 
 
@@ -65,7 +65,7 @@ int IRTDotVisitor::Visit(Const* node)
     std::stringstream s;
     s << n << " -> " << number << "\n";
     f << s.str();
-    return number;
+    return n;
 }
 
 int IRTDotVisitor::Visit(Local* node)
@@ -76,7 +76,7 @@ int IRTDotVisitor::Visit(Local* node)
     ++n;
     f << n << "[label=\"Local\"]\n";
     std::stringstream s;
-    s << n << " -> " << number << "\n";
+    s << number << " -> " << n << "\n";
     f << s.str();
     return number;
 }
@@ -115,7 +115,7 @@ int IRTDotVisitor::Visit(Name* node)
     std::stringstream s;
     s << n << " -> " << number << "\n";
     f << s.str();
-    return number;
+    return n;
 }
 
 int IRTDotVisitor::Visit(Temp* node)
@@ -128,7 +128,7 @@ int IRTDotVisitor::Visit(Temp* node)
     std::stringstream s;
     s << n << " -> " << number << "\n";
     f << s.str();
-    return number;
+    return n;
 }
 
 
@@ -158,8 +158,12 @@ int IRTDotVisitor::Visit(Label *node) {
     ++n;
     f << n << "[label=\"Label\"]\n";
     std::stringstream s;
-    s << n << " -> " << number << "\n";
+    s << number << " -> " << n << "\n";
     f << s.str();
     return number;
+}
+
+int IRTDotVisitor::Visit(IRTExpBase *node) {
+    return 0;
 }
 

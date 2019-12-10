@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "IRTNodeBase.h"
+#include "../IRTNodeBase.h"
 #include <memory>
 
 class IRTStatementBase : public IRTNodeBase{

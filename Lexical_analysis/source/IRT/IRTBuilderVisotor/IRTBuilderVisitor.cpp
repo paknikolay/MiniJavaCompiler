@@ -134,6 +134,7 @@ int IRTBuilderVisitor::Visit(ExpressionThis*) {
     auto exprThis = std::make_shared<Arg>(0);
     exprThis->SetRetType(curClass);
     lastResult =  exprThis;
+    return 0;
 }
 
 int IRTBuilderVisitor::Visit(StatementIf* node) {
@@ -458,6 +459,7 @@ int IRTBuilderVisitor::Visit(ClassDeclaration* node) {
         assert(lastResult != nullptr);
 
     }
+    return 0;
 }
 int IRTBuilderVisitor::Visit(MainClass* node) {
     curClass = node->GetClassName();
@@ -467,7 +469,9 @@ int IRTBuilderVisitor::Visit(MainClass* node) {
     methodTable = symbolTable->GetClass(curClass)->GetMethod("main", argsType);
     node->GetStatement()->Accept(this);
     assert(lastResult != nullptr);
-    irtTrees.emplace_back(FuncInfo(curClass, argsType, "main", lastResult));
+  //  auto info = FuncInfo(curClass, argsType, "main", lastResult);
+    irtTrees.emplace_back(curClass, argsType, "main", lastResult);
+    return 0;
 }
 
 int IRTBuilderVisitor::Visit(Goal* node) {
@@ -477,5 +481,5 @@ int IRTBuilderVisitor::Visit(Goal* node) {
     for (auto& class_decl : node->GetClassDeclarations()) {
         class_decl->Accept(this);
     }
-
+    return 0;
 }

@@ -9,14 +9,14 @@
 
 #include <fstream>
 
-#include "Ast/Expression/Expressions.h"
-#include "Ast/Statement/Statements.h"
-#include "Ast/Type/Type.h"
-#include "Ast/VarDeclaration/VarDeclaration.h"
-#include "Ast/MethodDeclaration/MethodDeclaration.h"
-#include "Ast/ClassDeclaration/ClassDeclaration.h"
-#include "Ast/MainClass/MainClass.h"
-#include "Ast/Goal/Goal.h"
+//#include "Ast/Expression/Expressions.h"
+//#include "Ast/Statement/Statements.h"
+//#include "Ast/Type/Type.h"
+//#include "Ast/VarDeclaration/VarDeclaration.h"
+//#include "Ast/MethodDeclaration/MethodDeclaration.h"
+//#include "Ast/ClassDeclaration/ClassDeclaration.h"
+//#include "Ast/MainClass/MainClass.h"
+//#include "Ast/Goal/Goal.h"
 
 #include "Visitor.h"
 /* 

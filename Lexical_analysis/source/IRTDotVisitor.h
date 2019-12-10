@@ -19,7 +19,12 @@ private:
     std::ofstream& f;    // Файл, в который будет печататься дерево.
 public:
     explicit
-    IRTDotVisitor(std::ofstream& f) : f(f){}
+    IRTDotVisitor(std::ofstream& f_, IRTNodeBase* base) : f(f_){
+        n = 0;
+        f << "digraph tree {\n";
+        base->Accept(this);
+        f << "}";
+    }
 
     void IncN() {
         ++n;
@@ -36,7 +41,6 @@ public:
     int Visit(Name* node);
     int Visit(Temp* node);
     int Visit(ExpList* node);
-
     int Visit(Label* node);
 
 
