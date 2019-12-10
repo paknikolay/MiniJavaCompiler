@@ -5,7 +5,7 @@
 
 #include "IRTExpBase.h"
 
-class Mem :IRTExpBase {
+class Mem : public IRTExpBase {
 public:
     Mem(const std::shared_ptr<IRTExpBase>& expression) : expression_(expression) {
 

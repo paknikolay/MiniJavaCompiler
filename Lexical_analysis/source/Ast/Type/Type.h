@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "../BaseNode.h"
 
 class Type : public BaseNode {
@@ -12,6 +13,9 @@ public:
     };
 
     Type(EType type, const std::string& typeName ): type(type), typeName(typeName)
+    {}
+
+    Type(const std::shared_ptr<Type>& other): type(other->type), typeName(other->typeName)
     {}
 
     EType GetType() const {

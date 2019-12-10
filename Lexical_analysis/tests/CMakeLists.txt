@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(GTest REQUIRED)
 
-add_executable(ast_tests positive_tests.cpp negative_tests.cpp test_funcs.cpp dot_visitor_test.cpp)
+add_executable(ast_tests positive_tests.cpp negative_tests.cpp test_funcs.cpp dot_visitor_test.cpp IRT_test.cpp)
 
 target_include_directories(ast_tests
         PRIVATE ${CMAKE_SOURCE_DIR})

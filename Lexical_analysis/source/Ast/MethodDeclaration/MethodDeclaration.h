@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "../BaseNode.h"
 #include "../../Enums.h"
@@ -10,6 +11,7 @@
 #include "../VarDeclaration/VarDeclaration.h"
 #include "../Statement/Statements.h"
 #include "../Expression/ExpressionBase.h"
+
 
 class MethodBody : public BaseNode {
 public:
@@ -88,6 +90,19 @@ public:
 
     const std::vector<std::pair<std::shared_ptr<Type>, std::string>> &GetArgs() const {
         return args;
+    }
+
+
+    std::vector<std::string> GetArgsTypes() const {
+        std::vector<std::string> types;
+        for (auto pair : args) {
+            types.push_back(pair.first->getTypeName());
+            if (pair.first->GetType() == Type::EType ::STANDARD_TYPE_ARRAY) {
+                types.back().append("[]");
+            }
+        }
+
+        return types;
     }
 
     const std::shared_ptr<MethodBody> &GetMethodBody() const {

@@ -1,7 +1,7 @@
 add_library(Irt STATIC IRTNodeBase.cpp IRTExp/Temp.cpp IRTExp/IRTExpBase.cpp Statement/IRTStatementBase.cpp
         IRTExp/Call.cpp IRTExp/Const.cpp IRTExp/Arg.cpp IRTExp/BinOp.cpp IRTExp/ESeq.cpp
         IRTExp/Local.cpp IRTExp/Mem.cpp IRTExp/Name.cpp Statement/CJump.cpp Statement/Label.cpp
-        Statement/Move.cpp Statement/Seq.cpp
+        Statement/Move.cpp Statement/Seq.cpp Statement/Jump.cpp Statement/NOP.cpp
         IRTBuilderVisotor/IRTBuilderVisitor.cpp)
 
 

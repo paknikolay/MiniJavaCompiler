@@ -6,7 +6,7 @@
 #define MINI_JAVA_COMPILER_SYMBOLTABLEVISITOR_H
 
 
-#include <SymbolTable/SymbolTable.h>
+#include "./SymbolTable/SymbolTable.h"
 #include "Ast/Expression/Expressions.h"
 #include "Ast/Statement/Statements.h"
 #include "Ast/Type/Type.h"

@@ -1,6 +1,16 @@
 #include "test_funcs.h"
 #include "Visitor.h"
 
+std::vector<std::string> files{"positive_tests/BinarySearch.java",
+                               "positive_tests/BinaryTree.java",
+                               "positive_tests/BubbleSort.java",
+                               "positive_tests/Factorial.java",
+                               "positive_tests/LinearSearch.java",
+                               "positive_tests/LinkedList.java",
+                               "positive_tests/QuickSort.java",
+                               "positive_tests/TreeVisitor.java"
+                               };
+
 std::string readFile(std::string fileName) {
     ifstream file(fileName);
     string file_graph;
