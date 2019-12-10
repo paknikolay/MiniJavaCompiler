@@ -102,6 +102,7 @@ int CheckTypeVisitor::Visit(ExpressionFunctionCall* node)
     }
 
     std::vector<std::string> args_types(returns.begin() + ret_len + 1, returns.end());
+    std::reverse(args_types.begin(), args_types.end());
     std::shared_ptr<SymbolTableMethod> method(nullptr);
     std::vector< std::vector<std::string> > variants;
     auto methods = stg->GetClass(returns[ret_len])->GetAllMethods();
