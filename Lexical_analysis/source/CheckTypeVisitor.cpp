@@ -7,10 +7,9 @@
 #include "CheckTypeVisitor.h"
 
 
-void CheckTypeVisitor::CheckTypes(Goal* node)
+void CheckTypeVisitor::CheckTypes(std::shared_ptr<Goal> node)
 {
-    SymbolTableVisitor st_visitor = SymbolTableVisitor();
-    st_visitor.Visit(node);
+    SymbolTableVisitor st_visitor(node.get());
     stg = st_visitor.GetSymbolTable();
     returns.clear();
 
@@ -29,13 +28,13 @@ int CheckTypeVisitor::CheckType(const std::shared_ptr<BaseNode>& node)
 
 int CheckTypeVisitor::VisitEmpty()
 {
-    returns.emplace_back("");
+    returns.push_back("unknown");
     return 1;
 }
 
 bool CheckTypeVisitor::isElementary(const std::string& type)
 {
-    return type == "int" || type == "bool" || type == "string";
+    return type == "int" || type == "boolean" || type == "string" || type == "String[]";
 }
 
 bool CheckTypeVisitor::isArray(const std::string& type)
@@ -71,7 +70,7 @@ int CheckTypeVisitor::Visit(ExpressionBinOp* node)
     int op_value = static_cast<int>(node->GetBinOp());
     int res1 = 1 - int(returns[ret_len] == returns[ret_len + 1] && isElementary(returns[ret_len]) &&
             // Строки можно только складывать и сравнивать
-            ((op_value == 0 || op_value > 6) || returns[ret_len] == "int" || returns[ret_len] == "bool"));
+            ((op_value == 0 || op_value > 6) || returns[ret_len] == "int" || returns[ret_len] == "boolean"));
     res += res1;
 
     if (res1) {
@@ -79,13 +78,17 @@ int CheckTypeVisitor::Visit(ExpressionBinOp* node)
                   << " and " << returns[ret_len + 1] << std::endl << std::endl;
     }
 
+    //magic const
+    if (op_value >= 7) {
+        returns[ret_len] = "boolean";
+    }
     returns.resize(ret_len + 1);
     return res;
 }
 
 int CheckTypeVisitor::Visit(ExpressionBool* node)
 {
-    returns.emplace_back("bool");
+    returns.push_back("boolean");
     return 0;
 }
 
@@ -98,14 +101,14 @@ int CheckTypeVisitor::Visit(ExpressionFunctionCall* node)
         res += CheckType(arg);
     }
 
-    std::vector<std::string> args_types(returns.begin() + ret_len, returns.end());
+    std::vector<std::string> args_types(returns.begin() + ret_len + 1, returns.end());
     std::shared_ptr<SymbolTableMethod> method(nullptr);
     std::vector< std::vector<std::string> > variants;
     auto methods = stg->GetClass(returns[ret_len])->GetAllMethods();
 
     for (auto & pair : methods) {
         if (pair.first.first != node->GetName()) { continue; }
-        variants.emplace_back(pair.first.second);
+        variants.push_back(pair.first.second);
         if (args_types.size() != pair.first.second.size()) { continue; }
 
         bool canCall = true;
@@ -131,12 +134,12 @@ int CheckTypeVisitor::Visit(ExpressionFunctionCall* node)
         }
         std::cerr << std::endl;
         res += 1;
-        returns[ret_len] = "";
+        returns[ret_len] = "unknown";
 
         if (!variants.empty()) {
-            std::cerr << node->GetName() << "(";
+            std::cerr << "May be there should have been one of the following functions:" << std::endl;
             for (auto& args : variants) {
-                std::cerr << "May be there should have been one of the following functions:" << std::endl;
+                std::cerr << node->GetName() << "(";
                 for (auto& arg : args) {
                     std::cerr << arg << ", ";
                 }
@@ -168,7 +171,7 @@ int CheckTypeVisitor::Visit(ExpressionGetLength* node)
 
 int CheckTypeVisitor::Visit(ExpressionIdentifier* node)
 {
-    returns.emplace_back(node->GetIdentifier());
+    returns.push_back(cur_method->GetVariable(node->GetIdentifier())->type_name);
     return 0;
 }
 
@@ -179,17 +182,18 @@ int CheckTypeVisitor::Visit(ExpressionIndex* node)
 
     res += CheckType(node->GetArray());
     res += CheckType(node->GetIndex());
-
+    bool hasError = true;
     if (isArray(returns[ret_len]) && returns[ret_len + 1] == "int") {
-        returns.resize(ret_len + 1);
-        returns[ret_len] = returns[ret_len].substr(returns[ret_len].length() - 2);
-    } else if (returns[ret_len + 1] != "int") {
-        std::cerr << "TYPE ERROR: index must be int not " << returns[ret_len] << std::endl << std::endl;
-        returns[ret_len] = "";
-        res += 1;
-    } if (!isArray(returns[ret_len])) {
+        hasError = false;
+        returns[ret_len] = returns[ret_len].substr(0, returns[ret_len].length() - 2);
+    } else if (!isArray(returns[ret_len])) {
         std::cerr << "TYPE ERROR: only int[] and string[] have indices not " << returns[ret_len] << std::endl << std::endl;
-        returns[ret_len] = "";
+        returns[ret_len] = "unknown";
+        res += 1;
+    }
+    if (hasError && returns[ret_len + 1] != "int") {
+        std::cerr << "TYPE ERROR: index must be int not " << returns[ret_len] << std::endl << std::endl;
+        returns[ret_len] = "unknown";
         res += 1;
     }
 
@@ -199,7 +203,7 @@ int CheckTypeVisitor::Visit(ExpressionIndex* node)
 
 int CheckTypeVisitor::Visit(ExpressionInt* node)
 {
-    returns.emplace_back("int");
+    returns.push_back("int");
     return 0;
 }
 
@@ -208,10 +212,10 @@ int CheckTypeVisitor::Visit(ExpressionNegation* node)
     int ret_len = returns.size();
     int res = CheckType(node->GetValue());
 
-    if (returns[ret_len] != "bool") {
+    if (returns[ret_len] != "boolean") {
         res += 1;
         std::cerr << "TYPE ERROR: only bool can have negation, not " << returns[ret_len] << std::endl << std::endl;
-        returns[ret_len] = "bool";
+        returns[ret_len] = "boolean";
     }
 
     return res;
@@ -219,7 +223,7 @@ int CheckTypeVisitor::Visit(ExpressionNegation* node)
 
 int CheckTypeVisitor::Visit(ExpressionNewIdentifier* node)
 {
-    returns.emplace_back(node->GetIdentifier());
+    returns.push_back(node->GetIdentifier());
     return 0;
 }
 
@@ -239,7 +243,7 @@ int CheckTypeVisitor::Visit(ExpressionNewIntArray* node)
 
 int CheckTypeVisitor::Visit(ExpressionThis* node)
 {
-    returns.emplace_back(cur_class->GetName());
+    returns.push_back(cur_class->GetName());
     return 0;
 }
 
@@ -251,7 +255,7 @@ int CheckTypeVisitor::Visit(StatementIf* node)
     int ret_len = returns.size();
     int res = CheckType(node->GetIfExpression());
 
-    if (returns[ret_len] != "bool") {
+    if (returns[ret_len] != "boolean") {
         res += 1;
         std::cerr << "TYPE ERROR: only bool can be an 'if' condition, not " << returns[ret_len] << std::endl << std::endl;
     }
@@ -267,9 +271,9 @@ int CheckTypeVisitor::Visit(StatementWhile* node)
     int ret_len = returns.size();
     int res = CheckType(node->GetWhileExpression());
 
-    if (returns[ret_len] != "bool") {
+    if (returns[ret_len] != "boolean") {
         res += 1;
-        std::cerr << "TYPE ERROR: only bool can be an 'if' condition, not " << returns[ret_len] << std::endl << std::endl;
+        std::cerr << "TYPE ERROR: only boolean can be an 'if' condition, not " << returns[ret_len] << std::endl << std::endl;
     }
     res += CheckType(node->GetWhileStatement());
 
@@ -324,7 +328,7 @@ int CheckTypeVisitor::Visit(StatementPrint* node)
     int res = CheckType(node->GetExpression());
     if (!isElementary(returns[ret_len])) {
         res += 1;
-        std::cerr << "TYPE ERROR: only int, bool or string can be printed, not "
+        std::cerr << "TYPE ERROR: only int, boolean or string can be printed, not "
         << returns[ret_len] << std::endl << std::endl;
     }
     returns.resize(ret_len);
@@ -347,7 +351,7 @@ int CheckTypeVisitor::Visit(StatementSequence* node)
 
 int CheckTypeVisitor::Visit(Type* node)
 {
-    returns.emplace_back(node->getTypeName());
+    returns.push_back(node->getTypeName());
     return 0;
 }
 
@@ -386,7 +390,7 @@ int CheckTypeVisitor::Visit(MethodDeclaration* node)
     std::vector<std::string> args;
     for (auto& arg : node->GetArgs()) {
         res += CheckType(arg.first);
-        args.emplace_back(returns[returns.size() - 1]);
+        args.push_back(returns[returns.size() - 1]);
     }
 
     cur_method = cur_class->GetMethod(node->GetMethodName(), args);
@@ -419,6 +423,7 @@ int CheckTypeVisitor::Visit(MainClass* node)
     int ret_len = returns.size();
 
     cur_class = stg->GetClass(node->GetClassName());
+    cur_method = cur_class->GetMethod("main", {"String[]"});
     int res = CheckType(node->GetStatement());
 
     returns.resize(ret_len);

@@ -18,6 +18,9 @@ struct Method;
 // API
 
 inline std::string GetTypeName(const std::shared_ptr<Type>& type) {
+    if (type->GetType() == Type::EType::STANDARD_TYPE_ARRAY) {
+        return "int[]";
+    }
     return type->getTypeName();
 }
 

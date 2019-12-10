@@ -40,7 +40,7 @@ private:
     bool canCast(const std::string& castingType, const std::string& typeToCast);
 
 public:
-    void CheckTypes(Goal* node);
+    void CheckTypes(std::shared_ptr<Goal> node);
 
     int Visit(ExpressionBinOp* node);
     int Visit(ExpressionBool* node);
