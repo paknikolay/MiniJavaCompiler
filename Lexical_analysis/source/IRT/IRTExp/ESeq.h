@@ -14,6 +14,16 @@ public:
 
     }
 
+    int Accept(Visitor* v);
+
+    std::shared_ptr<IRTExpBase> GetExpr() {
+        return expr;
+    }
+
+    std::shared_ptr<IRTStatementBase> GetStat() {
+        return stat;
+    }
+
 private:
     std::shared_ptr<IRTExpBase> expr;
     std::shared_ptr<IRTStatementBase> stat;

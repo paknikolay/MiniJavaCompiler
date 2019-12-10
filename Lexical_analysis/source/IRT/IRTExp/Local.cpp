@@ -3,3 +3,8 @@
 //
 
 #include "Local.h"
+#include "../IRTDotVisitor.h"
+
+int Local::Accept(Visitor *v) {
+    return v->Visit(this);
+}

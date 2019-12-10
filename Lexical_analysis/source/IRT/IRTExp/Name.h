@@ -10,5 +10,11 @@ class Name : public IRTExpBase{
     std::string value;
 public:
     Name(std::string value) : value(value) {}
+
+    std::string GetString() {
+        return value;
+    }
+
+    int Accept(Visitor* v);
 };
 

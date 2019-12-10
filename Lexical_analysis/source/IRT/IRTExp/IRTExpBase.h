@@ -63,4 +63,14 @@ public:
         all.erase(all.begin());
         tail = std::make_shared<ExpList>(ExpList(all));
     }
+
+    int Accept(Visitor* visit);
+
+    std::shared_ptr<IRTExpBase> GetHead() {
+        return head;
+    }
+
+    std::shared_ptr<ExpList> GetTail() {
+        return tail;
+    }
 };

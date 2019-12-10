@@ -12,4 +12,13 @@ class Call : public IRTExpBase{
     std::shared_ptr<ExpList> args;
 public:
     Call(const std::shared_ptr<IRTExpBase>& func_, const std::shared_ptr<ExpList>& args_) : func(func_), args(args_) {}
+    int Accept(Visitor* v);
+
+    std::shared_ptr<ExpList> GetList() {
+        return args;
+    }
+
+    std::shared_ptr<IRTExpBase> GetFunc() {
+        return func;
+    }
 };
