@@ -17,7 +17,7 @@ int IRTDotVisitor::Visit(Arg* node)
     int number = n;
     std::stringstream s;
     ++n;
-    f << n << " [label = \"INT\" (" << node->GetIndex() << ")]\n";
+    f << n << " [label = \"INT (" << node->GetIndex() << ")\"]\n";
     s << number << " -> " << n << "\n";
 
     f << s.str();
@@ -192,5 +192,30 @@ int IRTDotVisitor::Visit(Label *node) {
 
 int IRTDotVisitor::Visit(IRTExpBase *node) {
     return 0;
+}
+
+int IRTDotVisitor::Visit(CJump* node) {
+    std::vector<std::string> bin_ops = {"+", "-", "*", "/", "%", "^", "||", "&&", "!=", "==", "<=", ">=", "<", ">"};
+    f << n << " [label=\"cjump: binop: " << bin_ops[static_cast<int>(node->getBinOp())] <<"\"]\n";
+    int number = n;
+    std::stringstream s;
+    s << number << " -> " << DrawSubtree(node->getLeft().get()) << " [label=\"" << node->getTrueLabel() << "\"]\n";
+    s << number << " -> " << DrawSubtree(node->getRight().get()) << " [label=\"" << node->getFalseLabel() << "\"]\n";
+
+    f << s.str();
+    return number;
+}
+
+int IRTDotVisitor::Visit(Jump* node) {
+    f << n << " [label=\"cjump: to label:" << node->getLabel() <<"\"]\n";
+    return n;
+}
+
+int IRTDotVisitor::DrawSubtree(IRTNodeBase* node)
+{
+    ++n;
+    if (node) {
+        return node->Accept(this);
+    }
 }
 

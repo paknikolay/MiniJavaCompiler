@@ -25,6 +25,26 @@ public:
     {
     }
 
+    EBinOp getBinOp() const {
+        return binOp;
+    }
+
+    const std::shared_ptr<IRTExpBase> &getLeft() const {
+        return left;
+    }
+
+    const std::shared_ptr<IRTExpBase> &getRight() const {
+        return right;
+    }
+
+    const std::string &getTrueLabel() const {
+        return true_label;
+    }
+
+    const std::string &getFalseLabel() const {
+        return false_label;
+    }
+
 private:
     EBinOp binOp;
     std::shared_ptr<IRTExpBase> left;

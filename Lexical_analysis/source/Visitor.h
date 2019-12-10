@@ -60,4 +60,7 @@ public:
     int virtual Visit(Seq* node) {return 0;}
     int virtual Visit(Move* node) {return 0;}
 
+    int virtual Visit(CJump* node){return 0;}
+    int virtual Visit(Jump* node){return 0;}
+
 };

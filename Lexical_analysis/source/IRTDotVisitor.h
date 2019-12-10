@@ -30,6 +30,9 @@ public:
         ++n;
     }
 
+
+    int DrawSubtree(IRTNodeBase* node);
+
     int Visit(Arg* node);
     int Visit(BinOp* node);
     int Visit(Call* node);
@@ -46,6 +49,11 @@ public:
     int Visit(Move* node);
 
 
-    //int Visit(CJump* node);
+    int Visit(CJump* node);
+    //int Visit(Jump);
+    int Visit(Jump* node);
+//    int Visit(Label* node);
+//    int Visit(Move* node);
+//    int Visit(NOP* node);
 };
 

@@ -8,6 +8,10 @@ public:
     Jump(std::string label) : label(label) {
     }
 
+    const std::string &getLabel() const {
+        return label;
+    }
+
 private:
     std::string label;
 };
