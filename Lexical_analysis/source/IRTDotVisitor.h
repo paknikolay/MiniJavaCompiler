@@ -37,6 +37,8 @@ public:
     int Visit(Temp* node);
     int Visit(ExpList* node);
 
+    int Visit(Label* node);
+
 
     //int Visit(CJump* node);
 };

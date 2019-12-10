@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Ast/BaseNode.h"
+#include "IRT/IRTNodeBase.h"
 
 class Visitor {
 
@@ -32,4 +33,18 @@ public:
     int virtual Visit(ClassDeclaration* node) = 0;
     int virtual Visit(MainClass* node) = 0;
     int virtual Visit(Goal* node) = 0;
+
+    int Visit(Arg* node) = 0;
+    int Visit(BinOp* node) = 0;
+    int Visit(Call* node) = 0;
+    int Visit(Const* node) = 0;
+    int Visit(ESeq* node) = 0;
+    int Visit(IRTExpBase* node) = 0;
+    int Visit(Local* node) = 0;
+    int Visit(Mem* node) = 0;
+    int Visit(Name* node) = 0;
+    int Visit(Temp* node) = 0;
+    int Visit(ExpList* node) = 0;
+    int Visit(IRTStatementBase* node) = 0;
+
 };

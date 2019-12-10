@@ -5,6 +5,8 @@
 
 #include "../Ast/BaseNode.h"
 
+class Visitor;
+
 class IRTNodeBase : public BaseNode {
 
 };

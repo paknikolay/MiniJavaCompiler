@@ -151,3 +151,15 @@ int IRTDotVisitor::Visit(ExpList* node)
     return number;
 }
 
+int IRTDotVisitor::Visit(Label *node) {
+    ++n;
+    f << n << " [label=\"string( " << node->GetLabel() << ")\"]\n";
+    int number = n;
+    ++n;
+    f << n << "[label=\"Label\"]\n";
+    std::stringstream s;
+    s << n << " -> " << number << "\n";
+    f << s.str();
+    return number;
+}
+

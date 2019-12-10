@@ -15,6 +15,8 @@ public:
         return label;
     }
 
+    int Accept(Visitor* visitor);
+
 private:
     std::string label;
 
