@@ -15,6 +15,15 @@ public:
         {
         }
 
+    std::shared_ptr<IRTStatementBase> GetLeft() {
+        return left;
+    }
+
+    std::shared_ptr<IRTStatementBase> GetRight() {
+        return right;
+    }
+
+    int Accept(Visitor* v);
 
 private:
     std::shared_ptr<IRTStatementBase> left;

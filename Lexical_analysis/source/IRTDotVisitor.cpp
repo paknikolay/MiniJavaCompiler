@@ -55,6 +55,33 @@ int IRTDotVisitor::Visit(Call* node)
     return num;
 }
 
+int IRTDotVisitor::Visit(Seq* node)
+{
+    ++n;
+    int num = n;
+    f << num<< " [label = \"Seq\"]\n";
+
+
+    std::stringstream s;
+    s << num << " -> {" << node->GetLeft()->Accept(this)  << ", " << node->GetRight()->Accept(this) << "}\n";
+    f << s.str();
+    return num;
+}
+
+int IRTDotVisitor::Visit(Move* node)
+{
+    ++n;
+    int num = n;
+    f << num<< " [label = \"Mem\"]\n";
+
+
+    std::stringstream s;
+    s << num << " -> {" << node->GetSrc()->Accept(this)  << ", " << node->GetDst()->Accept(this) << "}\n";
+    f << s.str();
+    return num;
+}
+
+
 int IRTDotVisitor::Visit(Const* node)
 {
     ++n;

@@ -42,6 +42,8 @@ public:
     int Visit(Temp* node);
     int Visit(ExpList* node);
     int Visit(Label* node);
+    int Visit(Seq* node);
+    int Visit(Move* node);
 
 
     //int Visit(CJump* node);
