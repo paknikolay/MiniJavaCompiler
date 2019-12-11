@@ -63,7 +63,12 @@ int IRTDotVisitor::Visit(Seq* node)
 
 
     std::stringstream s;
-    s << num << " -> {" << node->GetLeft()->Accept(this)  << ", " << node->GetRight()->Accept(this) << "}\n";
+    if (node->GetLeft() != nullptr) {
+        s << num << " -> " <<  node->GetLeft()->Accept(this) << "\n";
+    }
+    if (node->GetRight() != nullptr) {
+        s << num << " -> " <<  node->GetRight()->Accept(this) << "\n";
+    }
     f << s.str();
     return num;
 }
@@ -185,9 +190,9 @@ int IRTDotVisitor::Visit(Label *node) {
     ++n;
     f << n << "[label=\"Label\"]\n";
     std::stringstream s;
-    s << number << " -> " << n << "\n";
+    s << n << " -> " << number << "\n";
     f << s.str();
-    return number;
+    return n;
 }
 
 int IRTDotVisitor::Visit(IRTExpBase *node) {
@@ -195,10 +200,12 @@ int IRTDotVisitor::Visit(IRTExpBase *node) {
 }
 
 int IRTDotVisitor::Visit(CJump* node) {
+    ++n;
     std::vector<std::string> bin_ops = {"+", "-", "*", "/", "%", "^", "||", "&&", "!=", "==", "<=", ">=", "<", ">"};
     f << n << " [label=\"cjump: binop: " << bin_ops[static_cast<int>(node->getBinOp())] <<"\"]\n";
     int number = n;
     std::stringstream s;
+ //TOODO add labels true and false
     s << number << " -> " << DrawSubtree(node->getLeft().get()) << " [label=\"" << node->getTrueLabel() << "\"]\n";
     s << number << " -> " << DrawSubtree(node->getRight().get()) << " [label=\"" << node->getFalseLabel() << "\"]\n";
 
@@ -207,6 +214,7 @@ int IRTDotVisitor::Visit(CJump* node) {
 }
 
 int IRTDotVisitor::Visit(Jump* node) {
+    ++n;
     f << n << " [label=\"cjump: to label:" << node->getLabel() <<"\"]\n";
     return n;
 }

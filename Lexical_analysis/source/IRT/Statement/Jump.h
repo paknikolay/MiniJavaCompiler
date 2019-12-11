@@ -3,14 +3,17 @@
 //
 #pragma once
 #include "IRTStatement.h"
+
 class Jump : public IRTStatementBase {
 public:
-    Jump(std::string label) : label(label) {
+    Jump(std::string label_) : label(label_) {
     }
 
     const std::string &getLabel() const {
         return label;
     }
+
+    int Accept(Visitor* visit);
 
 private:
     std::string label;

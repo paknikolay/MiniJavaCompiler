@@ -11,17 +11,17 @@
 class CJump : public IRTStatementBase {
 public:
     CJump(
-            EBinOp binOp,
-            const std::shared_ptr<IRTExpBase>& left,
-            const std::shared_ptr<IRTExpBase>& right,
-            const std::string& true_label,
-            const std::string& false_label
+            EBinOp binOp_,
+            const std::shared_ptr<IRTExpBase>& left_,
+            const std::shared_ptr<IRTExpBase>& right_,
+            const std::string& true_label_,
+            const std::string& false_label_
          )
-         : binOp(binOp),
-           left(left),
-           right(right),
-           true_label(true_label),
-           false_label(false_label)
+         : binOp(binOp_),
+           left(left_),
+           right(right_),
+           true_label(true_label_),
+           false_label(false_label_)
     {
     }
 
@@ -44,6 +44,8 @@ public:
     const std::string &getFalseLabel() const {
         return false_label;
     }
+
+    int Accept(Visitor* v);
 
 private:
     EBinOp binOp;

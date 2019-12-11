@@ -8,10 +8,10 @@
 class Seq : public IRTStatementBase{
 public:
     Seq(
-            const std::shared_ptr<IRTStatementBase>& left,
-            const std::shared_ptr<IRTStatementBase>& right
+            const std::shared_ptr<IRTStatementBase>& left_,
+            const std::shared_ptr<IRTStatementBase>& right_
         )
-        : right(right), left(left)
+        : right(right_), left(left_)
         {
         }
 

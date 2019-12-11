@@ -15,5 +15,5 @@ private:
     std::shared_ptr<IRTStatementBase> head = nullptr;
     std::shared_ptr<StmList> tail = nullptr;
 public:
-    StmList(std::shared_ptr<IRTStatementBase> head, std::shared_ptr<StmList> tail) : head(head), tail(tail) {}
+    StmList(std::shared_ptr<IRTStatementBase> head_, std::shared_ptr<StmList> tail_) : head(head_), tail(tail_) {}
 };

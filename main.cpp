@@ -39,7 +39,7 @@ int main() {
         IRTBuilderVisitor irtBuilderVisitor(symbolTableVisitor.GetSymbolTable());
         irtBuilderVisitor.Visit(goal);
 
-        IRTNodeBase *base = irtBuilderVisitor.getIrtTrees()[2].irtTree.get();
+        IRTNodeBase *base = irtBuilderVisitor.getIrtTrees()[1].irtTree.get();
 //
         ofstream stream("irt.pak");
         auto irtDotVisitor = std::make_shared<IRTDotVisitor>(stream, base);
