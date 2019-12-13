@@ -70,6 +70,10 @@ public:
         return table[name_];
     }
 
+    std::map<std::string, std::shared_ptr<SimpleVariable>> GetAllVariables() {
+        return table;
+    }
+
     std::string GetName() {
         return name;
     }

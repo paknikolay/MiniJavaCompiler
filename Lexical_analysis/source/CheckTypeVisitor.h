@@ -19,8 +19,9 @@
 #include "Ast/MainClass/MainClass.h"
 #include "Ast/Goal/Goal.h"
 
-#include "SymbolTableVisitor.h"
-#include "SymbolTable/SymbolTable.h"
+//#include "SymbolTableVisitor.h"
+//#include "SymbolTable/SymbolTable.h"
+#include "Malik_funcs.cpp"
 
 #include "Visitor.h"
 
@@ -40,7 +41,7 @@ private:
     bool canCast(const std::string& castingType, const std::string& typeToCast);
 
 public:
-    void CheckTypes(std::shared_ptr<Goal> node);
+    void CheckTypes(const std::shared_ptr<Goal>& node);
 
     int Visit(ExpressionBinOp* node);
     int Visit(ExpressionBool* node);
