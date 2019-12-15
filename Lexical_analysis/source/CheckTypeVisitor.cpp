@@ -106,6 +106,18 @@ int CheckTypeVisitor::Visit(ExpressionBool* node)
     return 0;
 }
 
+bool isDerived(const std::string& className, const std::shared_ptr<SymbolTableClasses>& symbolTableClasses, const std::shared_ptr<SymbolTableGlobal>& stg) {
+    if (symbolTableClasses->GetName() == className) {
+        return true;
+    }
+
+    if (symbolTableClasses->GetExtends() == "none") {
+        return false;
+    }
+
+    return isDerived(className, stg->GetClass(symbolTableClasses->GetExtends()), stg);
+}
+
 int CheckTypeVisitor::Visit(ExpressionFunctionCall* node)
 {
     int res = 0;
@@ -125,7 +137,7 @@ int CheckTypeVisitor::Visit(ExpressionFunctionCall* node)
         if (pair.first.first != node->GetName()) { continue; }
         variants.push_back(pair.first.second);
         if (args_types.size() != pair.first.second.size()) { continue; }
-
+        if (!(pair.second->GetPrivacyModidier() == EModifier::PUBLIC || isDerived(returns[ret_len], cur_class, stg))) { continue; }
         bool canCall = true;
         for (unsigned int i = 0; i < args_types.size(); i++) {
             canCall &= canCast(args_types[i], pair.first.second[i]);

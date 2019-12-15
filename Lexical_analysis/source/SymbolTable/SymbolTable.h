@@ -35,13 +35,20 @@ inline std::vector<std::string> GetTypeName(const std::vector<std::pair<std::sha
 class SymbolTableMethod {
 public:
 
-    SymbolTableMethod(const std::string& name_, const std::shared_ptr<Type>& type) : name(name_),
-    type_name(::GetTypeName(type))
+    SymbolTableMethod(const std::string& name_, const std::shared_ptr<Type>& type, const EModifier modifier)
+    :
+    name(name_),
+    type_name(::GetTypeName(type)),
+    privacyModidier(modifier)
     {
 
     }
 
-    SymbolTableMethod(const std::string& name_, const std::string& type) : name(name_), type_name(type)
+    SymbolTableMethod(const std::string& name_, const std::string& type, const EModifier modifier )
+    :
+    name(name_),
+    type_name(type),
+    privacyModidier(modifier)
     {
 
     }
@@ -90,11 +97,15 @@ public:
         return table.size();
     }
 
+    EModifier GetPrivacyModidier(){
+        return privacyModidier;
+    }
 private:
     std::string name;
     std::string type_name;
     std::map<std::string, std::shared_ptr<SimpleVariable>> table;
     std::map<std::string, TypeScope > table_scope;
+    EModifier privacyModidier;
 };
 
 

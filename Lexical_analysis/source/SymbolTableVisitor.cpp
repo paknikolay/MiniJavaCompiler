@@ -102,7 +102,7 @@ int SymbolTableVisitor::Visit(MethodBody* node) {
 
 int SymbolTableVisitor::Visit(MethodDeclaration* node)
 {
-    last_method = std::make_shared<SymbolTableMethod>(node->GetMethodName(), GetTypeName(node->GetReturnType()));
+    last_method = std::make_shared<SymbolTableMethod>(node->GetMethodName(), GetTypeName(node->GetReturnType()), node->GetPrivacyModifier());
 
 
     int position = 1;
@@ -148,7 +148,7 @@ int SymbolTableVisitor::Visit(MainClass* node) {
 
     last_class = std::make_shared<SymbolTableClasses>(node->GetClassName());
 
-    std::shared_ptr<SymbolTableMethod> main_class_method = std::make_shared<SymbolTableMethod>("main", "void");
+    std::shared_ptr<SymbolTableMethod> main_class_method = std::make_shared<SymbolTableMethod>("main", "void", EModifier::PUBLIC);
 
     main_class_method->AddToScope(TypeScope::ARGUMENT, node->GetArgsName());
     main_class_method->AddToVariables(0, "this", node->GetClassName());
@@ -175,7 +175,7 @@ int SymbolTableVisitor::Visit(Goal* node) {
     // int, bool, int[], string
 
     auto simple_types = std::make_shared<SymbolTableClasses>("int[]");
-    auto simple_method = std::make_shared<SymbolTableMethod>("GetLength", "int");
+    auto simple_method = std::make_shared<SymbolTableMethod>("GetLength", "int", EModifier::PUBLIC);
     simple_method->AddToVariables(0, "this", "int[]");
     simple_method->AddToScope(TypeScope::ARGUMENT, "this");
 

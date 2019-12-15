@@ -34,7 +34,8 @@ std::vector<std::string> badFiles{
                                   "negative_tests/TC_13_a.java",
                                   "negative_tests/TC_13b.java",
                                   "negative_tests/TC_13c.java",
-                                  "negative_tests/TC_bonus1.java"
+                                  "negative_tests/TC_bonus1.java",
+                                  "negative_tests/TC_13d(optional).java"
 
                                  };
 
