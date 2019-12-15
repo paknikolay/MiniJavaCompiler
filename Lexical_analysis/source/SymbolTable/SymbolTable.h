@@ -43,6 +43,10 @@ public:
 
     }
 
+    bool IsExist(const std::string& name_) const {
+        return table.find(name_) != table.end();
+    }
+
     void AddToVariables(const int position, const std::shared_ptr<VarDeclaration>& var) {
         table[var->GetName()] = std::make_shared<SimpleVariable>(position, ::GetTypeName(var->GetType()));
     }
@@ -136,7 +140,16 @@ public:
         return methods_table;
     }
 
+    Position GetPosition() {
+        return position;
+    }
+
+    void SetPosition(Position position_) {
+        position = position_;
+    }
+
 private:
+    Position position;
     std::string extends = "none";
     std::string name;
     std::map<std::string, std::shared_ptr<SimpleVariable>> table;
