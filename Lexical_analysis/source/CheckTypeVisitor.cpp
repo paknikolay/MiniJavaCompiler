@@ -89,11 +89,13 @@ int CheckTypeVisitor::Visit(ExpressionBinOp* node)
                   << ": types of arguments should be the same. But they are " << returns[ret_len]
                   << " and " << returns[ret_len + 1] << std::endl << std::endl;
         std::flush(std::cerr);
-    }
+        returns[ret_len] = "<Unknown>";
+    } else {
 
-    //magic const
-    if (op_value >= 7) {
-        returns[ret_len] = "boolean";
+        //magic const
+        if (op_value >= 7) {
+            returns[ret_len] = "boolean";
+        }
     }
     returns.resize(ret_len + 1);
     return res;
@@ -236,7 +238,7 @@ int CheckTypeVisitor::Visit(ExpressionIndex* node)
     }
     if (hasError && returns[ret_len + 1] != "int") {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
-                  << ": index must be int not " << returns[ret_len] << std::endl << std::endl;
+                  << ": index must be int not " << returns[ret_len + 1] << std::endl << std::endl;
         std::flush(std::cerr);
         returns[ret_len] = "<Unknown>";
         res += 1;

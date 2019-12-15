@@ -34,6 +34,9 @@ int main() {
 //        visitor.DrawTree(res, "trr.dot");
 
         Goal* goal = std::dynamic_pointer_cast<Goal>(res).get();
+        if(goal == nullptr) {
+            throw std::runtime_error("some parser/lexer error");
+        }
         SymbolTableVisitor symbolTableVisitor(goal);
 
         CheckTypeVisitor checkTypeVisitor;
