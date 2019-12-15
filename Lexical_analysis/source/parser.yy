@@ -17,6 +17,7 @@
     #include "VarDeclaration/VarDeclaration.h"
     #include "Type/Type.h"
     class MiniJavaScanner;
+
 }
 
 %parse-param { MiniJavaScanner& scanner }

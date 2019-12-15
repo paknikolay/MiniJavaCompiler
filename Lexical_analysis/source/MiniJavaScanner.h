@@ -13,11 +13,15 @@
 using Token = yy::parser::token::yytokentype;
 
 class MiniJavaScanner : public yyFlexLexer {
+public:
+    std::vector<std::pair<int, int>> positions;
+
 private:
     std::vector< std::pair<int, int> > coordinates; // Координаты начала и конца токена в строке.
+    int currentRaw = 1;
+    int positionInRaw = 1;
     std::ostream& out;
 
-    int currentRaw = 1;
 
     void updateRaw();
     //virtual int yylex();
@@ -32,6 +36,7 @@ private:
             return;
         }*/
         yylval->build<T>(value);
+
         //out << "\n" << value << " - value of handled token\n";
     }
 
