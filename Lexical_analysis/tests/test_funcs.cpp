@@ -11,6 +11,33 @@ std::vector<std::string> files{"positive_tests/BinarySearch.java",
                                "positive_tests/TreeVisitor.java"
                                };
 
+std::vector<std::string> badFiles{
+                                  "negative_tests/LC_1.java",
+                                  "negative_tests/TC_1a.java",
+                                  "negative_tests/TC_2.java",
+                                  "negative_tests/TC_2a.java",
+                                  "negative_tests/TC_3a(1).java",
+                                  "negative_tests/TC_3a(2).java",
+                                  "negative_tests/TC_3a.java",
+                                  "negative_tests/TC_3b.java",
+                                  "negative_tests/TC_4a.java",
+                                  "negative_tests/TC_4b.java",
+                                  "negative_tests/TC_5a.java",
+                                  "negative_tests/TC_6a.java",
+                                  "negative_tests/TC_7b.java",
+                                  "negative_tests/TC_7c.java",
+                                  "negative_tests/TC_8a.java",
+                                  "negative_tests/TC_9a.java",
+                                  "negative_tests/TC_9a_2.java",
+                                  "negative_tests/TC_11a.java",
+                                  "negative_tests/TC_12b.java",
+                                  "negative_tests/TC_13_a.java",
+                                  "negative_tests/TC_13b.java",
+                                  "negative_tests/TC_13c.java",
+                                  "negative_tests/TC_bonus1.java"
+
+                                 };
+
 std::string readFile(std::string fileName) {
     ifstream file(fileName);
     string file_graph;

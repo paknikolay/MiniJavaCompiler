@@ -23,8 +23,7 @@ void CheckTypeVisitor::CheckTypes(const std::shared_ptr<Goal>& node)
         throw std::logic_error("Some errors were detected while checking types.");
     }
     } catch (std::exception) {
-        //TODO
-        throw std::logic_error("Some errors were detected while checking types.");
+        throw ;
     }
 }
 

@@ -106,7 +106,7 @@ THIS        "this"
 <<EOF>> {return 0; }
 
 {SPACE}    { updateRaw(); positionInRaw += yyleng;  i += yyleng; }
-.     { std::cout << std::endl << "Unrecognized character in raw " << currentRaw << ": " << yytext << std::endl; }
+.     { std::cout << std::endl << "Unrecognized character in raw " << currentRaw << ": " << yytext << std::endl; throw std::runtime_error("lexer synax error at " + std::to_string(currentRaw) + " " + yytext); }
 
 %%
 
