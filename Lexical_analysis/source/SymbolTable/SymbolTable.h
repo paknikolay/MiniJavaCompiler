@@ -99,15 +99,15 @@ public:
 
     }
 
-    void AddToVariables(const int position, const std::shared_ptr<VarDeclaration>& var) {
-        table[var->GetName()] = std::make_shared<SimpleVariable>(position, GetTypeName(var->GetType()));
+    void AddToVariables(const int position_, const std::shared_ptr<VarDeclaration>& var) {
+        table[var->GetName()] = std::make_shared<SimpleVariable>(position_, GetTypeName(var->GetType()));
     }
 
-    void AddToVariables(const int position, const std::string& name_, const std::string& var) {
-        table[name_] = std::make_shared<SimpleVariable>(position, var);
+    void AddToVariables(const int position_, const std::string& name_, const std::string& var) {
+        table[name_] = std::make_shared<SimpleVariable>(position_, var);
     }
 
-    void AddToMethods(const int position, const std::shared_ptr<SymbolTableMethod>& methods, const std::vector<std::string>& variable_list) {
+    void AddToMethods(const int position_, const std::shared_ptr<SymbolTableMethod>& methods, const std::vector<std::string>& variable_list) {
         methods_table[std::make_pair(methods->GetName(), variable_list)] = methods;
     }
 
