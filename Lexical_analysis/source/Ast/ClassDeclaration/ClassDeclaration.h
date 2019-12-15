@@ -29,6 +29,7 @@ struct ClassDeclarationPrefix{
 class ClassDeclaration : public BaseNode {
 public:
     ClassDeclaration(
+                     std::pair<int, int> pos_,
                      const std::shared_ptr<ClassDeclarationPrefix>& pref,
                      const std::vector<std::shared_ptr<VarDeclaration>>& vars,
                      const std::vector<std::shared_ptr<MethodDeclaration>>& meths=
@@ -39,9 +40,12 @@ public:
                         methods(meths),
                         extends(pref->extends)
 
-    {}
+    {
+        SetPosition(pos_);
+    }
 
     ClassDeclaration(
+            std::pair<int, int> pos_,
             const std::shared_ptr<ClassDeclarationPrefix>& pref,
             const std::vector<std::shared_ptr<MethodDeclaration>>& meths
     ):
@@ -49,14 +53,19 @@ public:
             methods(meths),
             extends(pref->extends)
 
-    {}
+    {
+        SetPosition(pos_);
+    }
 
     ClassDeclaration(
+            std::pair<int, int> pos_,
             const std::shared_ptr<ClassDeclarationPrefix>& pref):
             class_name(pref->class_name),
             extends(pref->extends)
 
-    {}
+    {
+        SetPosition(pos_);
+    }
 
     ~ClassDeclaration() {
 

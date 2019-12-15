@@ -9,7 +9,10 @@
 
 class ExpressionInt : public ExpressionBase {
 public:
-    ExpressionInt(int value) : value(value) {}
+    ExpressionInt(std::pair<int, int> pos_, int value) : value(value)
+    {
+        SetPosition(pos_);
+    }
 
     const int GetValue() const { return value; };
     int Accept(Visitor* v);

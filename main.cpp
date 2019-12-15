@@ -47,7 +47,9 @@ int main() {
 
 //        assert(result != nullptr);
         //result->Print(std::cout);
-    } catch (...) {
+    } catch (std::exception& e) {
+        std::cout<<"Error"<<std::endl;
+        std::cout << e.what()<<std::endl;
         //std::cerr << "\x1B[31m" << e.what() << "\x1B[0m" << std::endl;
     }
     //auto res2 = dynamic_cast<StatementWhile*>(res.get());

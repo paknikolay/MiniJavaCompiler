@@ -30,7 +30,7 @@ Token MiniJavaScanner::handleToken(Token token, int& i)
         return token;
     }
     positions.push_back(std::make_pair(currentRaw, positionInRaw));
-    out << positions.back().first << " " << positions.back().second <<"\n";
+   // out << positions.back().first << " " << positions.back().second <<"\n";
     std::pair<int, int> token_coords;
     token_coords.first = i + 1;
     //out << token << ' ';

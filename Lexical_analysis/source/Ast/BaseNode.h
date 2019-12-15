@@ -15,14 +15,26 @@ struct Position {
     std::string ToString() {
         return "line  = " + std::to_string(line) + ", column = " + std::to_string(column);
     }
+    Position(std::pair<int, int> pos) : line(pos.first), column(pos.second) {}
+    Position() {}
 };
 
 class BaseNode {
 public:
     virtual int Accept(Visitor* v);
     virtual Position GetPosition() {
-        return {0, 0};
+        return pos;
     }
+    virtual void SetPosition(std::pair<int, int> pos_) {
+        pos = std::move(Position(pos_));
+    }
+    BaseNode(std::pair<int, int> pos_) {
+        SetPosition(pos_);
+    }
+    BaseNode() {}
+
+
+    Position pos;
 };
 
 

@@ -11,6 +11,7 @@
 
 class ExpressionBase : public BaseNode {
 public:
+    ExpressionBase(std::pair<int, int> pos_);
     ExpressionBase();
 
 };
