@@ -111,9 +111,9 @@ int IRTDotVisitor::Visit(Local* node)
     ++n;
     f << n << "[label=\"Local\"]\n";
     std::stringstream s;
-    s << number << " -> " << n << "\n";
+    s << n << " -> " << number << "\n";
     f << s.str();
-    return number;
+    return n;
 }
 
 int IRTDotVisitor::Visit(ESeq* node)

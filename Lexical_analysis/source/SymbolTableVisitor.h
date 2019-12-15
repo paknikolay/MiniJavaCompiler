@@ -6,6 +6,7 @@
 #define MINI_JAVA_COMPILER_SYMBOLTABLEVISITOR_H
 
 
+#include <set>
 #include "./SymbolTable/SymbolTable.h"
 #include "Ast/Expression/Expressions.h"
 #include "Ast/Statement/Statements.h"
@@ -56,7 +57,7 @@ public:
 
 private:
     void ImplementExtends();
-    void ImplementRecursively(std::shared_ptr<SymbolTableClasses> cur);
+    void ImplementRecursively(const std::shared_ptr<SymbolTableClasses>& cur, std::set<std::string>& name_);
 
     std::shared_ptr<SymbolTableGlobal> symbol_table;
 

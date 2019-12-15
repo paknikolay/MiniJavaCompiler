@@ -2,6 +2,7 @@
 // Created by malik on 24.11.2019.
 //
 
+#include <set>
 #include "SymbolTableVisitor.h"
 
 //////////////////////////////////////////////////////
@@ -106,9 +107,13 @@ int SymbolTableVisitor::Visit(MethodDeclaration* node)
 
     int position = 1;
     for (const auto& arg : node->GetArgs()) {
-        last_method->AddToScope(TypeScope::ARGUMENT, arg.second);
-        last_method->AddToVariables(position, arg.second, GetTypeName(arg.first));
-        ++position;
+        if (!last_method->IsExist(arg.second)) {
+            last_method->AddToScope(TypeScope::ARGUMENT, arg.second);
+            last_method->AddToVariables(position, arg.second, GetTypeName(arg.first));
+            ++position;
+        } else {
+            throw std::runtime_error(node->GetPosition().ToString());
+        }
     }
 
     node->GetMethodBody()->Accept(this);
@@ -118,6 +123,7 @@ int SymbolTableVisitor::Visit(MethodDeclaration* node)
 int SymbolTableVisitor::Visit(ClassDeclaration* node) {
 
     last_class = std::make_shared<SymbolTableClasses>(node->GetClassName(), node->GetExtends());
+    last_class->SetPosition(node->GetPosition());
 
     int position = 0;
     for (const auto& var : node->GetVars()) {
@@ -190,13 +196,18 @@ SymbolTableVisitor::SymbolTableVisitor(Goal* node) {
 
 void SymbolTableVisitor::ImplementExtends() {
     for (auto& table: symbol_table->GetAllClasses()) {
-        ImplementRecursively(table);
+        std::set<std::string> set = {table->GetName()};
+        ImplementRecursively(table, set);
     }
 }
 
-void SymbolTableVisitor::ImplementRecursively(std::shared_ptr<SymbolTableClasses> cur) {
+void SymbolTableVisitor::ImplementRecursively(const std::shared_ptr<SymbolTableClasses>& cur, std::set<std::string>& names_) {
     if (cur->GetExtends() != "none") {
-        ImplementRecursively(symbol_table->GetClass(cur->GetExtends()));
+        if (names_.find(cur->GetExtends()) != names_.end()) {
+            throw std::runtime_error(cur->GetPosition().ToString());
+        }
+        names_.insert(cur->GetName());
+        ImplementRecursively(symbol_table->GetClass(cur->GetExtends()), names_);
         for (const auto& variable: symbol_table->GetClass(cur->GetExtends())->GetAllVariables()) {
             cur->AddToVariables(cur->GetAllVariables().size(), variable.first, variable.second->type_name);
         }
