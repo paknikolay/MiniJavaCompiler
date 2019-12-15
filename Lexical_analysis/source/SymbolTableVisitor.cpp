@@ -112,7 +112,7 @@ int SymbolTableVisitor::Visit(MethodDeclaration* node)
             last_method->AddToVariables(position, arg.second, GetTypeName(arg.first));
             ++position;
         } else {
-            throw std::runtime_error(node->GetPosition().ToString());
+            throw std::runtime_error("double argument declaration at " + node->GetPosition().ToString());
         }
     }
 
@@ -204,7 +204,7 @@ void SymbolTableVisitor::ImplementExtends() {
 void SymbolTableVisitor::ImplementRecursively(const std::shared_ptr<SymbolTableClasses>& cur, std::set<std::string>& names_) {
     if (cur->GetExtends() != "none") {
         if (names_.find(cur->GetExtends()) != names_.end()) {
-            throw std::runtime_error(cur->GetPosition().ToString());
+            throw std::runtime_error("recursive extendtion" + cur->GetPosition().ToString());
         }
         names_.insert(cur->GetName());
         ImplementRecursively(symbol_table->GetClass(cur->GetExtends()), names_);

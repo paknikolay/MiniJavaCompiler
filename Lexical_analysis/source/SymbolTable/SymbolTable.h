@@ -18,6 +18,9 @@ struct Method;
 // API
 
 inline std::string GetTypeName(const std::shared_ptr<Type>& type) {
+    if (type->GetType() == Type::EType::STANDARD_TYPE_ARRAY) {
+        return "int[]";
+    }
     return type->getTypeName();
 }
 
@@ -69,6 +72,10 @@ public:
 
     std::shared_ptr<SimpleVariable> GetVariable(const std::string& name_) {
         return table[name_];
+    }
+
+    std::map<std::string, std::shared_ptr<SimpleVariable>> GetAllVariables() {
+        return table;
     }
 
     std::string GetName() {

@@ -4,7 +4,7 @@
 #include "IRTDotVisitor.h"
 #include "SymbolTableVisitor.h"
 #include "IRT/IRTBuilderVisotor/IRTBuilderVisitor.h"
-
+#include "CheckTypeVisitor.h"
 #include "DotVisitor.h"
 
 using std::ifstream;
@@ -36,6 +36,12 @@ int main() {
         Goal* goal = std::dynamic_pointer_cast<Goal>(res).get();
         SymbolTableVisitor symbolTableVisitor(goal);
 
+        CheckTypeVisitor checkTypeVisitor;
+        checkTypeVisitor.CheckTypes(std::dynamic_pointer_cast<Goal>(res));
+        int aaad = 0;
+
+
+
         IRTBuilderVisitor irtBuilderVisitor(symbolTableVisitor.GetSymbolTable());
         irtBuilderVisitor.Visit(goal);
 
@@ -47,9 +53,14 @@ int main() {
 
 //        assert(result != nullptr);
         //result->Print(std::cout);
-    } catch (std::exception& e) {
-        std::cout<<"Error"<<std::endl;
-        std::cout << e.what()<<std::endl;
+    } catch (std::logic_error& error) {
+        std::cerr << error.what();
+    } catch (std::runtime_error& error) {
+        std::cerr << error.what();
+    }
+
+    catch (...) {
+        std::cout<<"Some exception\n";
         //std::cerr << "\x1B[31m" << e.what() << "\x1B[0m" << std::endl;
     }
     //auto res2 = dynamic_cast<StatementWhile*>(res.get());

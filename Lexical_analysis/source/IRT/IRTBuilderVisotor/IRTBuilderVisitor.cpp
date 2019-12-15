@@ -461,7 +461,7 @@ int IRTBuilderVisitor::Visit(ClassDeclaration* node) {
 int IRTBuilderVisitor::Visit(MainClass* node) {
     curClass = node->GetClassName();
     std::vector<std::string> argsType;
-    argsType.emplace_back("String[]");
+    argsType.push_back("String[]");
 
     methodTable = symbolTable->GetClass(curClass)->GetMethod("main", argsType);
     node->GetStatement()->Accept(this);

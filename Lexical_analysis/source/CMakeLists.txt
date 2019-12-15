@@ -23,6 +23,7 @@ add_subdirectory(IRT)
 add_flex_bison_dependency(flex_scanner bison_parser)
 
 add_library(miniJavaScanner STATIC ${FLEX_flex_scanner_OUTPUTS}
+            CheckTypeVisitor.cpp
             ${BISON_bison_parser_OUTPUTS} MiniJavaScanner.cpp DotVisitor.cpp SymbolTableVisitor.cpp IRTDotVisitor.cpp)
 
 target_link_libraries(miniJavaScanner
