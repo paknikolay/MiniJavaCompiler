@@ -11,7 +11,7 @@ using std::ifstream;
 using std::ofstream;
 int main() {
     try {
-
+    //    int* unused_var = new int; // to check mem leaks
     /*ofstream out("out");
     ifstream in("in");
     MiniJavaScanner lexer(in);
