@@ -13,11 +13,17 @@
 
 class Goal: public BaseNode {
 public:
-    Goal(const std::shared_ptr<MainClass>& main) : main_class(main) {}
-    Goal(const std::shared_ptr<MainClass>& main, const std::vector<std::shared_ptr<ClassDeclaration>> classes
+    Goal(std::pair<int, int> pos_, const std::shared_ptr<MainClass>& main) : main_class(main)
+    {
+        SetPosition(pos_);
+    }
+    Goal(std::pair<int, int> pos_, const std::shared_ptr<MainClass>& main, const std::vector<std::shared_ptr<ClassDeclaration>> classes
         ) :
             main_class(main),
-            class_declarations(classes) {}
+            class_declarations(classes)
+    {
+        SetPosition(pos_);
+    }
 
     const std::shared_ptr<MainClass> &GetMainClass() const {
         return main_class;

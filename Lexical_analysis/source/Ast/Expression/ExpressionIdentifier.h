@@ -10,7 +10,10 @@
 
 class ExpressionIdentifier : public ExpressionBase {
 public:
-    ExpressionIdentifier(const std::string& identifier_): identifier(identifier_) {}
+    ExpressionIdentifier(std::pair<int, int> pos_, const std::string& identifier_): identifier(identifier_)
+    {
+        SetPosition(pos_);
+    }
 
     const std::string& GetIdentifier() const { return identifier; };
     int Accept(Visitor* v);

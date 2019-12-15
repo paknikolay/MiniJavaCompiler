@@ -9,7 +9,10 @@
 
 class ExpressionNewIdentifier : public ExpressionBase {
 public:
-    ExpressionNewIdentifier(const std::string& identifier) : identifier(identifier) {}
+    ExpressionNewIdentifier(std::pair<int, int> pos_, const std::string& identifier) : identifier(identifier)
+    {
+        SetPosition(pos_);
+    }
 
     const std::string &GetIdentifier() const {
         return identifier;

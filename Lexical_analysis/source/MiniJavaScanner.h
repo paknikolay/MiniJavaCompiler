@@ -15,6 +15,19 @@ using Token = yy::parser::token::yytokentype;
 class MiniJavaScanner : public yyFlexLexer {
 public:
     std::vector<std::pair<int, int>> positions;
+    std::pair<int, int> RefreshPosition(int tailLength, bool debug_mode = false) {
+        if (debug_mode) {
+            for (int i = 0; i < positions.size(); ++i) {
+                std::cout << "{" << positions[i].first << "," << positions[i].second << "}";
+            }
+            std::cout << std::endl;
+        }
+
+        for (int i = 0; i < tailLength; ++i) {
+            positions.pop_back();
+        }
+        return positions[positions.size() - 1];
+    }
     void printPositionsVector(){
         std::cout << "_________________\n";
         for (auto pair : positions) {

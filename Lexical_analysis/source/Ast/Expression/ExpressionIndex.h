@@ -10,8 +10,11 @@
 
 class ExpressionIndex :public ExpressionBase {
 public:
-    ExpressionIndex(const std::shared_ptr<ExpressionBase> &array, const std::shared_ptr<ExpressionBase> &index) : array(
-            array), index(index) {}
+    ExpressionIndex(std::pair<int, int> pos_, const std::shared_ptr<ExpressionBase> &array, const std::shared_ptr<ExpressionBase> &index) : array(
+            array), index(index)
+    {
+        SetPosition(pos_);
+    }
 
     const std::shared_ptr<ExpressionBase>& GetArray() const { return array; };
     const std::shared_ptr<ExpressionBase>& GetIndex() const { return index; };
