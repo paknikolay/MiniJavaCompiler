@@ -134,6 +134,7 @@ int IRTBuilderVisitor::Visit(ExpressionThis*) {
     auto exprThis = std::make_shared<Arg>(0);
     exprThis->SetRetType(curClass);
     lastResult =  exprThis;
+    return 0;
 }
 
 int IRTBuilderVisitor::Visit(StatementIf* node) {
@@ -208,17 +209,8 @@ int IRTBuilderVisitor::Visit(StatementWhile* node) {
 }
 
 int IRTBuilderVisitor::Visit(ExpressionIdentifier *node) {
-    auto element = this->methodTable->GetVariableScope(node->GetIdentifier());
-    auto variable = this->methodTable->GetVariable(node->GetIdentifier());
-    if (element == TypeScope::ARGUMENT) {
-        this->lastResult = std::make_shared<Arg>(variable->position);
-    } else {
-        this->lastResult = std::make_shared<Local>(node->GetIdentifier());
-    }
+    lastResult = getAddressOfVariable(node->GetIdentifier());
 
-    std::dynamic_pointer_cast<IRTExpBase>(this->lastResult)->SetRetType(
-            variable->type_name
-    );
 
     return 0;
 }
@@ -318,15 +310,21 @@ std::shared_ptr<IRTExpBase> IRTBuilderVisitor::getAddressOfVariable(std::string 
     auto varInfo = methodTable->GetVariable(identifier);
     if (varInfo == nullptr)
     if (methodTable->GetVariableScope(identifier) == TypeScope::ARGUMENT) {
-        return std::make_shared<Arg>(varInfo->position);
+        auto ret =  std::make_shared<Arg>(varInfo->position);
+        ret->SetRetType(varInfo->type_name);
+        return ret;
     }
 
     if (methodTable->GetVariableScope(identifier) == TypeScope::LOCAL_VARIABLE) {
-        return std::make_shared<Local>(identifier);
+        auto ret = std::make_shared<Local>(identifier);
+        ret->SetRetType(varInfo->type_name);
+        return ret;
     }
     //if calss variable
 
-    return std::make_shared<BinOp>(EBinOp::PLUS, std::make_shared<Arg>(0), std::make_shared<Const>(varInfo->position));
+    auto ret = std::make_shared<BinOp>(EBinOp::PLUS, std::make_shared<Arg>(0), std::make_shared<Const>(varInfo->position));
+    ret->SetRetType(varInfo->type_name);
+    return ret;
 }
 
 int IRTBuilderVisitor::Visit(StatementAssign* node) {
@@ -458,6 +456,7 @@ int IRTBuilderVisitor::Visit(ClassDeclaration* node) {
         assert(lastResult != nullptr);
 
     }
+    return 0;
 }
 int IRTBuilderVisitor::Visit(MainClass* node) {
     curClass = node->GetClassName();
@@ -467,7 +466,9 @@ int IRTBuilderVisitor::Visit(MainClass* node) {
     methodTable = symbolTable->GetClass(curClass)->GetMethod("main", argsType);
     node->GetStatement()->Accept(this);
     assert(lastResult != nullptr);
-    irtTrees.push_back(FuncInfo(curClass, argsType, "main", lastResult));
+  //  auto info = FuncInfo(curClass, argsType, "main", lastResult);
+    irtTrees.emplace_back(curClass, argsType, "main", lastResult);
+    return 0;
 }
 
 int IRTBuilderVisitor::Visit(Goal* node) {
@@ -477,5 +478,5 @@ int IRTBuilderVisitor::Visit(Goal* node) {
     for (auto& class_decl : node->GetClassDeclarations()) {
         class_decl->Accept(this);
     }
-
+    return 0;
 }

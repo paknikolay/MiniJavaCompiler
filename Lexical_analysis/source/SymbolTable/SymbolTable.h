@@ -46,6 +46,10 @@ public:
 
     }
 
+    bool IsExist(const std::string& name_) const {
+        return table.find(name_) != table.end();
+    }
+
     void AddToVariables(const int position, const std::shared_ptr<VarDeclaration>& var) {
         table[var->GetName()] = std::make_shared<SimpleVariable>(position, ::GetTypeName(var->GetType()));
     }
@@ -102,15 +106,15 @@ public:
 
     }
 
-    void AddToVariables(const int position, const std::shared_ptr<VarDeclaration>& var) {
-        table[var->GetName()] = std::make_shared<SimpleVariable>(position, GetTypeName(var->GetType()));
+    void AddToVariables(const int position_, const std::shared_ptr<VarDeclaration>& var) {
+        table[var->GetName()] = std::make_shared<SimpleVariable>(position_, GetTypeName(var->GetType()));
     }
 
-    void AddToVariables(const int position, const std::string& name_, const std::string& var) {
-        table[name_] = std::make_shared<SimpleVariable>(position, var);
+    void AddToVariables(const int position_, const std::string& name_, const std::string& var) {
+        table[name_] = std::make_shared<SimpleVariable>(position_, var);
     }
 
-    void AddToMethods(const int position, const std::shared_ptr<SymbolTableMethod>& methods, const std::vector<std::string>& variable_list) {
+    void AddToMethods(const int position_, const std::shared_ptr<SymbolTableMethod>& methods, const std::vector<std::string>& variable_list) {
         methods_table[std::make_pair(methods->GetName(), variable_list)] = methods;
     }
 
@@ -143,7 +147,16 @@ public:
         return methods_table;
     }
 
+    Position GetPosition() {
+        return position;
+    }
+
+    void SetPosition(Position position_) {
+        position = position_;
+    }
+
 private:
+    Position position;
     std::string extends = "none";
     std::string name;
     std::map<std::string, std::shared_ptr<SimpleVariable>> table;

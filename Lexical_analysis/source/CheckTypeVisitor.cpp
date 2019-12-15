@@ -14,9 +14,16 @@ void CheckTypeVisitor::CheckTypes(const std::shared_ptr<Goal>& node)
     stg = st_visitor.GetSymbolTable();
     returns.clear();
 
-    int res = CheckType(std::shared_ptr<Goal>(node));
+    try {
+        int res = CheckType(std::shared_ptr<Goal>(node));
+
     std::cerr << "Check Type: " << res << " errors." << std::endl << std::endl;
+    std::flush(std::cerr);
     if (res != 0) {
+        throw std::logic_error("Some errors were detected while checking types.");
+    }
+    } catch (std::exception) {
+        //TODO
         throw std::logic_error("Some errors were detected while checking types.");
     }
 }
@@ -81,6 +88,7 @@ int CheckTypeVisitor::Visit(ExpressionBinOp* node)
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": types of arguments should be the same. But they are " << returns[ret_len]
                   << " and " << returns[ret_len + 1] << std::endl << std::endl;
+        std::flush(std::cerr);
     }
 
     //magic const
@@ -135,24 +143,30 @@ int CheckTypeVisitor::Visit(ExpressionFunctionCall* node)
     } else {
         std::cerr << "INVALID ARGUMENTS ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": no method " << node->GetName() << " in " << returns[ret_len] << " with arguments ";
+        std::flush(std::cerr);
         for (unsigned int i = ret_len + 1; i < returns.size(); ++i) {
             std::cerr << " " << returns[i];
+            std::flush(std::cerr);
         }
         std::cerr << std::endl;
+        std::flush(std::cerr);
         res += 1;
         returns[ret_len] = "<Unknown>";
 
         if (!variants.empty()) {
             std::cerr << "May be there should have been one of the following functions:" << std::endl;
+            std::flush(std::cerr);
             for (auto& args : variants) {
                 std::cerr << node->GetName() << "(";
                 for (auto& arg : args) {
                     std::cerr << arg << ", ";
                 }
                 std::cerr << ")" << std::endl;
+                std::flush(std::cerr);
             }
         }
         std::cerr << std::endl;
+        std::flush(std::cerr);
     }
 
     returns.resize(ret_len + 1);
@@ -171,6 +185,7 @@ int CheckTypeVisitor::Visit(ExpressionGetLength* node)
     } else {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": only int[] and string[] can have .length() not " << returns[ret_len] << std::endl << std::endl;
+        std::flush(std::cerr);
         returns[ret_len] = "int";
         return res + 1;
     }
@@ -192,10 +207,12 @@ int CheckTypeVisitor::Visit(ExpressionIdentifier* node)
     if (!was_found) {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": no such variable: " << node->GetIdentifier() << std::endl;
+        std::flush(std::cerr);
+        returns.push_back("<Unknown>");
         return 1;
     }
 
-    returns.push_back(cur_method->GetVariable(node->GetIdentifier())->type_name);
+    //returns.push_back(cur_method->GetVariable(node->GetIdentifier())->type_name);
     return 0;
 }
 
@@ -213,12 +230,14 @@ int CheckTypeVisitor::Visit(ExpressionIndex* node)
     } else if (!isArray(returns[ret_len])) {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": only int[] and string[] have indices not " << returns[ret_len] << std::endl << std::endl;
+        std::flush(std::cerr);
         returns[ret_len] = "<Unknown>";
         res += 1;
     }
     if (hasError && returns[ret_len + 1] != "int") {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": index must be int not " << returns[ret_len] << std::endl << std::endl;
+        std::flush(std::cerr);
         returns[ret_len] = "<Unknown>";
         res += 1;
     }
@@ -258,7 +277,6 @@ int CheckTypeVisitor::Visit(ExpressionNewIdentifier* node)
 
         for (auto& cl : classes) {
             if (cl->GetName() == name) {
-                cur_class = cl;
                 was_found = true;
                 break;
             }
@@ -268,6 +286,8 @@ int CheckTypeVisitor::Visit(ExpressionNewIdentifier* node)
     if (!was_found) {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": no such type: " << name << std::endl;
+        std::flush(std::cerr);
+        returns.push_back("<Unknown>");
         return 1;
     }
 
@@ -284,6 +304,7 @@ int CheckTypeVisitor::Visit(ExpressionNewIntArray* node)
         res += 1;
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": index must be int not " << returns[ret_len] << std::endl << std::endl;
+        std::flush(std::cerr);
     }
 
     returns[ret_len] = "int[]";
@@ -308,6 +329,7 @@ int CheckTypeVisitor::Visit(StatementIf* node)
         res += 1;
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": only boolean can be an 'if' condition, not " << returns[ret_len] << std::endl << std::endl;
+        std::flush(std::cerr);
     }
     res += CheckType(node->GetIfStatement());
     res += CheckType(node->GetElseStatement());
@@ -325,6 +347,7 @@ int CheckTypeVisitor::Visit(StatementWhile* node)
         res += 1;
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": only boolean can be an 'if' condition, not " << returns[ret_len] << std::endl << std::endl;
+        std::flush(std::cerr);
     }
     res += CheckType(node->GetWhileStatement());
 
@@ -347,6 +370,7 @@ int CheckTypeVisitor::Visit(StatementAssign* node)
                 std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                           << ": left and right parts of assigment have different types: "
                           << v.second->type_name << " and " << returns[ret_len] << std::endl << std::endl;
+                std::flush(std::cerr);
             }
             was_found = true;
             break;
@@ -356,6 +380,7 @@ int CheckTypeVisitor::Visit(StatementAssign* node)
     if (!was_found) {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": no such variable: " << node->GetIdentifier() << std::endl;
+        std::flush(std::cerr);
         res += 1;
     }
 
@@ -379,6 +404,7 @@ int CheckTypeVisitor::Visit(StatementAssignContainerElement* node)
                 res += 1;
                 std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                           << ": only int[] have indices not " << v.second->type_name << std::endl << std::endl;
+                std::flush(std::cerr);
             }
             was_found = true;
             break;
@@ -388,6 +414,7 @@ int CheckTypeVisitor::Visit(StatementAssignContainerElement* node)
     if (!was_found) {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": no such variable: " << node->GetIdentifier() << std::endl;
+        std::flush(std::cerr);
         res += 1;
     }
 
@@ -402,7 +429,7 @@ int CheckTypeVisitor::Visit(StatementAssignContainerElement* node)
                   << ": left and right parts of assigment have different types: int and "
                   << returns[ret_len] << std::endl << std::endl;
     }
-
+    std::flush(std::cerr);
     returns.resize(ret_len);
     return res;
 }
@@ -416,6 +443,7 @@ int CheckTypeVisitor::Visit(StatementPrint* node)
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": only int, boolean or string can be printed, not "
         << returns[ret_len] << std::endl << std::endl;
+        std::flush(std::cerr);
     }
     returns.resize(ret_len);
     return res;
@@ -438,14 +466,13 @@ int CheckTypeVisitor::Visit(StatementSequence* node)
 int CheckTypeVisitor::Visit(Type* node)
 {
     std::string name = node->getTypeName();
-    bool was_found = (name == "int" || name == "bool" || name == "string" || name == "int[]" || name == "string[]");
+    bool was_found = (name == "int" || name == "boolean" || name == "string" || name == "int[]" || name == "string[]");
 
     if (!was_found) {
         auto classes = stg->GetAllClasses();
 
         for (auto& cl : classes) {
             if (cl->GetName() == name) {
-                cur_class = cl;
                 was_found = true;
                 break;
             }
@@ -455,6 +482,8 @@ int CheckTypeVisitor::Visit(Type* node)
     if (!was_found) {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": no such type: " << name << std::endl;
+        std::flush(std::cerr);
+        returns.push_back("<Unknown>");
         return 1;
     }
 
@@ -520,15 +549,18 @@ int CheckTypeVisitor::Visit(MethodDeclaration* node)
     }
 
     if (!was_found) {
+        res += 1;
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": no method " << node->GetMethodName() << "(";
+        std::flush(std::cerr);
         for (auto& arg : args) {
             std::cerr << arg << " ";
         }
         std::cerr << ") in  class " << cur_class->GetName() << std::endl;
+        std::flush(std::cerr);
     }
 
-    cur_method = cur_class->GetMethod(node->GetMethodName(), args);
+//cur_method = cur_class->GetMethod(node->GetMethodName(), args);
     res += CheckType(node->GetMethodBody());
 
     returns.resize(ret_len);
@@ -558,6 +590,8 @@ int CheckTypeVisitor::Visit(ClassDeclaration* node)
     if (!was_found) {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": no such class: " << node->GetClassName() << std::endl;
+        std::flush(std::cerr);
+        returns.push_back("<Unknown>");
         return res + 1;
     }
 
@@ -587,6 +621,8 @@ int CheckTypeVisitor::Visit(MainClass* node)
     if (!was_found) {
         std::cerr << "TYPE ERROR at " << node->GetPosition().line << "." << node->GetPosition().column
                   << ": no such class: " << node->GetClassName() << std::endl;
+        std::flush(std::cerr);
+        returns.push_back("<Unknown>");
         return 1;
     }
 

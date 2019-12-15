@@ -3,3 +3,8 @@
 //
 
 #include "Temp.h"
+#include "../IRTDotVisitor.h"
+
+int Temp::Accept(Visitor *v) {
+    return v->Visit(this);
+}

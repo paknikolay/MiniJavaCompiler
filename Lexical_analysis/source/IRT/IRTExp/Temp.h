@@ -12,6 +12,12 @@ public:
 
     }
 
+    std::string GetString() {
+        return temp;
+    }
+
+    int Accept(Visitor* visit);
+
 private:
     std::string temp;
 };

@@ -3,3 +3,8 @@
 //
 
 #include "CJump.h"
+#include "../IRTDotVisitor.h"
+
+int CJump::Accept(Visitor *v) {
+    return v->Visit(this);
+}

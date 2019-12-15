@@ -11,11 +11,16 @@ bool StringsEqual(const char* first, const char* second) {
 void MiniJavaScanner::updateRaw() {
     const char* currentTokenStr = YYText();
     int len = strlen(currentTokenStr);
+    int after_next_raw = 0;
     for (int i = 0; i < len; ++i) {
+        after_next_raw++;
         if (currentTokenStr[i] == '\n') {
             ++currentRaw;
+            after_next_raw = 0;
+            positionInRaw = 1;
         }
     }
+    yyleng = after_next_raw;
 }
 
 Token MiniJavaScanner::handleToken(Token token, int& i)
@@ -24,11 +29,13 @@ Token MiniJavaScanner::handleToken(Token token, int& i)
         updateRaw();
         return token;
     }
-
+    positions.push_back(std::make_pair(currentRaw, positionInRaw));
+    //out << positions.back().first << " " << positions.back().second <<"\n";
     std::pair<int, int> token_coords;
     token_coords.first = i + 1;
-    out << token << ' ';
+    //out << token << ' ';
     i += yyleng;
+    positionInRaw += yyleng;
     token_coords.second = i;
     coordinates.push_back(token_coords);
 

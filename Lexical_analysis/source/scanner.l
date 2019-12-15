@@ -105,7 +105,7 @@ THIS        "this"
 
 <<EOF>> {return 0; }
 
-{SPACE}    { updateRaw(); i += yyleng; }
+{SPACE}    { updateRaw(); positionInRaw += yyleng;  i += yyleng; }
 .     { std::cout << std::endl << "Unrecognized character in raw " << currentRaw << ": " << yytext << std::endl; }
 
 %%

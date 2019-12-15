@@ -3,3 +3,8 @@
 //
 
 #include "Jump.h"
+#include "../IRTDotVisitor.h"
+
+int Jump::Accept(Visitor *v) {
+    return v->Visit(this);
+}

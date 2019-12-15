@@ -9,4 +9,10 @@ class Arg : public IRTExpBase{
     int index;
 public:
     Arg(int index) : index(index) {}
+
+    int GetIndex() {
+        return index;
+    }
+
+    int Accept(Visitor *v);
 };

@@ -5,6 +5,10 @@
 
 #include "../Ast/BaseNode.h"
 
+//class Visitor;
+
 class IRTNodeBase : public BaseNode {
 
+public:
+    int Accept(Visitor* visitor);
 };

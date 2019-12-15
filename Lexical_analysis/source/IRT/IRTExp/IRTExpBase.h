@@ -39,6 +39,8 @@ public:
     {
     }
 
+    int Accept(Visitor* visit);
+
 
 private:
     std::string ret_type;
@@ -62,5 +64,15 @@ public:
         head = all[0];
         all.erase(all.begin());
         tail = std::make_shared<ExpList>(ExpList(all));
+    }
+
+    int Accept(Visitor* visit);
+
+    std::shared_ptr<IRTExpBase> GetHead() {
+        return head;
+    }
+
+    std::shared_ptr<ExpList> GetTail() {
+        return tail;
     }
 };

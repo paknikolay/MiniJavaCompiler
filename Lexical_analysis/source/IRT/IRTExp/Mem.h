@@ -10,6 +10,12 @@ public:
     Mem(const std::shared_ptr<IRTExpBase>& expression) : expression_(expression) {
 
     }
+
+    std::shared_ptr<IRTExpBase> GetExpr() {
+        return expression_;
+    }
+
+    int Accept(Visitor* v);
 private:
     std::shared_ptr<IRTExpBase> expression_;
 };

@@ -11,6 +11,12 @@ public:
     Local(const std::string& value) : value_(value) {
 
     }
+    std::string GetString() {
+        return value_;
+    }
+
+    int Accept(Visitor* v);
+
 private:
     std::string value_;
 };

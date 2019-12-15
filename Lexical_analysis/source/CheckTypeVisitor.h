@@ -19,9 +19,8 @@
 #include "Ast/MainClass/MainClass.h"
 #include "Ast/Goal/Goal.h"
 
-//#include "SymbolTableVisitor.h"
-//#include "SymbolTable/SymbolTable.h"
-#include "Malik_funcs.cpp"
+#include "SymbolTableVisitor.h"
+#include "SymbolTable/SymbolTable.h"
 
 #include "Visitor.h"
 

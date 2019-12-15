@@ -8,13 +8,22 @@
 class Seq : public IRTStatementBase{
 public:
     Seq(
-            const std::shared_ptr<IRTStatementBase>& left,
-            const std::shared_ptr<IRTStatementBase>& right
+            const std::shared_ptr<IRTStatementBase>& left_,
+            const std::shared_ptr<IRTStatementBase>& right_
         )
-        : right(right), left(left)
+        : right(right_), left(left_)
         {
         }
 
+    std::shared_ptr<IRTStatementBase> GetLeft() {
+        return left;
+    }
+
+    std::shared_ptr<IRTStatementBase> GetRight() {
+        return right;
+    }
+
+    int Accept(Visitor* v);
 
 private:
     std::shared_ptr<IRTStatementBase> left;

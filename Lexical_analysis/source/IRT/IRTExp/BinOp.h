@@ -15,6 +15,21 @@ public:
             op(op),
             left(left),
             right(right) {}
+
+    int Accept(Visitor* v);
+
+    EBinOp GetBinOp() {
+        return op;
+    }
+
+    std::shared_ptr<IRTExpBase> GetLeft() {
+        return  left;
+    }
+
+    std::shared_ptr<IRTExpBase> GetRight() {
+        return  right;
+    }
+
 };
 
 

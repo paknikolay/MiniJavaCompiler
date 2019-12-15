@@ -10,5 +10,11 @@ class Const : public IRTExpBase{
     int value;
 public:
     Const(int value) : value(value) {}
+
+    int GetValue() {
+        return value;
+    }
+
+    int Accept(Visitor* v);
 };
 

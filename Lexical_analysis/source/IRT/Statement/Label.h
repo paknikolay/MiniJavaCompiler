@@ -8,12 +8,14 @@
 
 class Label : public IRTStatementBase {
 public:
-    Label(std::string label) : label(label){
+    Label(std::string label_) : label(label_){
     };
 
     const std::string& GetLabel(){
         return label;
     }
+
+    int Accept(Visitor* visitor);
 
 private:
     std::string label;
