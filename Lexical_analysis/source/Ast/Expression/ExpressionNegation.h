@@ -9,7 +9,10 @@
 
 class ExpressionNegation : public ExpressionBase {
 public:
-    explicit ExpressionNegation(const std::shared_ptr<ExpressionBase> &value) : value(value) {}
+    explicit ExpressionNegation(std::pair<int, int> pos_, const std::shared_ptr<ExpressionBase> &value) : value(value)
+    {
+        SetPosition(pos_);
+    }
 
     const std::shared_ptr<ExpressionBase>& GetValue() const { return value; };
     int Accept(Visitor* v);

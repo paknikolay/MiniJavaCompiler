@@ -13,14 +13,21 @@ bison_target(bison_parser parser.yy ${CMAKE_CURRENT_BINARY_DIR}/parser.cc COMPIL
 
 # Сгенерированный файл записывается в переменную FLEX_flex_scanner_OUTPUTS,
 # можем использовать её, как исходный файл
+
 add_subdirectory(Ast)
+
+add_subdirectory(SymbolTable)
+
+add_subdirectory(IRT)
+
 add_flex_bison_dependency(flex_scanner bison_parser)
 
 add_library(miniJavaScanner STATIC ${FLEX_flex_scanner_OUTPUTS}
-            ${BISON_bison_parser_OUTPUTS} MiniJavaScanner.cpp DotVisitor.cpp)
+            CheckTypeVisitor.cpp
+            ${BISON_bison_parser_OUTPUTS} MiniJavaScanner.cpp DotVisitor.cpp SymbolTableVisitor.cpp IRTDotVisitor.cpp)
 
 target_link_libraries(miniJavaScanner
-        PUBLIC Ast
+        PUBLIC Ast PUBLIC Irt
 )
 
 target_include_directories(miniJavaScanner PUBLIC ${CMAKE_CURRENT_BINARY_DIR})

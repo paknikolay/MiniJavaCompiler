@@ -9,7 +9,10 @@
 
 class ExpressionBool : public ExpressionBase {
 public:
-    ExpressionBool(bool value) : value(value) {}
+    ExpressionBool(std::pair<int, int> pos_, bool value) : value(value)
+    {
+        SetPosition(pos_);
+    }
 
     const bool GetValue() const { return value; }
     int Accept(Visitor* v);

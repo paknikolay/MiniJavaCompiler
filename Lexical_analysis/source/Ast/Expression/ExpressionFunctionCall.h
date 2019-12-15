@@ -11,18 +11,22 @@
 
 class ExpressionFunctionCall : public ExpressionBase{
 public:
-    ExpressionFunctionCall(const std::shared_ptr<ExpressionBase> &object,
+    ExpressionFunctionCall(std::pair<int, int> pos_,
+                           const std::shared_ptr<ExpressionBase> &object,
                            const std::string& name_,
                            const std::vector<std::shared_ptr<ExpressionBase>> &args_) : object(object),
                            name(name_) {
+        SetPosition(pos_);
+
         args.resize(args_.size());
         for (size_t i = 0; i < args_.size(); ++i) {
             args[i] = std::shared_ptr<ExpressionBase>(args_[i]);
         }
     }
 
-    ExpressionFunctionCall(const std::shared_ptr<ExpressionBase> &object, const std::string& name_) : object(object),
+    ExpressionFunctionCall(std::pair<int, int> pos_, const std::shared_ptr<ExpressionBase> &object, const std::string& name_) : object(object),
     name(name_) {
+        SetPosition(pos_);
     }
     
     const std::shared_ptr<ExpressionBase>& GetObject() const { return object; };

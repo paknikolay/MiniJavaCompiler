@@ -16,6 +16,7 @@ enum class EBinOp {
     MUL,
     DIV,
     MOD,
+    XOR,
     OR,
     AND,
     NEQ, // !=
@@ -24,4 +25,10 @@ enum class EBinOp {
     GE, // >=
     L, // <
     G // >
+};
+
+enum class TypeScope {
+    ARGUMENT,
+    LOCAL_VARIABLE,
+    CLASS_VARIABLE
 };

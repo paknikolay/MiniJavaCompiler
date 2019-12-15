@@ -1,14 +1,17 @@
 #include "Lexical_analysis/source/MiniJavaScanner.h"
 #include "Statement/Statements.h"
 #include <fstream>
-
+#include "IRTDotVisitor.h"
+#include "SymbolTableVisitor.h"
+#include "IRT/IRTBuilderVisotor/IRTBuilderVisitor.h"
+#include "CheckTypeVisitor.h"
 #include "DotVisitor.h"
 
 using std::ifstream;
 using std::ofstream;
 int main() {
     try {
-
+    //    int* unused_var = new int; // to check mem leaks
     /*ofstream out("out");
     ifstream in("in");
     MiniJavaScanner lexer(in);
@@ -27,11 +30,40 @@ int main() {
         std::cout <<"\n(((((((((\n"<<(res.get() == nullptr )<< "\n";
         int a = 3;
         int b = 7;
-        DotVisitor visitor;
-        visitor.DrawTree(res, "trr.dot");
+//        DotVisitor visitor;
+//        visitor.DrawTree(res, "trr.dot");
+
+        Goal* goal = std::dynamic_pointer_cast<Goal>(res).get();
+        if(goal == nullptr) {
+            throw std::runtime_error("some parser/lexer error");
+        }
+        SymbolTableVisitor symbolTableVisitor(goal);
+
+        CheckTypeVisitor checkTypeVisitor;
+        checkTypeVisitor.CheckTypes(std::dynamic_pointer_cast<Goal>(res));
+        int aaad = 0;
+
+
+
+        IRTBuilderVisitor irtBuilderVisitor(symbolTableVisitor.GetSymbolTable());
+        irtBuilderVisitor.Visit(goal);
+
+        IRTNodeBase *base = irtBuilderVisitor.getIrtTrees()[1].irtTree.get();
+//
+        ofstream stream("irt.pak");
+        auto irtDotVisitor = std::make_shared<IRTDotVisitor>(stream, base);
+
+
 //        assert(result != nullptr);
         //result->Print(std::cout);
-    } catch (...) {
+    } catch (std::logic_error& error) {
+        std::cerr << error.what();
+    } catch (std::runtime_error& error) {
+        std::cerr << error.what();
+    }
+
+    catch (...) {
+        std::cout<<"Some exception\n";
         //std::cerr << "\x1B[31m" << e.what() << "\x1B[0m" << std::endl;
     }
     //auto res2 = dynamic_cast<StatementWhile*>(res.get());

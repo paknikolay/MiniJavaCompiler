@@ -11,8 +11,11 @@
 
 class ExpressionBinOp : public ExpressionBase {
 public:
-    ExpressionBinOp(const std::shared_ptr<ExpressionBase> &left, const std::shared_ptr<ExpressionBase> &right,
-                    EBinOp binOp1) : left(left), right(right), binOp(binOp1) {}
+    ExpressionBinOp(std::pair<int, int> pos_, const std::shared_ptr<ExpressionBase> &left, const std::shared_ptr<ExpressionBase> &right,
+                    EBinOp binOp1) : left(left), right(right), binOp(binOp1)
+    {
+        SetPosition(pos_);
+    }
 
     const std::shared_ptr<ExpressionBase>& GetLeft() const { return left; };
     const std::shared_ptr<ExpressionBase>& GetRight() const { return right; };

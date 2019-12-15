@@ -9,7 +9,10 @@
 
 class ExpressionThis : public ExpressionBase {
 public:
-    ExpressionThis() {}
+    ExpressionThis(std::pair<int, int> pos_)
+    {
+        SetPosition(pos_);
+    }
     int Accept(Visitor* v);
 };
 

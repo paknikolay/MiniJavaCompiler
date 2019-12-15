@@ -9,19 +9,30 @@
 
 class StatementBase : public BaseNode{
 
+public:
+    StatementBase(std::pair<int, int> pos_) {
+        SetPosition(pos_);
+    }
+
+    StatementBase() {
+
+    }
 };
 
 //////////////////////////////////////
 
 class StatementIf : public StatementBase {
 public:
-    StatementIf(const std::shared_ptr<ExpressionBase>& ifExpression,
-                const std::shared_ptr<StatementBase>& ifStatement,
-                const std::shared_ptr<StatementBase>& elseStatement):
-                    ifExpression(ifExpression),
-                    ifStatement(ifStatement),
-                    elseStatement(elseStatement)
-    {}
+    StatementIf(std::pair<int, int> pos_,
+                const std::shared_ptr<ExpressionBase>& ifExpression_,
+                const std::shared_ptr<StatementBase>& ifStatement_,
+                const std::shared_ptr<StatementBase>& elseStatement_):
+                    ifExpression(ifExpression_),
+                    ifStatement(ifStatement_),
+                    elseStatement(elseStatement_)
+    {
+        SetPosition(pos_);
+    }
 
     const std::shared_ptr<ExpressionBase> &GetIfExpression() const {
         return ifExpression;
@@ -48,11 +59,14 @@ private:
 
 class StatementWhile : public StatementBase {
 public:
-    StatementWhile(const std::shared_ptr<ExpressionBase>& WhileExpression,
+    StatementWhile(std::pair<int, int> pos_,
+                   const std::shared_ptr<ExpressionBase>& WhileExpression,
                    const std::shared_ptr<StatementBase>& WhileStatement):
                         whileExpression(WhileExpression),
                         whileStatement(WhileStatement)
-    {}
+    {
+        SetPosition(pos_);
+    }
 
     const std::shared_ptr<ExpressionBase> &GetWhileExpression() const {
         return whileExpression;
@@ -74,11 +88,14 @@ private:
 
 class StatementAssign : public StatementBase {
 public:
-    StatementAssign(const std::string& identifier,
+    StatementAssign(std::pair<int, int> pos_,
+                    const std::string& identifier,
                     const std::shared_ptr<ExpressionBase>& expression):
                         identifier(identifier),
                         expression(expression)
-    {}
+    {
+        SetPosition(pos_);
+    }
 
     const std::string &GetIdentifier() const {
         return identifier;
@@ -100,13 +117,16 @@ private:
 
 class StatementAssignContainerElement : public StatementBase {
 public:
-    StatementAssignContainerElement(const std::string& identifier,
+    StatementAssignContainerElement(std::pair<int, int> pos_,
+                                    const std::string& identifier,
                                     const std::shared_ptr<ExpressionBase>& index,
                                     const std::shared_ptr<ExpressionBase>& expression):
                         identifier(identifier),
                         index(index),
                         expression(expression)
-    {}
+    {
+        SetPosition(pos_);
+    }
 
     const std::string &GetIdentifier() const {
         return identifier;
@@ -133,9 +153,11 @@ private:
 
 class StatementPrint : public StatementBase {
 public:
-    StatementPrint(const std::shared_ptr<ExpressionBase>& expression):
+    StatementPrint(std::pair<int, int> pos_, const std::shared_ptr<ExpressionBase>& expression):
             expression(expression)
-    {}
+    {
+        SetPosition(pos_);
+    }
 
     const std::shared_ptr<ExpressionBase> &GetExpression() const {
         return expression;
@@ -152,7 +174,10 @@ private:
 class StatementSequence : public StatementBase {
 public:
     explicit
-    StatementSequence(const std::vector<std::shared_ptr<StatementBase>>& statementArray) {array = statementArray;}
+    StatementSequence(std::pair<int, int> pos_, const std::vector<std::shared_ptr<StatementBase>>& statementArray) {
+        SetPosition(pos_);
+        array = statementArray;
+    }
 
     const std::vector<std::shared_ptr<StatementBase>> &GetArray() const {
         return array;

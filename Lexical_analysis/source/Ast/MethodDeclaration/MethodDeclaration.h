@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "../BaseNode.h"
 #include "../../Enums.h"
@@ -11,30 +12,44 @@
 #include "../Statement/Statements.h"
 #include "../Expression/ExpressionBase.h"
 
+
 class MethodBody : public BaseNode {
 public:
-    MethodBody(const std::vector<std::shared_ptr<VarDeclaration>>& vars,
+    MethodBody(std::pair<int, int> pos_,
+               const std::vector<std::shared_ptr<VarDeclaration>>& vars,
                const std::vector<std::shared_ptr<StatementBase>>& statements,
                const std::shared_ptr<ExpressionBase>& returnExpr) :
                   vars(vars),
                   statements(statements),
                   returnExpr(returnExpr)
-    {}
+    {
+        SetPosition(pos_);
+    }
 
-    MethodBody(const std::vector<std::shared_ptr<StatementBase>>& statements,
+    MethodBody(std::pair<int, int> pos_,
+               const std::vector<std::shared_ptr<StatementBase>>& statements,
                const std::shared_ptr<ExpressionBase>& returnExpr) :
             statements(statements),
             returnExpr(returnExpr)
-    {}
+    {
+        SetPosition(pos_);
+    }
 
-    MethodBody(const std::vector<std::shared_ptr<VarDeclaration>>& vars,
+    MethodBody(std::pair<int, int> pos_,
+               const std::vector<std::shared_ptr<VarDeclaration>>& vars,
                const std::shared_ptr<ExpressionBase>& returnExpr) :
             vars(vars),
             returnExpr(returnExpr)
-    {}
-    MethodBody(const std::shared_ptr<ExpressionBase>& returnExpr) :
+    {
+        SetPosition(pos_);
+    }
+
+    MethodBody(std::pair<int, int> pos_,
+            const std::shared_ptr<ExpressionBase>& returnExpr) :
             returnExpr(returnExpr)
-    {}
+    {
+        SetPosition(pos_);
+    }
 
 
     const std::vector<std::shared_ptr<VarDeclaration>> &GetVars() const {
@@ -60,7 +75,8 @@ private:
 
 class MethodDeclaration : public BaseNode {
 public:
-    MethodDeclaration(EModifier privacyModifier,
+    MethodDeclaration(std::pair<int, int> pos_,
+                      EModifier privacyModifier,
                       const std::shared_ptr<Type> &returnType,
                       const std::string &methodName,
                       const std::shared_ptr<MethodBody> &methodBody,
@@ -72,7 +88,9 @@ public:
                           methodName(methodName),
                           args(args),
                           methodBody(methodBody)
-    {}
+    {
+        SetPosition(pos_);
+    }
 
     EModifier GetPrivacyModifier() const {
         return privacyModifier;
@@ -88,6 +106,19 @@ public:
 
     const std::vector<std::pair<std::shared_ptr<Type>, std::string>> &GetArgs() const {
         return args;
+    }
+
+
+    std::vector<std::string> GetArgsTypes() const {
+        std::vector<std::string> types;
+        for (auto pair : args) {
+            types.push_back(pair.first->getTypeName());
+            if (pair.first->GetType() == Type::EType ::STANDARD_TYPE_ARRAY) {
+                types.back().append("[]");
+            }
+        }
+
+        return types;
     }
 
     const std::shared_ptr<MethodBody> &GetMethodBody() const {

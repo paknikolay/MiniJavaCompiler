@@ -286,7 +286,7 @@ int DotVisitor::Visit(Goal* node)
     std::stringstream s;
     s << number << " -> " << DrawSubtree(node->GetMainClass()) << "[label = \"main class\"]\n";
 
-    for (auto cl : node->GetClassDeclarations()) {
+    for (const auto& cl : node->GetClassDeclarations()) {
         s << number << " -> " << DrawSubtree(cl) << "[label = \"class\"]\n";
     }
     f << s.str();
