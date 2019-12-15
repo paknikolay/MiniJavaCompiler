@@ -47,6 +47,7 @@ INSTANTIATE_TEST_CASE_P(working_checking_positive, TypeCheckerTestsPositive, tes
 
 TEST_P(TypeCheckerTestsPositive, working_checking_positive)
 {
+
     auto file_name = GetParam();
     std::cout<<file_name <<" - filename\n";
     std::fstream testin(file_name);
