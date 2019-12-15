@@ -209,17 +209,8 @@ int IRTBuilderVisitor::Visit(StatementWhile* node) {
 }
 
 int IRTBuilderVisitor::Visit(ExpressionIdentifier *node) {
-    auto element = this->methodTable->GetVariableScope(node->GetIdentifier());
-    auto variable = this->methodTable->GetVariable(node->GetIdentifier());
-    if (element == TypeScope::ARGUMENT) {
-        this->lastResult = std::make_shared<Arg>(variable->position);
-    } else {
-        this->lastResult = std::make_shared<Local>(node->GetIdentifier());
-    }
+    lastResult = getAddressOfVariable(node->GetIdentifier());
 
-    std::dynamic_pointer_cast<IRTExpBase>(this->lastResult)->SetRetType(
-            variable->type_name
-    );
 
     return 0;
 }
@@ -319,15 +310,21 @@ std::shared_ptr<IRTExpBase> IRTBuilderVisitor::getAddressOfVariable(std::string 
     auto varInfo = methodTable->GetVariable(identifier);
     if (varInfo == nullptr)
     if (methodTable->GetVariableScope(identifier) == TypeScope::ARGUMENT) {
-        return std::make_shared<Arg>(varInfo->position);
+        auto ret =  std::make_shared<Arg>(varInfo->position);
+        ret->SetRetType(varInfo->type_name);
+        return ret;
     }
 
     if (methodTable->GetVariableScope(identifier) == TypeScope::LOCAL_VARIABLE) {
-        return std::make_shared<Local>(identifier);
+        auto ret = std::make_shared<Local>(identifier);
+        ret->SetRetType(varInfo->type_name);
+        return ret;
     }
     //if calss variable
 
-    return std::make_shared<BinOp>(EBinOp::PLUS, std::make_shared<Arg>(0), std::make_shared<Const>(varInfo->position));
+    auto ret = std::make_shared<BinOp>(EBinOp::PLUS, std::make_shared<Arg>(0), std::make_shared<Const>(varInfo->position));
+    ret->SetRetType(varInfo->type_name);
+    return ret;
 }
 
 int IRTBuilderVisitor::Visit(StatementAssign* node) {

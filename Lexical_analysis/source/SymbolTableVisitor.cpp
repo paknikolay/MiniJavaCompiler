@@ -104,7 +104,7 @@ int SymbolTableVisitor::Visit(MethodDeclaration* node)
     last_method = std::make_shared<SymbolTableMethod>(node->GetMethodName(), GetTypeName(node->GetReturnType()));
 
 
-    int position = 0;
+    int position = 1;
     for (const auto& arg : node->GetArgs()) {
         last_method->AddToScope(TypeScope::ARGUMENT, arg.second);
         last_method->AddToVariables(position, arg.second, GetTypeName(arg.first));
@@ -214,10 +214,11 @@ void SymbolTableVisitor::ImplementRecursively(std::shared_ptr<SymbolTableClasses
     } else {
         for (const auto& method: cur->GetAllMethods()) {
             for (const auto& variables: cur->GetAllVariables()) {
-                method.second->AddToVariables(method.second->GetSize(), variables.first, variables.second->type_name);
+                method.second->AddToVariables(variables.second->position, variables.first, variables.second->type_name);
                 method.second->AddToScope(TypeScope::CLASS_VARIABLE, variables.first);
             }
         }
     }
+
 
 }

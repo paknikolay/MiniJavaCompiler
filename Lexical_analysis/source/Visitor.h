@@ -55,6 +55,7 @@ public:
     int virtual Visit(Name* node) {return 0;}
     int virtual Visit(Temp* node) {return 0;}
     int virtual Visit(ExpList* node) {return 0;}
+    int virtual Visit(Label* node) {return 0;}
     int virtual Visit(IRTStatementBase* node) {return 0;}
     int virtual Visit(IRTNodeBase* node) {return 0;}
     int virtual Visit(Seq* node) {return 0;}

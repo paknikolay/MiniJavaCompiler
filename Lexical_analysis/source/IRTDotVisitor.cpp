@@ -62,10 +62,13 @@ int IRTDotVisitor::Visit(Seq* node)
     f << num<< " [label = \"Seq\"]\n";
 
 
+
     std::stringstream s;
     if (node->GetLeft() != nullptr) {
         s << num << " -> " <<  node->GetLeft()->Accept(this) << "\n";
     }
+
+
     if (node->GetRight() != nullptr) {
         s << num << " -> " <<  node->GetRight()->Accept(this) << "\n";
     }
@@ -77,7 +80,7 @@ int IRTDotVisitor::Visit(Move* node)
 {
     ++n;
     int num = n;
-    f << num<< " [label = \"Mem\"]\n";
+    f << num<< " [label = \"Move\"]\n";
 
 
     std::stringstream s;
@@ -206,9 +209,14 @@ int IRTDotVisitor::Visit(CJump* node) {
     int number = n;
     std::stringstream s;
  //TOODO add labels true and false
-    s << number << " -> " << DrawSubtree(node->getLeft().get()) << " [label=\"" << node->getTrueLabel() << "\"]\n";
-    s << number << " -> " << DrawSubtree(node->getRight().get()) << " [label=\"" << node->getFalseLabel() << "\"]\n";
-
+    s << number << " -> " << DrawSubtree(node->getLeft().get()) << "\n";
+    s << number << " -> " << DrawSubtree(node->getRight().get())<< "\n";
+    n++;
+    f << n << " [label=\" label=" << node->getTrueLabel() << "\"]\n";
+    s << number << " -> "  << n << "[label=\"true label\"]\n";
+    n++;
+    f << n << " [label=\" label=" << node->getFalseLabel() << "\"]\n";
+    s << number << " -> "  << n << "[label=\"false label\"]\n";
     f << s.str();
     return number;
 }
