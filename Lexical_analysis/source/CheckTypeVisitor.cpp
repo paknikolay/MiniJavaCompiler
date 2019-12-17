@@ -56,8 +56,13 @@ bool CheckTypeVisitor::canCast(const std::string& castingType, const std::string
     if (castingType == typeToCast){
         return true;
     }
+
     // Проверяем каст к базе
     auto classInfo = stg->GetClass(castingType);
+    if (classInfo == nullptr) {
+        //standard type
+        return false;
+    }
     while (classInfo->GetExtends() != "none") {
         if (classInfo->GetExtends() == typeToCast) {
             return true;
