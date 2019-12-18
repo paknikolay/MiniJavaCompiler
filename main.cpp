@@ -27,9 +27,9 @@ int main() {
 
         if (parser.parse()) {
         }
-        std::cout <<"\n(((((((((\n"<<(res.get() == nullptr )<< "\n";
-        int a = 3;
-        int b = 7;
+       // std::cout <<"\n(((((((((\n"<<(res.get() == nullptr )<< "\n";
+       // int a = 3;
+        //int b = 7;
 //        DotVisitor visitor;
 //        visitor.DrawTree(res, "trr.dot");
 
@@ -41,14 +41,14 @@ int main() {
 
         CheckTypeVisitor checkTypeVisitor;
         checkTypeVisitor.CheckTypes(std::dynamic_pointer_cast<Goal>(res));
-        int aaad = 0;
+        //int aaad = 0;
 
 
 
         IRTBuilderVisitor irtBuilderVisitor(symbolTableVisitor.GetSymbolTable());
         irtBuilderVisitor.Visit(goal);
-
-        IRTNodeBase *base = irtBuilderVisitor.getIrtTrees()[1].irtTree.get();
+        assert(irtBuilderVisitor.getIrtTrees().size() >= 2);
+        IRTNodeBase *base = irtBuilderVisitor.getIrtTrees()[2].irtTree.get();
 //
         ofstream stream("irt.pak");
         auto irtDotVisitor = std::make_shared<IRTDotVisitor>(stream, base);

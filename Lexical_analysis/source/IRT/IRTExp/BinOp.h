@@ -11,6 +11,7 @@ class BinOp : public IRTExpBase {
     std::shared_ptr<IRTExpBase> left = nullptr;
     std::shared_ptr<IRTExpBase> right = nullptr;
 public:
+    bool isValue = false;
     BinOp(EBinOp op, const std::shared_ptr<IRTExpBase>& left, const std::shared_ptr<IRTExpBase>& right) :
             op(op),
             left(left),
